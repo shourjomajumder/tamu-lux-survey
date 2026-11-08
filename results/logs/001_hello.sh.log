@@ -1,0 +1,58 @@
++ nvidia-smi
+Sun Nov  8 05:07:09 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A16                     On  |   00000000:06:00.0 Off |                    0 |
+|  0%   21C    P8             13W /   62W |       0MiB /  15356MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
++ python -c 'import torch; print('\''torch'\'', torch.__version__, '\''cuda'\'', torch.cuda.is_available())'
+torch 2.14.1+cu130 cuda True
++ python -
+Traceback (most recent call last):
+  File "<stdin>", line 4, in <module>
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/_csot.py", line 126, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/database.py", line 946, in command
+    return self._client._retryable_read(
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/mongo_client.py", line 2061, in _retryable_read
+    return self._retry_internal(
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/_csot.py", line 126, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/mongo_client.py", line 2022, in _retry_internal
+    ).run()
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/mongo_client.py", line 2890, in run
+    res = self._read() if self._is_read else self._write()
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/mongo_client.py", line 3118, in _read
+    self._server = self._get_server()
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/mongo_client.py", line 3063, in _get_server
+    return self._client._select_server(
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/mongo_client.py", line 1862, in _select_server
+    server = topology.select_server(
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/topology.py", line 357, in select_server
+    server = self._select_server(
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/topology.py", line 331, in _select_server
+    servers = self.select_servers(
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/topology.py", line 249, in select_servers
+    server_descriptions = self._select_servers_loop(
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/topology.py", line 297, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: SSL handshake failed: ac-9dzslm5-shard-00-02.yuvgxpb.mongodb.net:27017: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1007) (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms),SSL handshake failed: ac-9dzslm5-shard-00-01.yuvgxpb.mongodb.net:27017: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1007) (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms),SSL handshake failed: ac-9dzslm5-shard-00-00.yuvgxpb.mongodb.net:27017: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1007) (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 8.0s, Topology Description: <TopologyDescription id: 6af0037e793eee8ea00c63e3, topology_type: ReplicaSetNoPrimary, servers: [<ServerDescription ('ac-9dzslm5-shard-00-00.yuvgxpb.mongodb.net', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('SSL handshake failed: ac-9dzslm5-shard-00-00.yuvgxpb.mongodb.net:27017: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1007) (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>, <ServerDescription ('ac-9dzslm5-shard-00-01.yuvgxpb.mongodb.net', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('SSL handshake failed: ac-9dzslm5-shard-00-01.yuvgxpb.mongodb.net:27017: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1007) (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>, <ServerDescription ('ac-9dzslm5-shard-00-02.yuvgxpb.mongodb.net', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('SSL handshake failed: ac-9dzslm5-shard-00-02.yuvgxpb.mongodb.net:27017: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1007) (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
++ ls -lh /data/zips
+total 0
++ df -h /data
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda2       328G   33G  281G  11% /
