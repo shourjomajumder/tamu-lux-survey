@@ -262,34 +262,51 @@ print(f"fixtures {len(fixtures)}  possibly out {len(out_feats)}  trees {len(tree
 
 # ------------------------------------------------------------------ OSM footpaths + emergency phones
 osm_ways, osm_phones, osm_lamps, osm_trees, osm_buildings = [], [], [], [], []
+def overpass(q):
+    import requests
+    hdr = {"User-Agent": "tamu-lux-survey/1.0 (TAMU Datathon dataset build)", "Accept": "application/json"}
+    for url in ("https://overpass-api.de/api/interpreter", "https://overpass.private.coffee/api/interpreter",
+                "https://maps.mail.ru/osm/tools/overpass/api/interpreter", "https://overpass.kumi.systems/api/interpreter"):
+        for attempt in range(2):
+            try:
+                r = requests.post(url, data={"data": q}, headers=hdr, timeout=180)
+                if r.status_code == 200 and r.text.lstrip().startswith("{"):
+                    return r.json()["elements"]
+                print("overpass", url, r.status_code, r.text[:160].replace("\n", " "), flush=True)
+            except Exception as ex:
+                print("overpass failed:", url, ex, flush=True)
+            time.sleep(5)
+    return []
+
+
 if len(R):
     la, lo = R.lat.astype(float), R.lon.astype(float)
-    bbox = f"{la.min() - .002},{lo.min() - .002},{la.max() + .002},{lo.max() + .002}"
-    q = f"""[out:json][timeout:90];(way["highway"~"footway|path|pedestrian|steps|living_street|service|residential|cycleway|track|unclassified|tertiary|secondary"]({bbox});node["emergency"="phone"]({bbox});node["highway"="street_lamp"]({bbox});node["natural"="tree"]({bbox});way["building"]({bbox}););out geom;"""
-    for url in ("https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"):
-        try:
-            import requests
-            js = requests.post(url, data={"data": q}, timeout=120).json()
-            for e in js["elements"]:
-                if e["type"] == "way" and "geometry" in e and "building" in e.get("tags", {}):
-                    tg = e["tags"]
-                    lv = tg.get("building:levels") or ""
-                    h = tg.get("height") or ""
-                    try: hm = float(str(h).split()[0]) if h else (float(lv) * 3.5 if lv else 10.0)
-                    except ValueError: hm = 10.0
-                    osm_buildings.append(feat(0, 0, dict(name=tg.get("name"), height_m=round(hm, 1)),
-                        geom={"type": "Polygon", "coordinates": [[[round(g["lon"], 7), round(g["lat"], 7)] for g in e["geometry"]]]}))
-                elif e["type"] == "way" and "geometry" in e:
-                    osm_ways.append((e["id"], e.get("tags", {}).get("highway"), e.get("tags", {}).get("name"),
-                                     [(g["lat"], g["lon"]) for g in e["geometry"]]))
-                elif e["type"] == "node":
-                    tg = e.get("tags", {})
-                    if tg.get("emergency") == "phone": osm_phones.append((e["lat"], e["lon"]))
-                    elif tg.get("highway") == "street_lamp": osm_lamps.append((e["lat"], e["lon"]))
-                    elif tg.get("natural") == "tree": osm_trees.append((e["lat"], e["lon"]))
-            break
-        except Exception as ex:
-            print("overpass failed:", url, ex, flush=True)
+    bbox = f"{la.quantile(.002) - .002},{lo.quantile(.002) - .002},{la.quantile(.998) + .002},{lo.quantile(.998) + .002}"
+    print("bbox", bbox, flush=True)
+    cache = Path("/data/osm_cache.json")
+    if cache.exists():
+        els = json.load(open(cache))
+    else:
+        els = []
+        for q in (f'[out:json][timeout:120];way["highway"~"footway|path|pedestrian|steps|living_street|service|residential|cycleway|track|unclassified|tertiary|secondary|primary"]({bbox});out geom;',
+                  f'[out:json][timeout:120];(node["emergency"="phone"]({bbox});node["highway"="street_lamp"]({bbox});node["natural"="tree"]({bbox}););out;',
+                  f'[out:json][timeout:180];way["building"]({bbox});out geom;'):
+            els += overpass(q)
+        if els: json.dump(els, open(cache, "w"))
+    for e in els:
+        tg = e.get("tags", {})
+        if e["type"] == "way" and "geometry" in e and "building" in tg:
+            lv = tg.get("building:levels") or ""; h = tg.get("height") or ""
+            try: hm = float(str(h).split()[0]) if h else (float(lv) * 3.5 if lv else 10.0)
+            except ValueError: hm = 10.0
+            osm_buildings.append(feat(0, 0, dict(name=tg.get("name"), height_m=round(hm, 1)),
+                geom={"type": "Polygon", "coordinates": [[[round(g["lon"], 7), round(g["lat"], 7)] for g in e["geometry"]]]}))
+        elif e["type"] == "way" and "geometry" in e:
+            osm_ways.append((e["id"], tg.get("highway"), tg.get("name"), [(g["lat"], g["lon"]) for g in e["geometry"]]))
+        elif e["type"] == "node":
+            if tg.get("emergency") == "phone": osm_phones.append((e["lat"], e["lon"]))
+            elif tg.get("highway") == "street_lamp": osm_lamps.append((e["lat"], e["lon"]))
+            elif tg.get("natural") == "tree": osm_trees.append((e["lat"], e["lon"]))
 dump("buildings.geojson", fc(osm_buildings))
 print("osm buildings", len(osm_buildings), "ways", len(osm_ways), "phones", len(osm_phones), "street lamps", len(osm_lamps), "trees", len(osm_trees), flush=True)
 # trees: OpenStreetMap's mapped campus trees near the surveyed paths + trees detected in photos
