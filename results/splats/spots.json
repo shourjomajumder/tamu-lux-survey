@@ -1,0 +1,20 @@
+[
+ {
+  "spot": "spot1",
+  "session": "W1_2026-11-07_174431",
+  "start_index": 90,
+  "lat": 30.6121652,
+  "lon": -96.3402678,
+  "brightness": 0.145,
+  "photos": 70
+ },
+ {
+  "spot": "spot2",
+  "session": "W1_2026-11-07_184140",
+  "start_index": 1310,
+  "lat": 30.6132734,
+  "lon": -96.3377576,
+  "brightness": 0.1036,
+  "photos": 70
+ }
+]

@@ -1,0 +1,4 @@
+total 24M
+-rw-r--r-- 1 root root  16M Nov  8 10:38 spot1.splat
+-rw-r--r-- 1 root root 8.2M Nov  8 10:38 spot2.splat
+-rw-r--r-- 1 root root  335 Nov  8 10:38 spots.json

@@ -27,3 +27,4 @@
 020_landmarks.sh
 021_splats_retry6.sh
 022_splat_preview.sh
+023_share_splats.sh
