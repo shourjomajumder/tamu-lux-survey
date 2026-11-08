@@ -1,0 +1,18 @@
+MongoDB login OK
+W1_2026-11-07_172047: 67 readings, 60 photos, 216 detections
+W1_2026-11-07_172920: 49 readings, 44 photos, 104 detections
+W1_2026-11-07_174431: 236 readings, 214 photos, 483 detections
+W1_2026-11-07_184140: 8126 readings, 7430 photos, 4747 detections
+W2_2026-11-07_184141: 4529 readings, 4157 photos, 2563 detections
+W2_2026-11-07_200023: 59 readings, 53 photos, 6 detections
+W2_2026-11-07_200132: 18 readings, 16 photos, 0 detections
+W2_2026-11-07_200323: 62 readings, 56 photos, 11 detections
+W3_2026-11-07_184137: 4277 readings, 3876 photos, 1439 detections
+W3_2026-11-07_200407: 426 readings, 384 photos, 129 detections
+W3_2026-11-07_201129: 40 readings, 35 photos, 12 detections
+W3_2026-11-07_201241: 16 readings, 14 photos, 3 detections
+W3_2026-11-07_201403: 584 readings, 527 photos, 201 detections
+W3_2026-11-07_202538: 19 readings, 17 photos, 5 detections
+W3_2026-11-07_202613: 458 readings, 409 photos, 133 detections
+W3_2026-11-07_203921: 351 readings, 315 photos, 85 detections
+{'walks': 16, 'readings': 19317, 'photos': 17607, 'detections': 10137}
