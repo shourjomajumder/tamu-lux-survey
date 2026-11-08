@@ -1,0 +1,110 @@
++ export PATH=/root/splatenv/bin:/usr/local/cuda-12.4/bin:/root/lux/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin CUDA_HOME=/usr/local/cuda-12.4 TORCH_CUDA_ARCH_LIST=8.6
++ PATH=/root/splatenv/bin:/usr/local/cuda-12.4/bin:/root/lux/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
++ CUDA_HOME=/usr/local/cuda-12.4
++ TORCH_CUDA_ARCH_LIST=8.6
++ /root/splatenv/bin/pip install -q ninja
++ grep -viE 'fused|^git|^#' /root/gsplat/examples/requirements.txt
++ /root/splatenv/bin/pip install -q -r /tmp/req.txt matplotlib scikit-image splines
++ tail -2
++ mkdir -p /data/web/splats
++ for d in /data/splat/spot1 /data/splat/spot2
++ '[' -d /data/splat/spot1 ']'
+++ basename /data/splat/spot1
++ n=spot1
++ echo '=== spot1'
+=== spot1
++ '[' '!' -d /data/splat/spot1/sparse/0 ']'
++ '[' -d /data/splat/spot1/sparse/0 ']'
++ colmap model_analyzer --path /data/splat/spot1/sparse/0
++ grep -iE 'registered images|points'
+Registered images: 20
+Points: 1145
++ grep -vE 'it/s|^\s*$'
++ tail -25
+Step 10800: 3111 GSs duplicated, 514 GSs split. Now having 508586 GSs.
+Step 10800: 539 GSs pruned. Now having 508047 GSs.
+Step 10900: 2589 GSs duplicated, 496 GSs split. Now having 511132 GSs.
+Step 10900: 500 GSs pruned. Now having 510632 GSs.
+Step 11000: 2729 GSs duplicated, 442 GSs split. Now having 513803 GSs.
+Step 11000: 490 GSs pruned. Now having 513313 GSs.
+Step 11100: 2959 GSs duplicated, 500 GSs split. Now having 516772 GSs.
+Step 11100: 500 GSs pruned. Now having 516272 GSs.
+Step 11200: 2576 GSs duplicated, 491 GSs split. Now having 519339 GSs.
+Step 11200: 555 GSs pruned. Now having 518784 GSs.
+Step 11300: 3191 GSs duplicated, 481 GSs split. Now having 522456 GSs.
+Step 11300: 476 GSs pruned. Now having 521980 GSs.
+Step 11400: 2189 GSs duplicated, 377 GSs split. Now having 524546 GSs.
+Step 11400: 551 GSs pruned. Now having 523995 GSs.
+Step 11500: 2539 GSs duplicated, 434 GSs split. Now having 526968 GSs.
+Step 11500: 496 GSs pruned. Now having 526472 GSs.
+Step 11600: 2521 GSs duplicated, 493 GSs split. Now having 529486 GSs.
+Step 11600: 483 GSs pruned. Now having 529003 GSs.
+Step 11700: 2868 GSs duplicated, 540 GSs split. Now having 532411 GSs.
+Step 11700: 584 GSs pruned. Now having 531827 GSs.
+Step 11800: 2627 GSs duplicated, 456 GSs split. Now having 534910 GSs.
+Step 11800: 575 GSs pruned. Now having 534335 GSs.
+Step 11900: 2446 GSs duplicated, 396 GSs split. Now having 537177 GSs.
+Step 11900: 606 GSs pruned. Now having 536571 GSs.
+Step:  11999 {'mem': 1.5403056144714355, 'ellipse_time': 2173.147711992264, 'num_GS': 536571}
+++ ls -t /data/splat/spot1/out/ckpts/ckpt_11999_rank0.pt /data/splat/spot1/out/ckpts/ckpt_6999_rank0.pt
+++ head -1
++ ck=/data/splat/spot1/out/ckpts/ckpt_11999_rank0.pt
++ '[' -n /data/splat/spot1/out/ckpts/ckpt_11999_rank0.pt ']'
++ /root/splatenv/bin/python pipeline/ckpt_to_splat.py /data/splat/spot1/out/ckpts/ckpt_11999_rank0.pt /data/web/splats/spot1.splat 500000
+500000 splats -> /data/web/splats/spot1.splat (16.0 MB)
++ for d in /data/splat/spot1 /data/splat/spot2
++ '[' -d /data/splat/spot2 ']'
+++ basename /data/splat/spot2
++ n=spot2
++ echo '=== spot2'
+=== spot2
++ '[' '!' -d /data/splat/spot2/sparse/0 ']'
++ '[' -d /data/splat/spot2/sparse/0 ']'
++ colmap model_analyzer --path /data/splat/spot2/sparse/0
++ grep -iE 'registered images|points'
+Registered images: 36
+Points: 1556
++ grep -vE 'it/s|^\s*$'
++ tail -25
+Step 10800: 2048 GSs duplicated, 114 GSs split. Now having 251733 GSs.
+Step 10800: 277 GSs pruned. Now having 251456 GSs.
+Step 10900: 1422 GSs duplicated, 62 GSs split. Now having 252940 GSs.
+Step 10900: 303 GSs pruned. Now having 252637 GSs.
+Step 11000: 2281 GSs duplicated, 92 GSs split. Now having 255010 GSs.
+Step 11000: 260 GSs pruned. Now having 254750 GSs.
+Step 11100: 1743 GSs duplicated, 82 GSs split. Now having 256575 GSs.
+Step 11100: 263 GSs pruned. Now having 256312 GSs.
+Step 11200: 1844 GSs duplicated, 71 GSs split. Now having 258227 GSs.
+Step 11200: 326 GSs pruned. Now having 257901 GSs.
+Step 11300: 1690 GSs duplicated, 77 GSs split. Now having 259668 GSs.
+Step 11300: 279 GSs pruned. Now having 259389 GSs.
+Step 11400: 2385 GSs duplicated, 121 GSs split. Now having 261895 GSs.
+Step 11400: 317 GSs pruned. Now having 261578 GSs.
+Step 11500: 1408 GSs duplicated, 50 GSs split. Now having 263036 GSs.
+Step 11500: 341 GSs pruned. Now having 262695 GSs.
+Step 11600: 1580 GSs duplicated, 72 GSs split. Now having 264347 GSs.
+Step 11600: 313 GSs pruned. Now having 264034 GSs.
+Step 11700: 1866 GSs duplicated, 109 GSs split. Now having 266009 GSs.
+Step 11700: 331 GSs pruned. Now having 265678 GSs.
+Step 11800: 1628 GSs duplicated, 71 GSs split. Now having 267377 GSs.
+Step 11800: 329 GSs pruned. Now having 267048 GSs.
+Step 11900: 1703 GSs duplicated, 93 GSs split. Now having 268844 GSs.
+Step 11900: 336 GSs pruned. Now having 268508 GSs.
+Step:  11999 {'mem': 0.9164638519287109, 'ellipse_time': 1578.3874197006226, 'num_GS': 268508}
+++ head -1
+++ ls -t /data/splat/spot2/out/ckpts/ckpt_11999_rank0.pt /data/splat/spot2/out/ckpts/ckpt_6999_rank0.pt
++ ck=/data/splat/spot2/out/ckpts/ckpt_11999_rank0.pt
++ '[' -n /data/splat/spot2/out/ckpts/ckpt_11999_rank0.pt ']'
++ /root/splatenv/bin/python pipeline/ckpt_to_splat.py /data/splat/spot2/out/ckpts/ckpt_11999_rank0.pt /data/web/splats/spot2.splat 500000
+268508 splats -> /data/web/splats/spot2.splat (8.6 MB)
++ cp /data/splat/spots.json /data/web/splats/
++ cd /data/web
++ zip -qr splats.zip splats
++ ls -lh /data/web/splats /data/web/splats.zip
+-rw-r--r-- 1 root root  23M Nov  8 10:35 /data/web/splats.zip
+
+/data/web/splats:
+total 24M
+-rw-r--r-- 1 root root  16M Nov  8 10:08 spot1.splat
+-rw-r--r-- 1 root root 8.2M Nov  8 10:35 spot2.splat
+-rw-r--r-- 1 root root  335 Nov  8 10:35 spots.json

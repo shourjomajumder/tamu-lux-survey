@@ -25,3 +25,4 @@
 018_splats_retry4.sh
 019_splats_retry5.sh
 020_landmarks.sh
+021_splats_retry6.sh
