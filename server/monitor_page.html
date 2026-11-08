@@ -77,7 +77,7 @@ function hex(){let s='';for(let i=0;i<260;i++)s+='0123456789abcdef'[Math.random(
 async function tick(){
  try{const d=await(await fetch('/api/status?k='+K,{cache:'no-store'})).json();
   const S=d.stages,y=d.system,se=S.sessions,ph=se.reduce((a,s)=>a+s.photos,0),bl=se.reduce((a,s)=>a+s.blurred,0),de=se.reduce((a,s)=>a+s.detections,0),mc=d.mongo.counts||{};
-  $('flow').innerHTML=st(1,'FIELD CAPTURE','16 WALKS','W1–W3 synced · W4 pending',.8,'ok')+
+  $('flow').innerHTML=st(1,'FIELD CAPTURE','16 WALKS','W1–W3 · capture complete',1,'ok')+
    st(2,'EXFIL // DRIVE→GPU',`${S.zips.length}/${S.zips_expected}`,`${(S.zips_total_mb/1000).toFixed(2)} GB · ↓${y.net_in_mbps} Mb/s`,S.zips.length/S.zips_expected,js(d,'download')||(S.zips.length>=S.zips_expected?'ok':''))+
    st(3,'DECOMPRESS',`${se.length} SESS`,`${ph.toLocaleString()} frames extracted`,S.zips.length?se.length/S.zips.length:0,js(d,'unzip')||(se.length?'ok':''))+
    st(4,'NEURAL SCAN + SCRUB',bl.toLocaleString(),`/${ph.toLocaleString()} frames · ${de.toLocaleString()} targets`,ph?bl/ph:0,js(d,'detect'))+
