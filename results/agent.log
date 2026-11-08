@@ -55,3 +55,4 @@
 2026-11-08T09:31:41Z END 020_landmarks.sh rc=0
 2026-11-08T09:32:13Z START 021_splats_retry6.sh
 2026-11-08T10:35:02Z END 021_splats_retry6.sh rc=0
+2026-11-08T10:36:36Z START 022_splat_preview.sh
