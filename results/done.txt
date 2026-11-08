@@ -20,3 +20,4 @@
 014_pointcloud.sh
 015_splats_retry.sh
 014b_pointcloud_preview.sh
+016_splats_retry2.sh
