@@ -10,3 +10,4 @@
 2026-11-08T05:36:00Z END 004_unzip_sessions.sh rc=0
 2026-11-08T05:36:01Z START 005_detect_blur.sh
 2026-11-08T05:54:18Z END 005_detect_blur.sh rc=0
+2026-11-08T05:54:21Z START 006_load_mongo.sh
