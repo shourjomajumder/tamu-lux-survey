@@ -1,0 +1,89 @@
++ export PATH=/usr/local/cuda-12.4/bin:/root/lux/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin CUDA_HOME=/usr/local/cuda-12.4 TORCH_CUDA_ARCH_LIST=8.6
++ PATH=/usr/local/cuda-12.4/bin:/root/lux/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
++ CUDA_HOME=/usr/local/cuda-12.4
++ TORCH_CUDA_ARCH_LIST=8.6
++ grep -viE 'fused|^git|^#' /root/gsplat/examples/requirements.txt
++ /root/splatenv/bin/pip install -q -r /tmp/req.txt matplotlib scikit-image splines
++ tail -2
++ mkdir -p /data/web/splats
++ for d in /data/splat/spot1 /data/splat/spot2
++ '[' -d /data/splat/spot1 ']'
+++ basename /data/splat/spot1
++ n=spot1
++ echo '=== spot1'
+=== spot1
++ '[' '!' -d /data/splat/spot1/sparse/0 ']'
++ '[' -d /data/splat/spot1/sparse/0 ']'
++ colmap model_analyzer --path /data/splat/spot1/sparse/0
++ grep -iE 'registered images|points'
+Registered images: 20
+Points: 1145
++ grep -vE 'it/s|^\s*$'
++ tail -25
++ cd /root/gsplat/examples
++ /root/splatenv/bin/python simple_trainer.py default --data_dir /data/splat/spot1 --data_factor 2 --result_dir /data/splat/spot1/out --max_steps 12000 --disable_viewer
+[Parser] 20 images, taken by 1 cameras.
+Warning: COLMAP Camera is not PINHOLE. Images have distortion.
+Traceback (most recent call last):
+  File "/root/gsplat/examples/simple_trainer.py", line 1068, in <module>
+    cli(main, cfg, verbose=True)
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/distributed.py", line 360, in cli
+    return _distributed_worker(0, 1, fn=fn, args=args)
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/distributed.py", line 295, in _distributed_worker
+    fn(local_rank, world_rank, world_size, args)
+  File "/root/gsplat/examples/simple_trainer.py", line 997, in main
+    runner = Runner(local_rank, world_rank, world_size, cfg)
+  File "/root/gsplat/examples/simple_trainer.py", line 291, in __init__
+    self.parser = Parser(
+  File "/root/gsplat/examples/datasets/colmap.py", line 160, in __init__
+    raise ValueError(f"Image folder {d} does not exist.")
+ValueError: Image folder /data/splat/spot1/images_2 does not exist.
+++ ls -t '/data/splat/spot1/out/ckpts/*.pt'
+++ head -1
++ ck=
++ '[' -n '' ']'
++ for d in /data/splat/spot1 /data/splat/spot2
++ '[' -d /data/splat/spot2 ']'
+++ basename /data/splat/spot2
++ n=spot2
++ echo '=== spot2'
+=== spot2
++ '[' '!' -d /data/splat/spot2/sparse/0 ']'
++ '[' -d /data/splat/spot2/sparse/0 ']'
++ colmap model_analyzer --path /data/splat/spot2/sparse/0
++ grep -iE 'registered images|points'
+Registered images: 36
+Points: 1556
++ grep -vE 'it/s|^\s*$'
++ tail -25
++ cd /root/gsplat/examples
++ /root/splatenv/bin/python simple_trainer.py default --data_dir /data/splat/spot2 --data_factor 2 --result_dir /data/splat/spot2/out --max_steps 12000 --disable_viewer
+[Parser] 36 images, taken by 1 cameras.
+Warning: COLMAP Camera is not PINHOLE. Images have distortion.
+Traceback (most recent call last):
+  File "/root/gsplat/examples/simple_trainer.py", line 1068, in <module>
+    cli(main, cfg, verbose=True)
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/distributed.py", line 360, in cli
+    return _distributed_worker(0, 1, fn=fn, args=args)
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/distributed.py", line 295, in _distributed_worker
+    fn(local_rank, world_rank, world_size, args)
+  File "/root/gsplat/examples/simple_trainer.py", line 997, in main
+    runner = Runner(local_rank, world_rank, world_size, cfg)
+  File "/root/gsplat/examples/simple_trainer.py", line 291, in __init__
+    self.parser = Parser(
+  File "/root/gsplat/examples/datasets/colmap.py", line 160, in __init__
+    raise ValueError(f"Image folder {d} does not exist.")
+ValueError: Image folder /data/splat/spot2/images_2 does not exist.
+++ ls -t '/data/splat/spot2/out/ckpts/*.pt'
+++ head -1
++ ck=
++ '[' -n '' ']'
++ cp /data/splat/spots.json /data/web/splats/
++ cd /data/web
++ zip -qr splats.zip splats
++ ls -lh /data/web/splats /data/web/splats.zip
+-rw-r--r-- 1 root root  485 Nov  8 09:05 /data/web/splats.zip
+
+/data/web/splats:
+total 4.0K
+-rw-r--r-- 1 root root 335 Nov  8 09:05 spots.json
