@@ -30,10 +30,10 @@ Database `lux_survey` on Cluster0 (AWS). Screenshots taken from Atlas Data Explo
 
 | # | Slide | Documents · data size |
 |---|---|---|
-| 1 | Atlas cluster | 72,758 · 18.72 MB |
+| 1 | Atlas cluster | 73,407 · 18.88 MB |
 | 2 | readings | 17,715 · 3.51 MB |
 | 3 | segments | 3,622 · 985 kB |
-| 4 | routes and bins | 5,808 bins · 1.25 MB |
+| 4 | routes and bins | 6,457 bins · 1.39 MB |
 | 5 | walks and photos | 17,289 photos · 5.36 MB |
 | 6 | detections | 9,334 · 2.96 MB |
 | 7 | Location queries | 31 indexes |
