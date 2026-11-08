@@ -1,0 +1,77 @@
+WARNING ⚠️ user config directory '/root/.config/Ultralytics' is not writable, using '/tmp/Ultralytics'. Set YOLO_CONFIG_DIR to override.
+Creating new Ultralytics Settings v0.0.6 file ✅ 
+View Ultralytics Settings with 'yolo settings' or at '/tmp/Ultralytics/settings.json'
+Update Settings with 'yolo settings key=value', i.e. 'yolo settings runs_dir=path/to/dir'. For help see https://docs.ultralytics.com/quickstart/#ultralytics-settings.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+W1_2026-11-07_172047: 16/60 photos, 2s
+W1_2026-11-07_172047: done, 60 photos in 5s -> results/detections/W1_2026-11-07_172047.csv
+W1_2026-11-07_172920: 16/44 photos, 1s
+W1_2026-11-07_172920: done, 44 photos in 3s -> results/detections/W1_2026-11-07_172920.csv
+W1_2026-11-07_174431: 16/214 photos, 1s
+W1_2026-11-07_174431: done, 214 photos in 12s -> results/detections/W1_2026-11-07_174431.csv
+W1_2026-11-07_184140: 16/7430 photos, 4s
+W1_2026-11-07_184140: 416/7430 photos, 26s
+W1_2026-11-07_184140: 816/7430 photos, 52s
+W1_2026-11-07_184140: 1216/7430 photos, 73s
+W1_2026-11-07_184140: 1616/7430 photos, 107s
+W1_2026-11-07_184140: 2016/7430 photos, 128s
+W1_2026-11-07_184140: 2416/7430 photos, 168s
+W1_2026-11-07_184140: 2816/7430 photos, 191s
+W1_2026-11-07_184140: 3216/7430 photos, 222s
+W1_2026-11-07_184140: 3616/7430 photos, 246s
+W1_2026-11-07_184140: 4016/7430 photos, 268s
+W1_2026-11-07_184140: 4416/7430 photos, 299s
+W1_2026-11-07_184140: 4816/7430 photos, 324s
+W1_2026-11-07_184140: 5216/7430 photos, 348s
+W1_2026-11-07_184140: 5616/7430 photos, 379s
+W1_2026-11-07_184140: 6016/7430 photos, 417s
+W1_2026-11-07_184140: 6416/7430 photos, 439s
+W1_2026-11-07_184140: 6816/7430 photos, 464s
+W1_2026-11-07_184140: 7216/7430 photos, 495s
+W1_2026-11-07_184140: done, 7430 photos in 514s -> results/detections/W1_2026-11-07_184140.csv
+W2_2026-11-07_184141: 16/4157 photos, 1s
+W2_2026-11-07_184141: 416/4157 photos, 23s
+W2_2026-11-07_184141: 816/4157 photos, 45s
+W2_2026-11-07_184141: 1216/4157 photos, 75s
+W2_2026-11-07_184141: 1616/4157 photos, 106s
+W2_2026-11-07_184141: 2016/4157 photos, 130s
+W2_2026-11-07_184141: 2416/4157 photos, 155s
+W2_2026-11-07_184141: 2816/4157 photos, 192s
+W2_2026-11-07_184141: 3216/4157 photos, 215s
+W2_2026-11-07_184141: 3616/4157 photos, 240s
+W2_2026-11-07_184141: 4016/4157 photos, 266s
+W2_2026-11-07_184141: done, 4157 photos in 277s -> results/detections/W2_2026-11-07_184141.csv
+W2_2026-11-07_200023: 16/53 photos, 1s
+W2_2026-11-07_200023: done, 53 photos in 6s -> results/detections/W2_2026-11-07_200023.csv
+W2_2026-11-07_200132: 16/16 photos, 1s
+W2_2026-11-07_200132: done, 16 photos in 1s -> results/detections/W2_2026-11-07_200132.csv
+W2_2026-11-07_200323: 16/56 photos, 1s
+W2_2026-11-07_200323: done, 56 photos in 3s -> results/detections/W2_2026-11-07_200323.csv
+W3_2026-11-07_184137: 16/3876 photos, 1s
+W3_2026-11-07_184137: 416/3876 photos, 30s
+W3_2026-11-07_184137: 816/3876 photos, 51s
+W3_2026-11-07_184137: 1216/3876 photos, 77s
+W3_2026-11-07_184137: 1616/3876 photos, 104s
+W3_2026-11-07_184137: 2016/3876 photos, 128s
+W3_2026-11-07_184137: 2416/3876 photos, 156s
+W3_2026-11-07_184137: 2816/3876 photos, 178s
+W3_2026-11-07_184137: 3216/3876 photos, 205s
+W3_2026-11-07_184137: 3616/3876 photos, 234s
+W3_2026-11-07_184137: done, 3876 photos in 252s -> results/detections/W3_2026-11-07_184137.csv
+W3_2026-11-07_200407: 16/384 photos, 1s
+W3_2026-11-07_200407: done, 384 photos in 24s -> results/detections/W3_2026-11-07_200407.csv
+W3_2026-11-07_201129: 16/35 photos, 1s
+W3_2026-11-07_201129: done, 35 photos in 2s -> results/detections/W3_2026-11-07_201129.csv
+W3_2026-11-07_201241: 14/14 photos, 1s
+W3_2026-11-07_201241: done, 14 photos in 1s -> results/detections/W3_2026-11-07_201241.csv
+W3_2026-11-07_201403: 16/527 photos, 1s
+W3_2026-11-07_201403: 416/527 photos, 24s
+W3_2026-11-07_201403: done, 527 photos in 33s -> results/detections/W3_2026-11-07_201403.csv
+W3_2026-11-07_202538: 16/17 photos, 1s
+W3_2026-11-07_202538: done, 17 photos in 1s -> results/detections/W3_2026-11-07_202538.csv
+W3_2026-11-07_202613: 16/409 photos, 1s
+W3_2026-11-07_202613: 409/409 photos, 34s
+W3_2026-11-07_202613: done, 409 photos in 34s -> results/detections/W3_2026-11-07_202613.csv
+W3_2026-11-07_203921: 16/315 photos, 1s
+W3_2026-11-07_203921: done, 315 photos in 30s -> results/detections/W3_2026-11-07_203921.csv
+17607
