@@ -1,106 +1,120 @@
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NIGHTWATCH // lux pipeline</title>
+<title>LuxOS 95 - Pipeline Control Panel</title>
 <style>
-:root{--g:#33ff66;--g2:#1aff8c;--dim:#0f7a35;--dd:#0a3d1c;--bg:#000;--amb:#ffb000;--red:#ff3355;--cy:#00e5ff}
+:root{--face:#c0c0c0;--hi:#fff;--lo:#808080;--dk:#000;--navy:#000080;--navy2:#1084d0;--desk:#008080;--sel:#000080}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--g);font:13px/1.45 "JetBrains Mono","Fira Code",ui-monospace,Menlo,Consolas,monospace;text-shadow:0 0 4px rgba(51,255,102,.55)}
-#rain{position:fixed;inset:0;z-index:0;opacity:.13}
-body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px);animation:flick 4s infinite}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:49;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.75))}
-@keyframes flick{0%,97%,100%{opacity:1}98%{opacity:.82}99%{opacity:.95}}
-.wrap{position:relative;z-index:1;padding:14px 18px 30px;max-width:1500px;margin:auto}
-pre.banner{margin:0;font-size:10px;line-height:1.05;color:var(--g2);text-shadow:0 0 8px var(--g)}
-.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;border-bottom:1px dashed var(--dim);padding-bottom:10px;margin-bottom:12px}
-.meta{font-size:12px;color:var(--g);text-align:right}.meta span{color:var(--cy)}
-.blink{animation:b 1s steps(1) infinite}@keyframes b{50%{opacity:0}}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
-.box{border:1px solid var(--dim);background:rgba(0,12,4,.82);padding:10px 12px;position:relative}
-.box:before{content:attr(data-t);position:absolute;top:-9px;left:10px;background:#000;padding:0 6px;font-size:11px;color:var(--g2);letter-spacing:.12em}
-.box.hot{border-color:var(--amb);box-shadow:0 0 14px rgba(255,176,0,.25)}.box.hot:before{color:var(--amb)}
-.stages{grid-column:1/-1;display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
-.st{border:1px solid var(--dd);padding:10px;background:rgba(0,20,8,.7)}
-.st .n{color:var(--dim);font-size:11px}.st .t{color:var(--g2);font-weight:700;letter-spacing:.05em}
-.st .v{font-size:22px;margin:4px 0;color:#d6ffe0;text-shadow:0 0 10px var(--g)}.st .s{font-size:11px;color:var(--g);opacity:.8;min-height:30px}
-.st.ok{border-color:var(--g)}.st.run{border-color:var(--amb);animation:pulse 1.6s infinite}.st.run .t,.st.run .ab{color:var(--amb);text-shadow:0 0 6px var(--amb)}
-@keyframes pulse{50%{box-shadow:0 0 18px rgba(255,176,0,.35)}}
-.ab{white-space:pre;font-size:12px;margin-top:6px}
-.c4{grid-column:span 4}.c8{grid-column:span 8}.c12{grid-column:1/-1}
-.kv{display:grid;grid-template-columns:110px 1fr;gap:3px 10px}.kv b{font-weight:400;color:var(--dim)}
-.spark{font-size:18px;letter-spacing:-1px;color:var(--cy);text-shadow:0 0 6px var(--cy);white-space:nowrap;overflow:hidden}
-.log{height:340px;overflow:auto;white-space:pre-wrap;font-size:12px;color:#b6ffc8}
-.log::-webkit-scrollbar{width:6px}.log::-webkit-scrollbar-thumb{background:var(--dim)}
-.jobs div{display:flex;gap:10px;padding:2px 0}.tag{width:64px;flex:none}
-.ok{color:var(--g)}.run{color:var(--amb);text-shadow:0 0 6px var(--amb)}.wait{color:var(--dim)}.fail{color:var(--red);text-shadow:0 0 6px var(--red)}
-table{width:100%;border-collapse:collapse;font-size:12px}td,th{padding:3px 6px;text-align:left}th{color:var(--dim);font-weight:400;border-bottom:1px dashed var(--dim)}
-.thumbs{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
-.tw{position:relative;flex:none}.tw img{height:210px;display:block;filter:grayscale(1) sepia(1) hue-rotate(70deg) saturate(3) brightness(.9) contrast(1.15);border:1px solid var(--dim)}
-.tw:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 1px,transparent 1px 3px)}
-.tw span{position:absolute;left:4px;top:4px;z-index:2;background:rgba(0,0,0,.75);font-size:10px;padding:1px 4px;color:var(--amb)}
-.tw i{position:absolute;inset:8px;border:1px solid rgba(51,255,102,.6);z-index:2;clip-path:polygon(0 0,18% 0,18% 2px,2px 2px,2px 18%,0 18%,0 0,100% 0,100% 18%,calc(100% - 2px) 18%,calc(100% - 2px) 2px,82% 2px,82% 0,100% 0,100% 100%,82% 100%,82% calc(100% - 2px),calc(100% - 2px) calc(100% - 2px),calc(100% - 2px) 82%,100% 82%,100% 100%,0 100%,0 82%,2px 82%,2px calc(100% - 2px),18% calc(100% - 2px),18% 100%,0 100%)}
-.hex{font-size:10px;color:var(--dd);height:56px;overflow:hidden;word-break:break-all;margin-top:8px;text-shadow:none}
-.glitch{position:relative}.glitch:hover{animation:gl .3s 2}@keyframes gl{25%{transform:translate(-2px,1px)}50%{transform:translate(2px,-1px);color:var(--cy)}}
-@media(max-width:1000px){.stages{grid-template-columns:repeat(2,1fr)}.c4,.c8{grid-column:1/-1}pre.banner{font-size:6px}}
-</style></head><body><canvas id="rain"></canvas><div class="wrap">
-<div class="top"><pre class="banner glitch">
- ███╗   ██╗██╗ ██████╗ ██╗  ██╗████████╗██╗    ██╗ █████╗ ████████╗ ██████╗██╗  ██╗
- ████╗  ██║██║██╔════╝ ██║  ██║╚══██╔══╝██║    ██║██╔══██╗╚══██╔══╝██╔════╝██║  ██║
- ██╔██╗ ██║██║██║  ███╗███████║   ██║   ██║ █╗ ██║███████║   ██║   ██║     ███████║
- ██║╚██╗██║██║██║   ██║██╔══██║   ██║   ██║███╗██║██╔══██║   ██║   ██║     ██╔══██║
- ██║ ╚████║██║╚██████╔╝██║  ██║   ██║   ╚███╔███╔╝██║  ██║   ██║   ╚██████╗██║  ██║
- ╚═╝  ╚═══╝╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝    ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝</pre>
-<div class="meta">TEXAS A&amp;M // NIGHT-LIGHT RECON GRID<br>NODE <span>vultr-chi-a16</span> @ <span>64.177.118.45</span><br><span id="agent">…</span> · <span id="clk">--:--:--</span><span class="blink">█</span></div></div>
-<div class="grid">
- <div class="stages" id="flow"></div>
- <div class="box c4" data-t="[ HARDWARE ]"><div class="kv" id="sys"></div><div style="margin-top:8px;color:var(--dim);font-size:11px">GPU LOAD // 120s</div><div class="spark" id="spark"></div><div class="hex" id="hex"></div></div>
- <div class="box c8" data-t="[ TASK QUEUE ]"><div class="jobs" id="jobs"></div></div>
- <div class="box c8" id="logbox" data-t="[ LIVE FEED ]"><div class="log" id="log"></div></div>
- <div class="box c4" data-t="[ UPLINK :: MONGODB ATLAS ]"><div class="kv" id="mongo"></div><div style="margin-top:12px;color:var(--dim);font-size:11px">// AGENT EVENTS</div><div class="log" id="alog" style="height:190px;color:var(--g)"></div></div>
- <div class="box c12" data-t="[ TARGET SESSIONS ]"><table id="sess"></table></div>
- <div class="box c12" data-t="[ OPTICAL FEED :: PRIVACY-SCRUBBED ]"><div class="thumbs" id="blur"><span class="wait">awaiting GPU stream…</span></div></div>
- <div class="box c12" data-t="[ DETECTION SHEETS ]"><div class="thumbs" id="rev"><span class="wait">—</span></div></div>
-</div></div>
-<script>
-// matrix rain
-const cv=document.getElementById('rain'),cx=cv.getContext('2d');let cols,drops;
-function rs(){cv.width=innerWidth;cv.height=innerHeight;cols=Math.floor(cv.width/14);drops=Array(cols).fill(0).map(()=>Math.random()*cv.height/14)}
-rs();addEventListener('resize',rs);const ch='ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿ0123456789LUX#$%&@';
-setInterval(()=>{cx.fillStyle='rgba(0,0,0,.08)';cx.fillRect(0,0,cv.width,cv.height);cx.fillStyle='#33ff66';cx.font='14px monospace';
- drops.forEach((y,i)=>{cx.fillText(ch[Math.random()*ch.length|0],i*14,y*14);drops[i]=y*14>cv.height&&Math.random()>.975?0:y+1})},55);
+html,body{margin:0;height:100%}
+body{background:var(--desk);font:12px/1.35 "MS Sans Serif","Microsoft Sans Serif",Tahoma,Geneva,Verdana,sans-serif;color:#000;-webkit-font-smoothing:none;padding-bottom:34px}
+.out{border:2px solid;border-color:var(--hi) var(--dk) var(--dk) var(--hi);box-shadow:inset -1px -1px var(--lo),inset 1px 1px #dfdfdf}
+.in{border:2px solid;border-color:var(--lo) var(--hi) var(--hi) var(--lo);box-shadow:inset 1px 1px var(--dk)}
+.desk{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;padding:12px;max-width:1500px;margin:auto}
+.icons{position:fixed;left:8px;top:10px;display:flex;flex-direction:column;gap:14px;z-index:0}
+.icon{width:72px;text-align:center;color:#fff;font-size:11px}.icon div{font-size:30px;line-height:1;filter:drop-shadow(1px 1px 0 #000)}
+.win{background:var(--face);padding:3px;position:relative;z-index:1}
+.tb{background:linear-gradient(90deg,var(--navy),var(--navy2));color:#fff;font-weight:bold;padding:3px 4px 3px 6px;display:flex;align-items:center;gap:6px;height:22px}
+.tb.off{background:linear-gradient(90deg,#808080,#b5b5b5)}
+.tb .ttl{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb .btns{display:flex;gap:2px}.tb .btns span{width:16px;height:14px;background:var(--face);color:#000;font-size:10px;line-height:11px;text-align:center;font-weight:bold}
+.menu{display:flex;gap:14px;padding:3px 6px;font-size:12px}.menu u{text-decoration:underline}
+.body{padding:8px}
+.c4{grid-column:span 4}.c5{grid-column:span 5}.c7{grid-column:span 7}.c8{grid-column:span 8}.c12{grid-column:1/-1}
+.stages{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.stg{padding:8px;background:var(--face)}
+.stg .h{display:flex;align-items:center;gap:6px;font-weight:bold}.stg .h i{font-style:normal;font-size:18px}
+.stg .v{font-size:20px;font-weight:bold;margin:6px 0 2px;font-family:"Courier New",monospace}
+.stg .s{font-size:11px;color:#333;min-height:28px}
+.stg.ok .h{color:#006400}.stg.run .h{color:var(--navy)}
+.stg.run{animation:hl 1.2s steps(2) infinite}@keyframes hl{50%{background:#d4d0c8}}
+.pb{height:18px;padding:2px;background:#fff;margin-top:4px;display:flex;gap:2px;overflow:hidden}
+.pb b{width:8px;flex:none;background:var(--navy)}
+.kv{display:grid;grid-template-columns:96px 1fr;gap:4px 8px;align-items:center}
+.lv{background:#fff;max-height:330px;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--face);text-align:left;font-weight:normal;padding:2px 6px;border:1px solid;border-color:var(--hi) var(--lo) var(--lo) var(--hi);position:sticky;top:0}
+td{padding:2px 6px;white-space:nowrap}tr:hover td{background:var(--sel);color:#fff}
+.dos{background:#000;color:#c0c0c0;font:13px/1.3 "Courier New",Consolas,monospace;height:340px;overflow:auto;white-space:pre-wrap;padding:6px}
+.dos::-webkit-scrollbar,.lv::-webkit-scrollbar{width:16px;background:#dfdfdf}.dos::-webkit-scrollbar-thumb,.lv::-webkit-scrollbar-thumb{background:var(--face);border:2px solid;border-color:var(--hi) var(--dk) var(--dk) var(--hi)}
+.cur{animation:bk 1s steps(1) infinite}@keyframes bk{50%{opacity:0}}
+.graph{background:#000;height:70px;display:flex;align-items:flex-end;gap:1px;padding:2px;background-image:linear-gradient(#003300 1px,transparent 1px),linear-gradient(90deg,#003300 1px,transparent 1px);background-size:12px 12px}
+.graph i{flex:1;background:#00ff00;min-height:1px}
+.thumbs{display:flex;gap:10px;overflow-x:auto;padding:4px;background:#fff}
+.ph{flex:none;text-align:center;font-size:11px;width:130px}.ph img{height:200px;max-width:126px;object-fit:cover;display:block;margin:auto;padding:2px;background:var(--face)}
+.ph span{display:block;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st-ok{color:#006400}.st-run{color:var(--navy);font-weight:bold}.st-wait{color:#606060}.st-fail{color:#c00000;font-weight:bold}
+.status{display:flex;gap:2px;margin-top:3px}.status div{padding:1px 6px;flex:1;white-space:nowrap;overflow:hidden}
+.taskbar{position:fixed;left:0;right:0;bottom:0;height:32px;background:var(--face);border-top:2px solid var(--hi);display:flex;align-items:center;gap:4px;padding:2px 3px;z-index:10}
+.start{font-weight:bold;padding:2px 8px;display:flex;align-items:center;gap:5px;height:24px}
+.task{height:24px;padding:3px 8px;min-width:150px;max-width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tray{margin-left:auto;height:24px;padding:3px 10px;display:flex;gap:10px;align-items:center}
+@media(max-width:1000px){.stages{grid-template-columns:repeat(2,1fr)}.c4,.c5,.c7,.c8{grid-column:1/-1}.icons{display:none}}
+@media(min-width:1600px){.desk{padding-left:100px}}
+</style></head><body>
+<div class="icons"><div class="icon"><div>🖥️</div>My Server</div><div class="icon"><div>🌙</div>Lux Survey</div><div class="icon"><div>🗄️</div>Atlas DB</div><div class="icon"><div>🗑️</div>Recycle Bin</div></div>
+<div class="desk">
+ <div class="win out c12"><div class="tb"><span>💡</span><span class="ttl">Pipeline.exe - A&amp;M Night-Light Survey</span><span class="btns"><span>_</span><span>□</span><span>×</span></span></div>
+  <div class="menu"><span><u>F</u>ile</span><span><u>E</u>dit</span><span><u>V</u>iew</span><span><u>J</u>obs</span><span><u>H</u>elp</span></div>
+  <div class="body"><div class="stages" id="flow"></div></div>
+  <div class="status"><div class="in" id="sb1">Ready</div><div class="in" id="sb2">Node: vultr-chi-a16</div><div class="in" id="agent">Agent: …</div></div></div>
 
+ <div class="win out c4"><div class="tb"><span>📊</span><span class="ttl">System Monitor</span><span class="btns"><span>_</span><span>×</span></span></div>
+  <div class="body"><div class="kv" id="sys"></div><div style="margin:8px 0 3px">GPU Usage History</div><div class="graph in" id="spark"></div></div></div>
+
+ <div class="win out c8"><div class="tb"><span>📅</span><span class="ttl">Task Scheduler</span><span class="btns"><span>_</span><span>□</span><span>×</span></span></div>
+  <div class="body"><div class="lv in"><table id="jobs"></table></div></div></div>
+
+ <div class="win out c8"><div class="tb" id="dostb"><span>⌨️</span><span class="ttl" id="logt">MS-DOS Prompt</span><span class="btns"><span>_</span><span>□</span><span>×</span></span></div>
+  <div class="body" style="padding:4px"><div class="dos in" id="log"></div></div></div>
+
+ <div class="win out c4"><div class="tb"><span>🗄️</span><span class="ttl">Network Neighborhood - MongoDB Atlas</span><span class="btns"><span>×</span></span></div>
+  <div class="body"><div class="kv" id="mongo"></div><div style="margin:10px 0 3px">Event Log</div><div class="dos in" id="alog" style="height:180px;font-size:11px;background:#fff;color:#000"></div></div></div>
+
+ <div class="win out c12"><div class="tb"><span>📁</span><span class="ttl">Explorer - C:\DATA\SESSIONS</span><span class="btns"><span>_</span><span>□</span><span>×</span></span></div>
+  <div class="body"><div class="lv in"><table id="sess"></table></div></div></div>
+
+ <div class="win out c12"><div class="tb"><span>🖼️</span><span class="ttl">Imaging - Newest privacy-blurred photos</span><span class="btns"><span>_</span><span>×</span></span></div>
+  <div class="body"><div class="thumbs in" id="blur"><span>Waiting for photos…</span></div></div></div>
+
+ <div class="win out c12"><div class="tb"><span>🔍</span><span class="ttl">Detection Review Sheets</span><span class="btns"><span>_</span><span>×</span></span></div>
+  <div class="body"><div class="thumbs in" id="rev"><span>—</span></div></div></div>
+</div>
+<div class="taskbar"><div class="start out">🪟 Start</div><div class="task in" id="tk1">💡 Pipeline.exe</div><div class="task out" id="tk2">⌨️ MS-DOS Prompt</div><div class="tray in"><span id="trayicons">🔊 🖧</span><span id="clk">--:--</span></div></div>
+<script>
 const K=new URLSearchParams(location.search).get('k'),$=i=>document.getElementById(i),hist=[];let li='',lr='';
-const bar=(f,w=18)=>{f=Math.max(0,Math.min(1,f||0));const n=Math.round(f*w);return '['+'█'.repeat(n)+'░'.repeat(w-n)+'] '+String(Math.round(f*100)).padStart(3)+'%'};
-const blocks='▁▂▃▄▅▆▇█';
-function st(n,t,v,s,f,state){return `<div class="st ${state}"><div class="n">STAGE_0${n}</div><div class="t">${t}</div><div class="v">${v}</div><div class="s">${s}</div><div class="ab">${bar(f,14)}</div></div>`}
+const pb=(f,n=22)=>{f=Math.max(0,Math.min(1,f||0));return `<div class="pb in">${'<b></b>'.repeat(Math.round(f*n))}</div>`};
+function st(icon,t,v,s,f,state){return `<div class="stg out ${state}"><div class="h"><i>${icon}</i>${t}</div><div class="v">${v}</div><div class="s">${s}</div>${pb(f,12)}</div>`}
 function js(d,p){const j=d.jobs.find(j=>j.name.includes(p));return !j?'':j.status==='running'?'run':j.status==='exit 0'?'ok':''}
-function tag(s){return s==='running'?'<span class="tag run">[ RUN  ]</span>':s==='exit 0'||s==='done'?'<span class="tag ok">[  OK  ]</span>':s==='queued'?'<span class="tag wait">[ WAIT ]</span>':'<span class="tag fail">[ FAIL ]</span>'}
-function hex(){let s='';for(let i=0;i<260;i++)s+='0123456789abcdef'[Math.random()*16|0]+(i%2?' ':'');$('hex').textContent=s}
+function lbl(s){return s==='running'?'<span class="st-run">Running...</span>':s==='exit 0'||s==='done'?'<span class="st-ok">Completed</span>':s==='queued'?'<span class="st-wait">Scheduled</span>':'<span class="st-fail">Error ('+s+')</span>'}
 async function tick(){
  try{const d=await(await fetch('/api/status?k='+K,{cache:'no-store'})).json();
   const S=d.stages,y=d.system,se=S.sessions,ph=se.reduce((a,s)=>a+s.photos,0),bl=se.reduce((a,s)=>a+s.blurred,0),de=se.reduce((a,s)=>a+s.detections,0),mc=d.mongo.counts||{};
-  $('flow').innerHTML=st(1,'FIELD CAPTURE','16 WALKS','W1–W3 · capture complete',1,'ok')+
-   st(2,'EXFIL // DRIVE→GPU',`${S.zips.length}/${S.zips_expected}`,`${(S.zips_total_mb/1000).toFixed(2)} GB · ↓${y.net_in_mbps} Mb/s`,S.zips.length/S.zips_expected,js(d,'download')||(S.zips.length>=S.zips_expected?'ok':''))+
-   st(3,'DECOMPRESS',`${se.length} SESS`,`${ph.toLocaleString()} frames extracted`,S.zips.length?se.length/S.zips.length:0,js(d,'unzip')||(se.length?'ok':''))+
-   st(4,'NEURAL SCAN + SCRUB',bl.toLocaleString(),`/${ph.toLocaleString()} frames · ${de.toLocaleString()} targets`,ph?bl/ph:0,js(d,'detect'))+
-   st(5,'UPLINK → ATLAS',(mc.readings||0).toLocaleString(),`readings · ${(mc.detections||0).toLocaleString()} detections`,mc.walks?1:0,js(d,'mongo')||(mc.readings?'ok':''))+
-   st(6,'DEPLOY // WEB','STANDBY','lit-route planner',0,'');
-  const g=y.gpu||{};hist.push(g.util||0);if(hist.length>60)hist.shift();
-  $('spark').textContent=hist.map(v=>blocks[Math.min(7,Math.floor(v/12.5))]).join('');
-  $('sys').innerHTML=`<b>GPU</b><span>${g.name||'?'}</span><b>CORE LOAD</b><span>${bar((g.util||0)/100,12)}</span>
-   <b>VRAM</b><span>${bar((g.mem||0)/(g.mem_total||1),12)} ${((g.mem||0)/1024).toFixed(1)}G</span><b>THERMAL</b><span>${g.temp??'?'}°C · ${g.power??'?'}W</span>
-   <b>CPU</b><span>${bar(y.cpu/100,12)}</span><b>RAM</b><span>${y.ram_used_gb}/${y.ram_total_gb} GB</span>
-   <b>DISK</b><span>${y.disk_used_gb}/${y.disk_total_gb} GB</span><b>NET</b><span>↓${y.net_in_mbps} ↑${y.net_out_mbps} Mb/s</span><b>UPTIME</b><span>${y.uptime}</span>`;
-  $('agent').innerHTML=y.agent==='active'?'<span class="ok">● AGENT ONLINE</span>':'<span class="fail">● AGENT DOWN</span>';
-  $('jobs').innerHTML=d.jobs.map(j=>`<div>${tag(j.status)}<span style="color:#d6ffe0;width:210px;flex:none">${j.name}</span><span style="opacity:.75">${j.desc}</span></div>`).join('');
-  $('logbox').dataset.t=d.running?`[ LIVE FEED :: ${d.running} ]`:'[ LIVE FEED :: IDLE ]';$('logbox').classList.toggle('hot',!!d.running);
-  const L=$('log'),bot=L.scrollTop+L.clientHeight>=L.scrollHeight-20;L.textContent=(d.log||'').split('\n').map(l=>l?'> '+l:l).join('\n')||'> waiting for next task_';if(bot)L.scrollTop=L.scrollHeight;
-  $('alog').textContent=d.agent_log.map(l=>'$ '+l).join('\n');
-  const m=d.mongo;$('mongo').innerHTML=`<b>LINK</b><span class="${m.ok?'ok':m.ok===false?'fail':'wait'}">${m.ok?'■ ESTABLISHED':m.ok===false?'✖ REJECTED':'… HANDSHAKE'}</span>`+
-   (m.ok?Object.entries(mc).map(([k,v])=>`<b>${k.toUpperCase()}</b><span>${v.toLocaleString()}</span>`).join(''):`<b>REASON</b><span style="font-size:11px" class="fail">${(m.err||'').slice(0,110)}</span>`);
-  $('sess').innerHTML='<tr><th>SESSION_ID</th><th>FRAMES</th><th>SCRUBBED</th><th>TARGETS</th><th>PROGRESS</th></tr>'+(se.length?se.map(s=>`<tr><td>${s.name}</td><td>${s.photos}</td><td>${s.blurred}</td><td>${s.detections}</td><td class="${s.photos&&s.blurred>=s.photos?'ok':s.blurred?'run':'wait'}" style="white-space:pre">${bar(s.photos?s.blurred/s.photos:0,24)}</td></tr>`).join(''):'<tr><td colspan=5 class="wait">no sessions decompressed</td></tr>');
-  const bi=d.newest_blurred.join('|');if(bi&&bi!==li){li=bi;$('blur').innerHTML=d.newest_blurred.map(p=>`<div class="tw"><img src="/img/blur/${p}?k=${K}"><i></i><span>${p.split('/')[0]} :: ${p.split('/').pop().replace('.jpg','')}</span></div>`).join('')}
-  const ri=d.reviews.join('|');if(ri&&ri!==lr){lr=ri;$('rev').innerHTML=d.reviews.map(p=>`<a class="tw" href="/img/review/${p}?k=${K}" target=_blank><img src="/img/review/${p}?k=${K}"><span>${p}</span></a>`).join('')}
- }catch(e){$('agent').innerHTML='<span class="fail">● SIGNAL LOST — RECONNECTING</span>'}
+  const wj=d.jobs.find(j=>j.name.includes('world'));
+  $('flow').innerHTML=st('📱','1. Capture','16 walks','W1–W3 · capture complete',1,'ok')+
+   st('💾','2. Download',`${S.zips.length}/${S.zips_expected}`,`${(S.zips_total_mb/1000).toFixed(2)} GB from Drive`,S.zips.length/S.zips_expected,js(d,'download')||(S.zips.length>=S.zips_expected?'ok':''))+
+   st('📦','3. Unzip',`${se.length} sessions`,`${ph.toLocaleString()} photos`,S.zips.length?se.length/S.zips.length:0,js(d,'unzip')||(se.length?'ok':''))+
+   st('🧠','4. Detect + Blur',bl.toLocaleString(),`of ${ph.toLocaleString()} · ${de.toLocaleString()} objects`,ph?bl/ph:0,js(d,'detect_blur'))+
+   st('💡','5. Lamps + Trees',wj?(wj.status==='running'?'Scanning':wj.status==='exit 0'?'Done':'Queued'):'—','streetlights, trees, call boxes',wj&&wj.status==='exit 0'?1:wj&&wj.status==='running'?.5:0,js(d,'world'))+
+   st('🗄️','6. MongoDB',(mc.readings||0).toLocaleString(),`readings · ${(mc.detections||0).toLocaleString()} detections`,mc.walks?1:0,js(d,'mongo')||(mc.readings?'ok':''));
+  const g=y.gpu||{};hist.push(g.util||0);if(hist.length>80)hist.shift();
+  $('spark').innerHTML=hist.map(v=>`<i style="height:${Math.max(1,v)}%"></i>`).join('');
+  $('sys').innerHTML=`<span>GPU:</span><span>${g.name||'?'} — ${g.util??0}%</span>${'<span></span>'+pb((g.util||0)/100,18)}
+   <span>Video RAM:</span><span>${((g.mem||0)/1024).toFixed(1)} of ${((g.mem_total||0)/1024).toFixed(0)} MB×1024</span>
+   <span>Temperature:</span><span>${g.temp??'?'} °C, ${g.power??'?'} W</span><span>CPU:</span><span>${y.cpu}%</span>
+   <span>Memory:</span><span>${y.ram_used_gb} / ${y.ram_total_gb} GB</span><span>Disk C:</span><span>${y.disk_used_gb} / ${y.disk_total_gb} GB</span>
+   <span>Network:</span><span>↓ ${y.net_in_mbps} Mb/s  ↑ ${y.net_out_mbps} Mb/s</span><span>Uptime:</span><span>${y.uptime}</span>`;
+  $('agent').textContent=y.agent==='active'?'Agent: Online':'Agent: NOT RESPONDING';
+  $('jobs').innerHTML='<tr><th>Name</th><th>Description</th><th>Status</th></tr>'+d.jobs.map(j=>`<tr><td>📄 ${j.name}</td><td>${j.desc}</td><td>${lbl(j.status)}</td></tr>`).join('');
+  $('logt').textContent=d.running?`MS-DOS Prompt - ${d.running.toUpperCase()}`:'MS-DOS Prompt';$('dostb').classList.toggle('off',!d.running);
+  $('tk2').textContent='⌨️ '+(d.running||'MS-DOS Prompt');$('sb1').textContent=d.running?`Running ${d.running}…`:'Ready';
+  const L=$('log'),bot=L.scrollTop+L.clientHeight>=L.scrollHeight-20;
+  L.innerHTML=(d.log?d.log.replace(/&/g,'&amp;').replace(/</g,'&lt;'):'Microsoft(R) Windows 95\n   (C)Copyright Microsoft Corp 1981-1995.\n')+'\nC:\\LUX&gt;<span class="cur">_</span>';if(bot)L.scrollTop=L.scrollHeight;
+  $('alog').textContent=d.agent_log.join('\n');
+  const m=d.mongo;$('mongo').innerHTML=`<span>Connection:</span><span class="${m.ok?'st-ok':m.ok===false?'st-fail':'st-wait'}">${m.ok?'Connected':m.ok===false?'Access denied':'Dialing…'}</span>`+
+   (m.ok?Object.entries(mc).map(([k,v])=>`<span>${k[0].toUpperCase()+k.slice(1)}:</span><span>${v.toLocaleString()} records</span>`).join(''):`<span>Details:</span><span style="font-size:11px;white-space:normal">${(m.err||'').slice(0,90)}</span>`);
+  $('sess').innerHTML='<tr><th>Name</th><th>Photos</th><th>Blurred</th><th>Objects</th><th style="width:35%">Progress</th></tr>'+(se.length?se.map(s=>`<tr><td>📁 ${s.name}</td><td>${s.photos}</td><td>${s.blurred}</td><td>${s.detections}</td><td>${pb(s.photos?s.blurred/s.photos:0,30)}</td></tr>`).join(''):'<tr><td colspan=5>This folder is empty.</td></tr>');
+  const bi=d.newest_blurred.join('|');if(bi&&bi!==li){li=bi;$('blur').innerHTML=d.newest_blurred.map(p=>`<div class="ph"><img class="in" src="/img/blur/${p}?k=${K}"><span>${p.split('/').pop()}</span></div>`).join('')}
+  const ri=d.reviews.join('|');if(ri&&ri!==lr){lr=ri;$('rev').innerHTML=d.reviews.map(p=>`<a class="ph" href="/img/review/${p}?k=${K}" target=_blank><img class="in" src="/img/review/${p}?k=${K}"><span>${p}</span></a>`).join('')}
+ }catch(e){$('agent').textContent='Agent: Connection lost'}
 }
-setInterval(()=>{$('clk').textContent=new Date().toLocaleTimeString('en-GB')},1000);
-setInterval(hex,400);tick();setInterval(tick,2000);
+setInterval(()=>{$('clk').textContent=new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})},1000);
+tick();setInterval(tick,2000);
 </script></body></html>
