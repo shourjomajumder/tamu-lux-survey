@@ -16,3 +16,4 @@
 011c_fuse_map_v3.sh
 011d_reblur.sh
 012b_streetview.sh
+013_splats.sh
