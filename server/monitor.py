@@ -177,6 +177,14 @@ class H(BaseHTTPRequestHandler):
                 p = (BLUR / u.path[len("/img/blur/"):]).resolve()
                 if str(p).startswith(str(BLUR)) and p.exists():
                     return self.send(200, p.read_bytes(), "image/jpeg")
+            if u.path.startswith("/dl/"):          # finished web bundles (streetview.zip, splats/...)
+                p = (Path("/data/web") / u.path[4:]).resolve()
+                if str(p).startswith("/data/web/") and p.is_file():
+                    self.send_response(200); self.send_header("Content-Type", "application/octet-stream")
+                    self.send_header("Content-Length", str(p.stat().st_size)); self.end_headers()
+                    with open(p, "rb") as f:
+                        while chunk := f.read(1 << 20): self.wfile.write(chunk)
+                    return
             if u.path.startswith("/img/review/"):
                 p = (REPO / "results/review" / os.path.basename(u.path)).resolve()
                 if p.exists(): return self.send(200, p.read_bytes(), "image/jpeg")
