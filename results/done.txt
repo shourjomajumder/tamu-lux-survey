@@ -3,3 +3,4 @@
 002b_monitor.sh
 003_download_drive.sh
 004_unzip_sessions.sh
+005_detect_blur.sh

@@ -1,0 +1,94 @@
+WARNING ⚠️ user config directory '/root/.config/Ultralytics' is not writable, using '/tmp/Ultralytics'. Set YOLO_CONFIG_DIR to override.
+Creating new Ultralytics Settings v0.0.6 file ✅ 
+View Ultralytics Settings with 'yolo settings' or at '/tmp/Ultralytics/settings.json'
+Update Settings with 'yolo settings key=value', i.e. 'yolo settings runs_dir=path/to/dir'. For help see https://docs.ultralytics.com/quickstart/#ultralytics-settings.
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8x.pt to 'yolov8x.pt': 16% ━╸────────── 21.3/130.5MB 212.2MB/s 0.1s<0.5s[KDownloading https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8x.pt to 'yolov8x.pt': 35% ━━━━──────── 45.3/130.5MB 239.8MB/s 0.2s<0.4s[KDownloading https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8x.pt to 'yolov8x.pt': 53% ━━━━━━────── 69.5/130.5MB 241.2MB/s 0.3s<0.3s[KDownloading https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8x.pt to 'yolov8x.pt': 69% ━━━━━━━━──── 90.1/130.5MB 184.7MB/s 0.4s<0.2s[KDownloading https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8x.pt to 'yolov8x.pt': 91% ━━━━━━━━━━╸─ 118.7/130.5MB 285.5MB/s 0.5s<0.0s[KDownloading https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8x.pt to 'yolov8x.pt': 100% ━━━━━━━━━━━━ 130.5MB 222.1MB/s 0.6s
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+W1_2026-11-07_172047: 16/60 photos, 2s
+W1_2026-11-07_172047: done, 60 photos in 5s -> results/detections/W1_2026-11-07_172047.csv
+W1_2026-11-07_172920: 16/44 photos, 1s
+W1_2026-11-07_172920: done, 44 photos in 2s -> results/detections/W1_2026-11-07_172920.csv
+W1_2026-11-07_174431: 16/214 photos, 1s
+W1_2026-11-07_174431: done, 214 photos in 11s -> results/detections/W1_2026-11-07_174431.csv
+W1_2026-11-07_184140: 16/7430 photos, 4s
+W1_2026-11-07_184140: 416/7430 photos, 23s
+W1_2026-11-07_184140: 816/7430 photos, 47s
+W1_2026-11-07_184140: 1216/7430 photos, 65s
+W1_2026-11-07_184140: 1616/7430 photos, 96s
+W1_2026-11-07_184140: 2016/7430 photos, 116s
+W1_2026-11-07_184140: 2416/7430 photos, 154s
+W1_2026-11-07_184140: 2816/7430 photos, 175s
+W1_2026-11-07_184140: 3216/7430 photos, 205s
+W1_2026-11-07_184140: 3616/7430 photos, 227s
+W1_2026-11-07_184140: 4016/7430 photos, 246s
+W1_2026-11-07_184140: 4416/7430 photos, 275s
+W1_2026-11-07_184140: 4816/7430 photos, 298s
+W1_2026-11-07_184140: 5216/7430 photos, 320s
+W1_2026-11-07_184140: 5616/7430 photos, 349s
+W1_2026-11-07_184140: 6016/7430 photos, 385s
+W1_2026-11-07_184140: 6416/7430 photos, 404s
+W1_2026-11-07_184140: 6816/7430 photos, 426s
+W1_2026-11-07_184140: 7216/7430 photos, 454s
+W1_2026-11-07_184140: done, 7430 photos in 471s -> results/detections/W1_2026-11-07_184140.csv
+W2_2026-11-07_184141: 16/4157 photos, 1s
+W2_2026-11-07_184141: 416/4157 photos, 20s
+W2_2026-11-07_184141: 816/4157 photos, 39s
+W2_2026-11-07_184141: 1216/4157 photos, 66s
+W2_2026-11-07_184141: 1616/4157 photos, 96s
+W2_2026-11-07_184141: 2016/4157 photos, 117s
+W2_2026-11-07_184141: 2416/4157 photos, 141s
+W2_2026-11-07_184141: 2816/4157 photos, 176s
+W2_2026-11-07_184141: 3216/4157 photos, 199s
+W2_2026-11-07_184141: 3616/4157 photos, 221s
+W2_2026-11-07_184141: 4016/4157 photos, 243s
+W2_2026-11-07_184141: done, 4157 photos in 254s -> results/detections/W2_2026-11-07_184141.csv
+W2_2026-11-07_200023: 16/53 photos, 1s
+W2_2026-11-07_200023: done, 53 photos in 6s -> results/detections/W2_2026-11-07_200023.csv
+W2_2026-11-07_200132: 16/16 photos, 1s
+W2_2026-11-07_200132: done, 16 photos in 1s -> results/detections/W2_2026-11-07_200132.csv
+W2_2026-11-07_200323: 16/56 photos, 1s
+W2_2026-11-07_200323: done, 56 photos in 3s -> results/detections/W2_2026-11-07_200323.csv
+W3_2026-11-07_184137: 16/3876 photos, 1s
+W3_2026-11-07_184137: 416/3876 photos, 28s
+W3_2026-11-07_184137: 816/3876 photos, 47s
+W3_2026-11-07_184137: 1216/3876 photos, 71s
+W3_2026-11-07_184137: 1616/3876 photos, 95s
+W3_2026-11-07_184137: 2016/3876 photos, 116s
+W3_2026-11-07_184137: 2416/3876 photos, 140s
+W3_2026-11-07_184137: 2816/3876 photos, 160s
+W3_2026-11-07_184137: 3216/3876 photos, 183s
+W3_2026-11-07_184137: 3616/3876 photos, 209s
+W3_2026-11-07_184137: done, 3876 photos in 225s -> results/detections/W3_2026-11-07_184137.csv
+W3_2026-11-07_200407: 16/384 photos, 1s
+W3_2026-11-07_200407: done, 384 photos in 22s -> results/detections/W3_2026-11-07_200407.csv
+W3_2026-11-07_201129: 16/35 photos, 1s
+W3_2026-11-07_201129: done, 35 photos in 2s -> results/detections/W3_2026-11-07_201129.csv
+W3_2026-11-07_201241: 14/14 photos, 1s
+W3_2026-11-07_201241: done, 14 photos in 1s -> results/detections/W3_2026-11-07_201241.csv
+W3_2026-11-07_201403: 16/527 photos, 1s
+W3_2026-11-07_201403: 416/527 photos, 22s
+W3_2026-11-07_201403: done, 527 photos in 30s -> results/detections/W3_2026-11-07_201403.csv
+W3_2026-11-07_202538: 16/17 photos, 1s
+W3_2026-11-07_202538: done, 17 photos in 1s -> results/detections/W3_2026-11-07_202538.csv
+W3_2026-11-07_202613: 16/409 photos, 1s
+W3_2026-11-07_202613: 409/409 photos, 31s
+W3_2026-11-07_202613: done, 409 photos in 31s -> results/detections/W3_2026-11-07_202613.csv
+W3_2026-11-07_203921: 16/315 photos, 1s
+W3_2026-11-07_203921: done, 315 photos in 28s -> results/detections/W3_2026-11-07_203921.csv
+total 1.7M
+-rw-r--r-- 1 root root  36K Nov  8 05:36 W1_2026-11-07_172047.csv
+-rw-r--r-- 1 root root  18K Nov  8 05:36 W1_2026-11-07_172920.csv
+-rw-r--r-- 1 root root  80K Nov  8 05:36 W1_2026-11-07_174431.csv
+-rw-r--r-- 1 root root 790K Nov  8 05:44 W1_2026-11-07_184140.csv
+-rw-r--r-- 1 root root 424K Nov  8 05:48 W2_2026-11-07_184141.csv
+-rw-r--r-- 1 root root 1.2K Nov  8 05:48 W2_2026-11-07_200023.csv
+-rw-r--r-- 1 root root  136 Nov  8 05:48 W2_2026-11-07_200132.csv
+-rw-r--r-- 1 root root 2.0K Nov  8 05:48 W2_2026-11-07_200323.csv
+-rw-r--r-- 1 root root 238K Nov  8 05:52 W3_2026-11-07_184137.csv
+-rw-r--r-- 1 root root  22K Nov  8 05:52 W3_2026-11-07_200407.csv
+-rw-r--r-- 1 root root 2.1K Nov  8 05:52 W3_2026-11-07_201129.csv
+-rw-r--r-- 1 root root  634 Nov  8 05:52 W3_2026-11-07_201241.csv
+-rw-r--r-- 1 root root  34K Nov  8 05:53 W3_2026-11-07_201403.csv
+-rw-r--r-- 1 root root  948 Nov  8 05:53 W3_2026-11-07_202538.csv
+-rw-r--r-- 1 root root  22K Nov  8 05:53 W3_2026-11-07_202613.csv
+-rw-r--r-- 1 root root  15K Nov  8 05:54 W3_2026-11-07_203921.csv
