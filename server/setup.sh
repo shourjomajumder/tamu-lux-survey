@@ -19,11 +19,15 @@ if ! grep -q "^Port 443" /etc/ssh/sshd_config; then
 fi
 mkdir -p /data/zips /data/sessions /data/blurred /root/lux
 if [ ! -f /root/lux/.env ]; then
-  echo
-  echo "Paste your GitHub fine-grained token (input hidden), then press Return:"
-  read -rs GH_TOKEN < /dev/tty; echo
-  echo "Paste your MongoDB connection string (mongodb+srv://...) with the real password, then press Return:"
-  read -rs MONGODB_URI < /dev/tty; echo
+  # Values can come from the environment (Vultr Cloud-Init user data) or be typed in.
+  if [ -z "${GH_TOKEN:-}" ]; then
+    echo; echo "Paste your GitHub fine-grained token (input hidden), then press Return:"
+    read -rs GH_TOKEN < /dev/tty; echo
+  fi
+  if [ -z "${MONGODB_URI:-}" ]; then
+    echo "Paste your MongoDB connection string (mongodb+srv://...) with the real password, then press Return:"
+    read -rs MONGODB_URI < /dev/tty; echo
+  fi
   umask 077
   printf 'GH_TOKEN=%q\nMONGODB_URI=%q\nREPO=%q\n' "$GH_TOKEN" "$MONGODB_URI" "$REPO" > /root/lux/.env
 fi
