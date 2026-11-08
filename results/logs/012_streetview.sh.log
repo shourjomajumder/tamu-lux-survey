@@ -1,0 +1,7 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/287 [00:00<?, ?it/s]Loading weights: 100%|██████████| 287/287 [00:00<00:00, 7041.33it/s]
+frames: 0
+zip MB: 0.0
+total 8.0K
+drwxr-xr-x 18 root root 4.0K Nov  8 07:21 streetview
+-rw-r--r--  1 root root 2.5K Nov  8 07:21 streetview.zip
