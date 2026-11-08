@@ -8,3 +8,4 @@
 005b_detect_world.sh
 099_load_mongo_retry.sh
 008_scene_depth_seg.sh
+009_light_blobs.sh
