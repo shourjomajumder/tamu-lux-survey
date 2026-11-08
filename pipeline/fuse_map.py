@@ -227,7 +227,7 @@ def cluster_points(W, eps, min_samples, extra):
     return out
 
 
-fixtures = cluster_points(place(world, {"streetlight", "wall_light", "bollard_light"}, 0.2), 4.0, 3,
+fixtures = cluster_points(place(world, {"streetlight", "wall_light", "bollard_light"}, 0.30), 4.0, 4,
                           lambda G: dict(kind=G["class"].mode()[0]))
 # fixtures with no verified emitter within 7 m, but a dark snapshot was taken nearby facing it -> possibly out
 out_feats = []
@@ -261,11 +261,11 @@ phones = cluster_points(place(world, {"emergency_phone"}, 0.25), 6.0, 2, lambda 
 print(f"fixtures {len(fixtures)}  possibly out {len(out_feats)}  trees {len(trees)}  phones(detected) {len(phones)}", flush=True)
 
 # ------------------------------------------------------------------ OSM footpaths + emergency phones
-osm_ways, osm_phones = [], []
+osm_ways, osm_phones, osm_lamps, osm_trees = [], [], [], []
 if len(R):
     la, lo = R.lat.astype(float), R.lon.astype(float)
     bbox = f"{la.min() - .002},{lo.min() - .002},{la.max() + .002},{lo.max() + .002}"
-    q = f"""[out:json][timeout:90];(way["highway"~"footway|path|pedestrian|steps|living_street|service|residential|cycleway|track|unclassified|tertiary|secondary"]({bbox});node["emergency"="phone"]({bbox}););out geom;"""
+    q = f"""[out:json][timeout:90];(way["highway"~"footway|path|pedestrian|steps|living_street|service|residential|cycleway|track|unclassified|tertiary|secondary"]({bbox});node["emergency"="phone"]({bbox});node["highway"="street_lamp"]({bbox});node["natural"="tree"]({bbox}););out geom;"""
     for url in ("https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"):
         try:
             import requests
@@ -275,11 +275,39 @@ if len(R):
                     osm_ways.append((e["id"], e.get("tags", {}).get("highway"), e.get("tags", {}).get("name"),
                                      [(g["lat"], g["lon"]) for g in e["geometry"]]))
                 elif e["type"] == "node":
-                    osm_phones.append((e["lat"], e["lon"]))
+                    tg = e.get("tags", {})
+                    if tg.get("emergency") == "phone": osm_phones.append((e["lat"], e["lon"]))
+                    elif tg.get("highway") == "street_lamp": osm_lamps.append((e["lat"], e["lon"]))
+                    elif tg.get("natural") == "tree": osm_trees.append((e["lat"], e["lon"]))
             break
         except Exception as ex:
             print("overpass failed:", url, ex, flush=True)
-print("osm ways", len(osm_ways), "osm emergency phones", len(osm_phones), flush=True)
+print("osm ways", len(osm_ways), "phones", len(osm_phones), "street lamps", len(osm_lamps), "trees", len(osm_trees), flush=True)
+# trees: OpenStreetMap's mapped campus trees near the surveyed paths + trees detected in photos
+if osm_trees and len(R):
+    from scipy.spatial import cKDTree
+    kdR = cKDTree(np.c_[R.x, R.y])
+    tx, ty = to_xy([t[0] for t in osm_trees], [t[1] for t in osm_trees])
+    near = kdR.query(np.c_[tx, ty], distance_upper_bound=25)[0] < 25
+    tf = json.load(open(OUT / "trees.geojson"))
+    tf["features"] += [feat(la_, lo_, dict(source="OpenStreetMap", crown_radius_m=4.0, height_m=9.0))
+                       for (la_, lo_), ok in zip(osm_trees, near) if ok]
+    dump("trees.geojson", tf)
+# accuracy check: our triangulated lamps vs lamps mapped in OpenStreetMap (where OSM has them)
+lamp_check = None
+if osm_lamps and lamp_feats and len(R):
+    from scipy.spatial import cKDTree
+    kdR = cKDTree(np.c_[R.x, R.y])
+    ox, oy = to_xy([t[0] for t in osm_lamps], [t[1] for t in osm_lamps])
+    surveyed = kdR.query(np.c_[ox, oy], distance_upper_bound=20)[0] < 20
+    O = np.c_[ox, oy][surveyed]
+    Lx = np.array([to_xy(f["geometry"]["coordinates"][1], f["geometry"]["coordinates"][0]) for f in lamp_feats])
+    if len(O):
+        dO = cKDTree(Lx).query(O)[0]; dL = cKDTree(O).query(Lx)[0]
+        lamp_check = dict(osm_lamps_along_survey=int(len(O)), found_within_10m=round(float((dO < 10).mean()), 3),
+                          median_error_m=round(float(np.median(dO[dO < 10])), 1) if (dO < 10).any() else None,
+                          our_lamps_matching_osm_within_10m=round(float((dL < 10).mean()), 3))
+        print("lamp accuracy vs OSM:", lamp_check, flush=True)
 phone_feats = [feat(*to_ll(p["x"], p["y"]), dict(source="detected in photos", sightings=p["sightings"])) for p in phones]
 phone_feats += [feat(la_, lo_, dict(source="OpenStreetMap")) for la_, lo_ in osm_phones]
 dump("emergency_phones.geojson", fc(phone_feats))
@@ -387,7 +415,7 @@ pd.concat(pi).to_csv(OUT / "photos_index.csv", index=False)
 summary = dict(generated=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), sessions=len(sessions), readings_filter=stats,
                readings_1hz=len(R), lamps=len(lamp_feats), lamps_possibly_out=len(out_feats), trees=len(trees),
                emergency_phones=len(phone_feats), path_segments=len(seg_feats), warnings=len(warn_feats),
-               warnings_high=sum(1 for w in warn_feats if w["properties"]["severity"] == "high"), activity_points=len(act),
+               warnings_high=sum(1 for w in warn_feats if w["properties"]["severity"] == "high"), activity_points=len(act), lamp_accuracy_vs_osm=lamp_check, osm_street_lamps=len(osm_lamps),
                level_share={lv: round(sum(1 for f in seg_feats if f["properties"]["level"] == lv) / max(1, len(seg_feats)), 3)
                             for lv in ("Dark", "Very dim", "Dim", "Adequate", "Well lit", "Bright")})
 json.dump(summary, open(OUT / "summary.json", "w"), indent=1)
