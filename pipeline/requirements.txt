@@ -1,0 +1,8 @@
+ultralytics==8.3.*
+opencv-python-headless
+huggingface_hub
+pymongo[srv]
+numpy
+pandas
+pillow
+scipy
