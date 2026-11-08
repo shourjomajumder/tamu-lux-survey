@@ -4,11 +4,13 @@
    same highway classes fuse_map queries), clipped to the survey area (bbox of the readings + 300 m), largest
    connected piece. Every way is cut into <= 10 m pieces (graph edges).
 2. A piece is "collected" if a survey reading (readings_1hz.csv, test runs already dropped) lies within 15 m.
-3. Uncollected walkway length is clustered into K areas (length-weighted k-means). For each area, a route starts
-   at a walkable node on the area's edge facing the campus core, next to a named landmark/building, then greedily
-   chains: walk on along uncollected pieces; when none is adjacent, shortest path (Dijkstra; collected paths cost
-   more) to the nearest still-uncollected piece; repeat until ~4.2 km. Routes do not return to their start.
-   Parallel duplicates (a road centre line next to its sidewalk) are not targeted twice.
+3. Uncollected walkway length is clustered into areas (length-weighted k-means; k = K-2 .. K+1 and 3 seeds are tried,
+   the split giving the most routes >= 3 km and >= 70 % new wins). For each area, a route starts at a walkable node
+   on the area's edge facing the campus core, next to a named landmark/building, then greedily chains: walk on along
+   uncollected pieces; when none is adjacent, shortest path (Dijkstra; collected paths cost more) to the nearby
+   uncollected piece with the most new path behind it; repeat until ~4.2 km, then end at the longest prefix that
+   stays >= 70 % new. Routes do not return to their start. Parallel duplicates (a road centre line next to its
+   sidewalk, every other parking aisle) are not targeted twice, and don't count as new.
 4. Library = the 4 original loops (ids 1-4) + the new routes (ids 201+); the recheck loops are dropped.
    Writes route_library.json (full) and route_library_light.json (no cum/steps; steps_count instead).
 
@@ -28,7 +30,7 @@ ap.add_argument("--osm", default="/data/osm_cache.json")
 ap.add_argument("--final", default="results/final")
 ap.add_argument("--library", default=None, help="library to take the original loops from (default <final>/route_library.json)")
 ap.add_argument("--out", default=None, help="output folder (default = --final)")
-ap.add_argument("--k", type=int, default=8)
+ap.add_argument("--k", type=int, default=8, help="number of routes wanted (areas tried: k-2 .. k+1)")
 ap.add_argument("--budget", type=float, default=4200.0, help="target route length, m")
 ap.add_argument("--max-len", type=float, default=5000.0)
 ap.add_argument("--min-len", type=float, default=2000.0)
@@ -40,10 +42,12 @@ LIB_IN = Path(A.library or F / "route_library.json")
 BAD_NAME = lambda nm: any(w in nm.lower() for w in ("garage", "parking", "substation", "utility", "chiller"))
 PIECE_M, COLLECT_M, MARGIN_M = 10.0, 15.0, 300.0
 WALK = {"footway", "path", "pedestrian", "steps", "living_street", "service", "residential", "cycleway", "track",
-        "unclassified", "tertiary", "secondary", "primary"}          # = fuse_map.py's Overpass query
-NOT_TARGET_HW = {"primary", "secondary"}                             # big roads: sidewalks are mapped separately
-NOT_TARGET_SERVICE = {"parking_aisle", "driveway", "drive-through", "emergency_access"}
-ROAD_HW = {"service", "residential", "unclassified", "tertiary", "secondary", "primary", "living_street", "track"}
+        "unclassified", "tertiary", "secondary", "primary",
+        "tertiary_link", "secondary_link", "primary_link"}             # = fuse_map.py's Overpass regex (matches *_link too)
+NOT_TARGET_HW = {"primary", "secondary", "primary_link", "secondary_link", "tertiary_link"}   # big roads: sidewalks mapped separately
+NOT_TARGET_SERVICE = {"driveway", "drive-through", "emergency_access"}
+ROAD_HW = {"service", "residential", "unclassified", "tertiary", "secondary", "primary", "living_street", "track",
+           "tertiary_link", "secondary_link", "primary_link"}
 # distinct, no red (#e3241b = warnings/collected), none of the walker colours, same mid/dark tone as loops 1-4
 COLORS = ["#0987A0", "#B7791F", "#4C51BF", "#6B8E23", "#3B9EDB", "#9F7AEA", "#48BB78", "#A68A64"]
 
@@ -145,19 +149,22 @@ collected = dmin <= COLLECT_M
 svc = np.array([ways[w][2].get("service", "") for w in PW])
 is_target = (~collected) & (~np.isin(HW, list(NOT_TARGET_HW))) & (~np.isin(svc, list(NOT_TARGET_SERVICE)))
 is_road = np.isin(HW, list(ROAD_HW))
+aisle = svc == "parking_aisle"
 print(f"collected {PL[collected].sum() / 1000:.1f} km, uncollected {PL[~collected].sum() / 1000:.1f} km, "
       f"targetable {PL[is_target].sum() / 1000:.1f} km (walkways {PL[is_target & ~is_road].sum() / 1000:.1f} km)", flush=True)
 mkd = cKDTree(MID)
 
 def parallels(p):
-    """Target pieces running alongside piece p 3-14 m away (sidewalk <-> road centre line): one walk covers both."""
+    """Target pieces running alongside piece p 3-14 m away (sidewalk <-> road centre line): one walk covers both.
+    Parking aisles: the next aisle over (up to 22 m) too, so a lot is walked every other aisle."""
     out = []
-    for q in mkd.query_ball_point(MID[p], 14.0):
+    lim = 22.0 if aisle[p] else 14.0
+    for q in mkd.query_ball_point(MID[p], lim):
         if q == p or PA[q] in (PA[p], PB[p]) or PB[q] in (PA[p], PB[p]): continue
         if abs(float(DIR[p] @ DIR[q])) < 0.87: continue                       # within ~30 deg
         d = MID[q] - MID[p]
         along = float(d @ DIR[p]); perp = abs(float(d[0] * DIR[p][1] - d[1] * DIR[p][0]))
-        if 3.0 <= perp <= 14.0 and abs(along) <= PL[p] / 2 + 2: out.append(q)
+        if 3.0 <= perp <= (lim if aisle[q] else 14.0) and abs(along) <= PL[p] / 2 + 2: out.append(q)
     return out
 
 # ------------------------------------------------------------------ areas: length-weighted k-means
@@ -179,11 +186,8 @@ def wkmeans(X, w, k, seed, iters=60, tries=6):
     return best[1], best[2]
 
 T = np.where(is_target)[0]
-wt = PL[T] * np.where(is_road[T], 0.5, 1.0)                                     # walkways count more than streets
-lab_t, CEN = wkmeans(MID[T], wt, A.k, A.seed)
-area_of = np.full(NP, -1); area_of[T] = lab_t
-area_len = np.array([PL[T][lab_t == j].sum() for j in range(A.k)])
-print("uncollected length per area (m):", [int(v) for v in area_len], flush=True)
+WT = PL[T] * np.where(is_road[T], 0.5, 1.0)                                     # walkways count more than streets
+
 
 # ------------------------------------------------------------------ named places (for starts, names, step text)
 def load_feats(name):
@@ -217,28 +221,38 @@ def names_at(p):
     return ""
 
 # ------------------------------------------------------------------ route builder
-taken = np.zeros(NP, bool)            # collected by the survey, or planned by an earlier new route / earlier in this route
-taken[~is_target] = True
-
-def nearest_target(src, ok, max_cost, walked=()):
-    """Dijkstra from src (collected paths cost 1.4x) to the nearest node that touches an available target piece."""
-    dist, prev, pq = {src: 0.0}, {}, [(0.0, src)]
-    while pq:
+def best_hop(src, ok, max_cost, walked=(), M=12):
+    """Dijkstra from src (collected or already-walked paths cost 1.4x). Among the first M nodes that touch an available
+    target piece, go to the one with the best (new path reachable from it, capped 400 m) / (cost + 30 m)."""
+    dist, prev, pq, cands = {src: 0.0}, {}, [(0.0, src)], []
+    while pq and len(cands) < M:
         d, u = heapq.heappop(pq)
         if d > dist.get(u, 1e18): continue
-        if d > max_cost: return None
+        if d > max_cost: break
         if u != src and any(ok(p) for _, p in adj.get(u, ())):
-            path = [u]
-            while path[-1] != src: path.append(prev[path[-1]][0])
-            path = path[::-1]
-            return [(path[i + 1], prev[path[i + 1]][1]) for i in range(len(path) - 1)]
+            cands.append((d, u))
         for v, p in adj.get(u, ()):
             nd = d + PL[p] * (1.4 if (collected[p] or p in walked) else 1.0) * (1.15 if is_road[p] else 1.0)
             if nd < dist.get(v, 1e18): dist[v] = nd; prev[v] = (u, p); heapq.heappush(pq, (nd, v))
-    return None
+    if not cands: return None
 
-def pick_start(j):
-    tp = np.where(is_target & ~taken & (area_of == j))[0]
+    def gain(u0, cap=400.0):
+        seen_p, stack, g = set(), [u0], 0.0
+        while stack and g < cap:
+            u = stack.pop()
+            for v, p in adj.get(u, ()):
+                if p in seen_p or not ok(p): continue
+                seen_p.add(p); g += PL[p]; stack.append(v)
+        return min(g, cap)
+    d, u = max(cands, key=lambda c: gain(c[1]) / (c[0] + 30.0))
+    path = [u]
+    while path[-1] != src: path.append(prev[path[-1]][0])
+    path = path[::-1]
+    return [(path[i + 1], prev[path[i + 1]][1]) for i in range(len(path) - 1)]
+
+
+def pick_start(j, area_of, taken):
+    tp = np.where(~taken & (area_of == j))[0]
     if not len(tp): return None, None
     tn = np.unique(np.r_[PA[tp], PB[tp]])
     dc = np.linalg.norm(N[tn] - CORE, axis=1)
@@ -255,21 +269,27 @@ def pick_start(j):
         return u, (pl[2] if pl else "Area edge")
     return best[1], best[2]
 
-def build(j):
-    start, start_name = pick_start(j)
+
+def build(j, area_of, taken_global):
+    """One route for area j. New metres = uncollected (15 m rule), first time on this route, and not running
+    alongside a stretch this route already walked. Returns None or a dict; marks the kept pieces in taken_global."""
+    start, start_name = pick_start(j, area_of, taken_global)
     if start is None: return None
-    cur, seq, total, new_m, walked = start, [start], 0.0, 0.0, set()
-    heading = None
+    taken = taken_global.copy()
+    own = set()                                                                 # walked or covered alongside, this route
+    cur, seq, pieces, isnew, total, heading = start, [start], [], [], 0.0, None
+    marks = []                                                                  # (piece index, [pieces taken])
     in_area = lambda p: not taken[p] and area_of[p] == j
     anywhere = lambda p: not taken[p]
+    walked = set()
 
     def walk(u, p):
-        nonlocal total, new_m, cur, heading
-        if p not in walked and not collected[p] and not taken[p]: new_m += PL[p]
-        if p not in walked and not collected[p]:
-            taken[p] = True
-            for q in parallels(p): taken[q] = True
-        walked.add(p); total += PL[p]
+        nonlocal total, cur, heading
+        nw = (not collected[p]) and p not in own
+        isnew.append(nw); pieces.append(p)
+        m = [p] + (parallels(p) if not collected[p] else [])
+        for q in m: taken[q] = True; own.add(q)
+        marks.append(m); walked.add(p); total += PL[p]
         heading = (N[u] - N[cur]) / max(1e-9, math.dist(N[u], N[cur])); cur = u; seq.append(u)
 
     while total < A.budget:
@@ -281,53 +301,75 @@ def build(j):
             v, p = min(nxt, key=turn)
             if total + PL[p] > A.max_len: break
             walk(v, p); continue
-        hop = nearest_target(cur, in_area, 700 if total < 3000 else 400, walked) or (nearest_target(cur, anywhere, 350, walked) if total < 3000 else None)
+        hop = best_hop(cur, in_area, 700, walked) or best_hop(cur, anywhere, 450, walked)
         if not hop: break
-        hop_len = sum(PL[p] for _, p in hop)
-        if total + hop_len > A.max_len - 50: break
-        if total >= 3000 and new_m < 0.75 * (total + hop_len): break             # keep the route >= ~70% new
+        if total + sum(PL[p] for _, p in hop) > A.max_len - 50: break
         for v, p in hop: walk(v, p)
-    # if the whole route ends up < 70% new, cut it at the longest prefix (>= min length) that is >= 70% new
-    acc, nw, seen, best_cut = 0.0, 0.0, set(), None
-    for i in range(1, len(seq)):
-        p = next(p for v, p in adj[seq[i - 1]] if v == seq[i])
-        acc += PL[p]; nw += PL[p] if (p not in seen and not collected[p]) else 0.0; seen.add(p)
-        if acc >= min(2500.0, A.min_len + 500) and nw >= 0.70 * acc: best_cut = i
-    if best_cut is not None and nw < 0.70 * acc:
-        del seq[best_cut + 1:]
-    # don't finish on a transfer: cut back to the last new piece
-    while len(seq) > 1:
-        a, b = seq[-2], seq[-1]
-        p = next(p for v, p in adj[a] if v == b)
-        if not collected[p]: break
-        seq.pop(); total -= PL[p]
-    return start, start_name, seq
+    if not pieces: return None
+    # where to end: the longest prefix ending on a new piece that is >= 72% new and >= 3 km; else >= 70% and
+    # >= min length; else the most-new prefix >= min length
+    acc = np.cumsum([PL[p] for p in pieces]); nwc = np.cumsum([PL[p] if f else 0.0 for p, f in zip(pieces, isnew)])
+    ends = [i for i in range(len(pieces)) if isnew[i]]
+    cut = None
+    for lo_len, ratio in ((3000.0, 0.72), (A.min_len, 0.70)):
+        ok = [i for i in ends if acc[i] >= lo_len and nwc[i] >= ratio * acc[i]]
+        if ok: cut = max(ok, key=lambda i: acc[i]); break
+    if cut is None:
+        ok = [i for i in ends if acc[i] >= A.min_len]
+        if not ok: return None
+        cut = max(ok, key=lambda i: nwc[i] / acc[i])
+    for m in marks[:cut + 1]:
+        for q in m: taken_global[q] = True
+    return dict(area=j, start=start, start_name=start_name, seq=seq[:cut + 2], pieces=pieces[:cut + 1],
+                L=float(acc[cut]), new_m=float(nwc[cut]))
 
-# ------------------------------------------------------------------ build all areas (biggest first), assemble library
+
+def plan(k, seed):
+    lab, _ = wkmeans(MID[T], WT, k, seed)
+    area_of = np.full(NP, -1); area_of[T] = lab
+    area_len = np.array([PL[T][lab == j].sum() for j in range(k)])
+    taken = ~is_target                                                          # survey-collected or not a target
+    out = []
+    for j in np.argsort(-area_len):
+        r = build(int(j), area_of, taken)
+        if r is None: continue
+        r["area_uncollected_m"] = int(area_len[j])
+        if r["new_m"] < 0.60 * r["L"]:
+            print(f"  k={k} seed={seed} area {j}: only {100 * r['new_m'] / r['L']:.0f}% new ({r['L']:.0f} m), skipped"); continue
+        out.append(r)
+    good = sum(1 for r in out if r["L"] >= 3000 and r["new_m"] >= 0.70 * r["L"])
+    score = (good, sum(r["new_m"] for r in out))
+    print(f"k={k} seed={seed}: {len(out)} routes, {good} >= 3 km & >= 70% new, {score[1] / 1000:.1f} km new; "
+          + ", ".join(f"{r['L'] / 1000:.1f}km/{100 * r['new_m'] / r['L']:.0f}%" for r in out), flush=True)
+    return score, out
+
+
+# try a few area splits; keep the one with the most routes that are >= 3 km and >= 70 % new, then most new metres
+best = None
+for k in sorted({A.k - 2, A.k - 1, A.k, A.k + 1}):
+    if k < 2: continue
+    for seed in range(A.seed, A.seed + 3):
+        sc, out = plan(k, seed)
+        if best is None or sc > best[0]: best = (sc, out, k, seed)
+_, plans, K_USED, SEED_USED = best
+plans.sort(key=lambda r: -r["new_m"])
+if len(plans) > A.k:
+    print("dropping the weakest:", [f"{r['L'] / 1000:.1f}km/{100 * r['new_m'] / r['L']:.0f}%" for r in plans[A.k:]])
+    plans = plans[:A.k]
+print(f"chosen: k={K_USED} seed={SEED_USED}, {len(plans)} routes", flush=True)
+
 lib = [r for r in json.load(open(LIB_IN)) if int(r["id"]) <= 4]          # the 4 original loops (last night's coverage)
 assert len(lib) == 4, f"expected the 4 original loops in {LIB_IN}, found {[r['id'] for r in lib]}"
 used_names = {r["name"] for r in lib}
 new_routes, report = [], []
-for rank, j in enumerate(np.argsort(-area_len)):
-    res = build(int(j))
-    if res is None: continue
-    start, start_name, seq = res
+for pl_ in plans:
+    start_name, seq, pieces, L, new_m = pl_["start_name"], pl_["seq"], pl_["pieces"], pl_["L"], pl_["new_m"]
     P = [tuple(map(float, N[u])) for u in seq]
     P = [p for k, p in enumerate(P) if k == 0 or math.dist(p, P[k - 1]) > 0.5]
     cum = [0.0]
     for p, q in zip(P, P[1:]): cum.append(cum[-1] + math.dist(p, q))
     L = cum[-1]
-    if L < A.min_len:
-        print(f"area {j}: only {L:.0f} m reachable, skipped", flush=True); continue
-    # new metres = uncollected (15 m rule) and walked for the first time on this route
-    seen, new_m, pieces = set(), 0.0, []
-    for a, b in zip(seq, seq[1:]):
-        p = next(p for v, p in adj[a] if v == b); pieces.append(p)
-        if p not in seen and not collected[p]: new_m += PL[p]
-        seen.add(p)
     # same 10 m rule Survey Control uses for its bins (reading within 10 m of the bin centre)
-    if new_m < 0.60 * L:
-        print(f"area {j}: best route only {100 * new_m / L:.0f}% new ({L:.0f} m), skipped", flush=True); continue
     sc_new = sum(PL[p] for p in set(pieces) if rkd.query(MID[p])[0] > 10.0)
     # names: places passed (within 60 m), fields/plazas first, spread along the route
     passed = {}
@@ -339,7 +381,7 @@ for rank, j in enumerate(np.argsort(-area_len)):
     first = ranked[0][0] if ranked else start_name
     second = next((nm for nm, v in ranked if nm != first and abs(v[0] - passed[first][0]) > 600), None) if ranked else None
     second = second or next((nm for nm, v in ranked if nm != first), None)
-    name = f"{first} & {second}" if second else first
+    name = (f"{first} – {second}" if "&" in first + second else f"{first} & {second}") if second else first
     if name in used_names: name = f"{name} ({start_name})"
     used_names.add(name)
     covers = ", ".join([nm for nm, _ in sorted(passed.items(), key=lambda kv: kv[1][0])][:6]) or start_name
@@ -356,7 +398,7 @@ for rank, j in enumerate(np.argsort(-area_len)):
              new_pct=round(100 * new_m / max(1, L), 1), targets=int(sum(1 for p in set(pieces) if not collected[p])))
     new_routes.append(r)
     report.append(dict(id=rid, name=name, start=start_name, end=r["end"], km=round(L / 1000, 2), new_pct=r["new_pct"],
-                       new_pct_10m_rule=round(100 * sc_new / max(1, L), 1), minutes=round(L / 75), area_uncollected_m=int(area_len[j])))
+                       new_pct_10m_rule=round(100 * sc_new / max(1, L), 1), minutes=round(L / 75), area_uncollected_m=pl_["area_uncollected_m"]))
     print(f"{rid}  {name}  start: {start_name}  {L / 1000:.2f} km  {r['new_pct']}% new", flush=True)
 
 lib += new_routes
@@ -367,7 +409,7 @@ for r in lib:
     d["steps_count"] = len(r.get("steps") or [])
     light.append(d)
 json.dump(light, open(OUT / "route_library_light.json", "w"), separators=(",", ":"))
-json.dump(dict(collected_km=round(float(PL[collected].sum()) / 1000, 2), uncollected_km=round(float(PL[~collected].sum()) / 1000, 2),
+json.dump(dict(k=K_USED, seed=SEED_USED, collected_km=round(float(PL[collected].sum()) / 1000, 2), uncollected_km=round(float(PL[~collected].sum()) / 1000, 2),
                targetable_km=round(float(PL[is_target].sum()) / 1000, 2), routes=report),
           open(OUT / "new_routes_report.json", "w"), indent=1)
 print(f"library: {len(lib)} routes -> {OUT / 'route_library.json'} (+ light)", flush=True)
