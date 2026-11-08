@@ -106,7 +106,9 @@ def process_session(sdir: Path):
                     x0, y0, x1, y1 = b.xyxy[0].tolist()
                     pad = 0.25 * (x1 - x0)
                     blur_box(img, x0 - pad, y0 - pad, x1 + pad, y1 + pad)
-            cv2.imwrite(str(out_dir / f), img, [cv2.IMWRITE_JPEG_QUALITY, 85])
+            (out_dir / f).parent.mkdir(parents=True, exist_ok=True)
+            if not cv2.imwrite(str(out_dir / f), img, [cv2.IMWRITE_JPEG_QUALITY, 85]):
+                raise RuntimeError(f"could not write blurred photo {out_dir / f}")
             if len(d.boxes) and len(review) < 400 and int(r.get("index") or 0) % 5 == 0:
                 review.append(d.plot(img=img.copy(), line_width=2))
         if i % (batch * 25) == 0:
