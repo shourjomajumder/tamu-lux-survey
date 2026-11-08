@@ -1,0 +1,50 @@
+{
+ "generated": "2026-11-08T11:05:18Z",
+ "sessions": 13,
+ "readings_filter": {
+  "raw": 284086,
+  "vehicle": 18175,
+  "spike": 8146,
+  "kept": 257765
+ },
+ "readings_1hz": 17715,
+ "lamps": 721,
+ "lamps_possibly_out": 255,
+ "trees": 1648,
+ "emergency_phones": 0,
+ "path_segments": 3622,
+ "warnings": 507,
+ "warnings_high": 121,
+ "activity_points": 1769,
+ "lamp_accuracy_vs_osm": null,
+ "osm_street_lamps": 17,
+ "level_share": {
+  "Dark": 0.171,
+  "Very dim": 0.306,
+  "Dim": 0.173,
+  "Adequate": 0.164,
+  "Well lit": 0.154,
+  "Bright": 0.033
+ },
+ "trees_from_canopy": 1646,
+ "light_sim": {
+  "ambient_lux": 0.87,
+  "physics_only": {
+   "held_out_stretches": 849,
+   "median_abs_error_lux": 1.99,
+   "median_factor_error": 2.02,
+   "r2_log": -0.36,
+   "within_2x_pct": 49.4
+  },
+  "map": {
+   "held_out_stretches": 849,
+   "median_abs_error_lux": 1.38,
+   "median_factor_error": 1.58,
+   "within_2x_pct": 66.2,
+   "same_or_adjacent_level_pct": 81.6,
+   "below5_agreement_pct": 77.9
+  },
+  "lit_share_ge_5lux": 0.144,
+  "lit_share_ge_1lux": 0.68
+ }
+}
