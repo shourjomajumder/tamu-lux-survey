@@ -1,1 +1,2 @@
 001_hello.sh
+002_mongo_check.sh
