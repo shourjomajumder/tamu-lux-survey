@@ -13,3 +13,4 @@
 2026-11-08T05:54:21Z START 006_load_mongo.sh
 2026-11-08T05:54:23Z END 006_load_mongo.sh rc=1
 2026-11-08T05:56:57Z START 005b_detect_world.sh
+2026-11-08T06:14:47Z END 005b_detect_world.sh rc=0

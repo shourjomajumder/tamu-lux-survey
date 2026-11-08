@@ -5,3 +5,4 @@
 004_unzip_sessions.sh
 005_detect_blur.sh
 006_load_mongo.sh
+005b_detect_world.sh
