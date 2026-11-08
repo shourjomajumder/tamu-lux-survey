@@ -5,7 +5,6 @@ cat > /etc/systemd/system/lux-monitor.service <<'UNIT'
 Description=Lux pipeline live monitor
 After=network-online.target
 [Service]
-EnvironmentFile=/root/lux/.env
 ExecStart=/root/lux/venv/bin/python /root/lux/repo/server/monitor.py
 Restart=always
 RestartSec=2

@@ -51,7 +51,8 @@ def mongo_loop():
     while True:
         try:
             import pymongo
-            c = pymongo.MongoClient(os.environ.get("MONGODB_URI", ""), serverSelectionTimeoutMS=6000)
+            uri = sh("bash -c 'source /root/lux/.env; printf %s \"$MONGODB_URI\"'") or os.environ.get("MONGODB_URI", "")
+            c = pymongo.MongoClient(uri, serverSelectionTimeoutMS=6000)
             db = c["lux_survey"]
             _mongo.update(ok=True, err="", counts={n: db[n].estimated_document_count() for n in ("walks", "readings", "photos", "detections")})
         except Exception as e:
