@@ -11,6 +11,12 @@ apt-get install -y -qq git python3-venv python3-pip unzip zip tmux libgl1 libgli
 echo "== GPU check =="
 nvidia-smi || echo "WARNING: no NVIDIA GPU visible (will run on CPU, slower)"
 
+# Campus Wi-Fi often blocks SSH on port 22: also listen on 443 so uploads work from campus.
+if ! grep -q "^Port 443" /etc/ssh/sshd_config; then
+  printf '\nPort 22\nPort 443\n' >> /etc/ssh/sshd_config
+  command -v ufw >/dev/null && ufw allow 443/tcp >/dev/null || true
+  systemctl restart ssh || systemctl restart sshd || true
+fi
 mkdir -p /data/zips /data/sessions /data/blurred /root/lux
 if [ ! -f /root/lux/.env ]; then
   echo
@@ -50,4 +56,4 @@ systemctl daemon-reload
 systemctl enable --now lux-agent
 echo
 echo "DONE. The server now checks GitHub every 30 s for jobs from Claude."
-echo "Next: copy your walk zips here (from your Mac):  scp ~/Downloads/W*_*.zip root@$(curl -s ifconfig.me):/data/zips/"
+echo "Next: copy your walk zips here (from your Mac, works on campus Wi-Fi):  scp -P 443 ~/Downloads/W*_*.zip root@$(curl -s ifconfig.me):/data/zips/"
