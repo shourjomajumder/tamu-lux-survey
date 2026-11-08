@@ -17,3 +17,4 @@
 011d_reblur.sh
 012b_streetview.sh
 013_splats.sh
+014_pointcloud.sh

@@ -1,0 +1,29 @@
+Loading weights:   0%|          | 0/287 [00:00<?, ?it/s]Loading weights: 100%|██████████| 287/287 [00:00<00:00, 3346.11it/s]
+16/5874 frames  8.8 fps
+336/5874 frames  10.6 fps
+656/5874 frames  10.7 fps
+976/5874 frames  10.7 fps
+1296/5874 frames  10.7 fps
+1616/5874 frames  10.8 fps
+1936/5874 frames  10.8 fps
+2256/5874 frames  10.8 fps
+2576/5874 frames  10.7 fps
+2896/5874 frames  10.7 fps
+3216/5874 frames  10.7 fps
+3536/5874 frames  10.7 fps
+3856/5874 frames  10.7 fps
+4176/5874 frames  10.7 fps
+4496/5874 frames  10.7 fps
+4816/5874 frames  10.7 fps
+5136/5874 frames  10.7 fps
+5456/5874 frames  10.7 fps
+5776/5874 frames  10.7 fps
+raw points 44299676
+{"points": 2500000, "bytes_per_point": 9, "format": "int16 x,y,z (decimetres, local frame: x east, y north, z up from ground) + uint8 r,g,b", "origin": {"lat": 30.615, "lon": -96.34}, "voxel_m": 0.35, "frames": 5874, "depth_model": "depth-anything/Depth-Anything-V2-Metric-Outdoor-Base-hf", "note": "Positions from phone GPS (+-5-15 m) and attitude; expect some ghosting where walks overlap."}
+zip MB 17.5
+-rw-r--r-- 1 root root  17M Nov  8 08:54 /data/web/pointcloud.zip
+
+/data/web/pointcloud:
+total 22M
+-rw-r--r-- 1 root root 22M Nov  8 08:54 campus.bin
+-rw-r--r-- 1 root root 410 Nov  8 08:54 meta.json
