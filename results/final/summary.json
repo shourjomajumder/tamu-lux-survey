@@ -1,0 +1,29 @@
+{
+ "generated": "2026-11-08T07:20:34Z",
+ "sessions": 16,
+ "readings_filter": {
+  "raw": 289325,
+  "vehicle": 18175,
+  "spike": 8162,
+  "kept": 262988
+ },
+ "readings_1hz": 18066,
+ "lamps": 714,
+ "lamps_possibly_out": 255,
+ "trees": 0,
+ "emergency_phones": 0,
+ "path_segments": 4351,
+ "warnings": 2527,
+ "warnings_high": 0,
+ "activity_points": 1879,
+ "lamp_accuracy_vs_osm": null,
+ "osm_street_lamps": 0,
+ "level_share": {
+  "Dark": 0.18,
+  "Very dim": 0.302,
+  "Dim": 0.165,
+  "Adequate": 0.162,
+  "Well lit": 0.154,
+  "Bright": 0.038
+ }
+}
