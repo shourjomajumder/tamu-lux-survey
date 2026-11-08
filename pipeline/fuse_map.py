@@ -57,15 +57,23 @@ def level_words(lux):
 
 # ------------------------------------------------------------------ sessions
 sessions = sorted(p for p in SESS_ROOT.iterdir() if (p / "session.json").exists())
+# test runs before the real survey (W1, 5:20-5:48 pm, same spot repeated) - left out of every map layer
+EXCLUDE = set(os.environ.get("EXCLUDE_SESSIONS", "W1_2026-11-07_172047,W1_2026-11-07_172920,W1_2026-11-07_174431").split(","))
+sessions = [p for p in sessions if p.name not in EXCLUDE]
 meta = {s.name: json.load(open(s / "session.json")) for s in sessions}
 det = read_all(str(RES / "detections/*.csv"))
 world = read_all(str(RES / "world/*.csv"))
 scene = read_all(str(RES / "scene/*.csv"))
 blobs = read_all(str(RES / "blobs/*.csv"))
+for _df in (det, world, scene, blobs):
+    if len(_df) and "session" in _df.columns:
+        _df.drop(_df.index[_df.session.isin(EXCLUDE)], inplace=True)
 if len(world):
     world["row"] = world.groupby("session").cumcount()   # row id within each session file (matches objdepth)
 odfs = [pd.read_csv(f) for f in glob.glob(str(RES / "scene/*_objdepth.csv")) if os.path.getsize(f) > 0]
 objdepth = pd.concat(odfs, ignore_index=True) if odfs else pd.DataFrame()
+if len(objdepth) and "session" in objdepth.columns:
+    objdepth = objdepth[~objdepth.session.isin(EXCLUDE)]
 print(f"detections {len(det)}  world {len(world)}  scene {len(scene)}  blobs {len(blobs)}  objdepth {len(objdepth)}", flush=True)
 
 # ------------------------------------------------------------------ 1. clean readings
