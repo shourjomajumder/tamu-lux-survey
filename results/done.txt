@@ -33,3 +33,4 @@
 026_new_routes.sh
 026b_osm_cache_copy.sh
 026c_new_routes_v2.sh
+027_stop_runner.sh
