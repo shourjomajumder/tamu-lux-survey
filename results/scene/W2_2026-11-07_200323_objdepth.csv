@@ -1,0 +1,27 @@
+session,file,source,row,class,depth_m_median,depth_m_p20,seg_class_in_box
+W2_2026-11-07_200323,photos/IMG_000001.jpg,coco,0,person,4.77,4.52,road
+W2_2026-11-07_200323,photos/IMG_000002.jpg,coco,1,person,4.59,4.37,road
+W2_2026-11-07_200323,photos/IMG_000003.jpg,coco,2,person,4.82,4.38,road
+W2_2026-11-07_200323,photos/IMG_000003.jpg,coco,3,dog,4.82,4.38,road
+W2_2026-11-07_200323,photos/IMG_000005.jpg,coco,4,person,4.33,4.02,road
+W2_2026-11-07_200323,photos/IMG_000006.jpg,coco,5,person,4.08,3.84,road
+W2_2026-11-07_200323,photos/IMG_000007.jpg,coco,6,person,2.94,2.85,road
+W2_2026-11-07_200323,photos/IMG_000008.jpg,coco,7,person,3.16,3.1,road
+W2_2026-11-07_200323,photos/IMG_000021.jpg,world,0,streetlight,11.52,11.46,train
+W2_2026-11-07_200323,photos/IMG_000027.jpg,coco,8,person,3.19,2.93,road
+W2_2026-11-07_200323,photos/IMG_000027.jpg,coco,9,person,2.98,2.74,road
+W2_2026-11-07_200323,photos/IMG_000032.jpg,world,1,streetlight,23.83,22.71,building
+W2_2026-11-07_200323,photos/IMG_000035.jpg,world,2,streetlight,28.91,28.17,building
+W2_2026-11-07_200323,photos/IMG_000035.jpg,world,3,streetlight,42.4,39.89,car
+W2_2026-11-07_200323,photos/IMG_000036.jpg,coco,10,fire hydrant,40.96,39.38,terrain
+W2_2026-11-07_200323,photos/IMG_000036.jpg,world,4,streetlight,30.99,29.91,building
+W2_2026-11-07_200323,photos/IMG_000036.jpg,world,5,streetlight,47.31,46.42,vegetation
+W2_2026-11-07_200323,photos/IMG_000036.jpg,world,6,streetlight,47.36,46.43,vegetation
+W2_2026-11-07_200323,photos/IMG_000036.jpg,world,7,streetlight,31.08,30.02,building
+W2_2026-11-07_200323,photos/IMG_000037.jpg,world,8,streetlight,28.64,27.76,building
+W2_2026-11-07_200323,photos/IMG_000051.jpg,world,9,streetlight,33.01,32.31,pole
+W2_2026-11-07_200323,photos/IMG_000051.jpg,world,10,streetlight,33.09,32.49,pole
+W2_2026-11-07_200323,photos/IMG_000051.jpg,world,11,bollard_light,37.0,36.49,road
+W2_2026-11-07_200323,photos/IMG_000051.jpg,world,12,streetlight,50.03,48.52,terrain
+W2_2026-11-07_200323,photos/IMG_000051.jpg,world,13,streetlight,49.09,48.0,vegetation
+W2_2026-11-07_200323,photos/IMG_000051.jpg,world,14,bollard_light,18.13,16.72,building

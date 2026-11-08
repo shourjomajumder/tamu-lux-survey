@@ -1,0 +1,323 @@
+session,file,source,row,class,depth_m_median,depth_m_p20,seg_class_in_box
+W1_2026-11-07_172047,photos/IMG_000004.jpg,world,0,bollard_light,39.2,38.46,vegetation
+W1_2026-11-07_172047,photos/IMG_000006.jpg,coco,0,person,3.74,3.59,road
+W1_2026-11-07_172047,photos/IMG_000007.jpg,coco,1,fire hydrant,29.21,27.67,road
+W1_2026-11-07_172047,photos/IMG_000009.jpg,world,1,streetlight,72.01,68.78,vegetation
+W1_2026-11-07_172047,photos/IMG_000010.jpg,world,2,streetlight,72.65,70.18,vegetation
+W1_2026-11-07_172047,photos/IMG_000011.jpg,coco,2,person,72.35,68.25,sidewalk
+W1_2026-11-07_172047,photos/IMG_000011.jpg,world,3,streetlight,66.72,60.19,terrain
+W1_2026-11-07_172047,photos/IMG_000012.jpg,coco,3,person,76.56,75.98,vegetation
+W1_2026-11-07_172047,photos/IMG_000012.jpg,world,4,streetlight,71.2,60.85,vegetation
+W1_2026-11-07_172047,photos/IMG_000012.jpg,world,5,streetlight,59.68,58.02,vegetation
+W1_2026-11-07_172047,photos/IMG_000013.jpg,coco,4,person,76.32,74.28,traffic sign
+W1_2026-11-07_172047,photos/IMG_000013.jpg,world,6,bollard_light,78.73,78.51,sidewalk
+W1_2026-11-07_172047,photos/IMG_000013.jpg,world,7,streetlight,59.86,58.41,vegetation
+W1_2026-11-07_172047,photos/IMG_000014.jpg,coco,5,person,77.01,76.59,building
+W1_2026-11-07_172047,photos/IMG_000014.jpg,world,8,streetlight,40.17,32.27,vegetation
+W1_2026-11-07_172047,photos/IMG_000015.jpg,world,9,streetlight,64.91,60.29,vegetation
+W1_2026-11-07_172047,photos/IMG_000015.jpg,world,10,streetlight,64.97,60.89,vegetation
+W1_2026-11-07_172047,photos/IMG_000015.jpg,world,11,streetlight,65.01,60.22,vegetation
+W1_2026-11-07_172047,photos/IMG_000016.jpg,coco,6,person,77.81,77.4,traffic sign
+W1_2026-11-07_172047,photos/IMG_000016.jpg,coco,7,person,77.56,77.32,traffic sign
+W1_2026-11-07_172047,photos/IMG_000016.jpg,coco,8,person,78.02,77.6,vegetation
+W1_2026-11-07_172047,photos/IMG_000016.jpg,world,12,streetlight,72.93,68.32,vegetation
+W1_2026-11-07_172047,photos/IMG_000017.jpg,coco,9,person,75.67,74.48,road
+W1_2026-11-07_172047,photos/IMG_000017.jpg,coco,10,person,75.57,73.97,road
+W1_2026-11-07_172047,photos/IMG_000017.jpg,coco,11,person,75.78,74.56,road
+W1_2026-11-07_172047,photos/IMG_000017.jpg,world,13,streetlight,75.39,74.62,vegetation
+W1_2026-11-07_172047,photos/IMG_000018.jpg,coco,12,person,76.46,75.73,vegetation
+W1_2026-11-07_172047,photos/IMG_000018.jpg,coco,13,person,76.27,75.48,vegetation
+W1_2026-11-07_172047,photos/IMG_000018.jpg,coco,14,person,76.56,75.75,vegetation
+W1_2026-11-07_172047,photos/IMG_000018.jpg,coco,15,bench,50.19,48.48,vegetation
+W1_2026-11-07_172047,photos/IMG_000018.jpg,coco,16,person,77.69,77.45,building
+W1_2026-11-07_172047,photos/IMG_000018.jpg,coco,17,person,77.75,77.56,building
+W1_2026-11-07_172047,photos/IMG_000018.jpg,world,14,streetlight,77.41,69.5,vegetation
+W1_2026-11-07_172047,photos/IMG_000019.jpg,coco,18,person,75.23,74.31,building
+W1_2026-11-07_172047,photos/IMG_000019.jpg,coco,19,person,76.18,75.11,vegetation
+W1_2026-11-07_172047,photos/IMG_000019.jpg,coco,20,person,74.3,73.52,building
+W1_2026-11-07_172047,photos/IMG_000019.jpg,coco,21,person,72.81,71.67,building
+W1_2026-11-07_172047,photos/IMG_000019.jpg,world,15,streetlight,72.28,70.61,vegetation
+W1_2026-11-07_172047,photos/IMG_000020.jpg,coco,22,person,72.62,72.24,vegetation
+W1_2026-11-07_172047,photos/IMG_000020.jpg,coco,23,person,73.08,72.58,vegetation
+W1_2026-11-07_172047,photos/IMG_000020.jpg,coco,24,person,75.75,74.72,vegetation
+W1_2026-11-07_172047,photos/IMG_000020.jpg,coco,25,person,74.66,74.29,vegetation
+W1_2026-11-07_172047,photos/IMG_000020.jpg,world,16,streetlight,77.03,73.36,pole
+W1_2026-11-07_172047,photos/IMG_000021.jpg,coco,26,person,68.06,66.38,vegetation
+W1_2026-11-07_172047,photos/IMG_000022.jpg,coco,27,person,64.98,63.76,traffic sign
+W1_2026-11-07_172047,photos/IMG_000022.jpg,coco,28,person,64.0,63.21,traffic sign
+W1_2026-11-07_172047,photos/IMG_000022.jpg,coco,29,person,69.03,67.55,vegetation
+W1_2026-11-07_172047,photos/IMG_000022.jpg,coco,30,person,62.53,62.09,traffic sign
+W1_2026-11-07_172047,photos/IMG_000022.jpg,world,17,streetlight,77.01,75.98,vegetation
+W1_2026-11-07_172047,photos/IMG_000023.jpg,coco,31,person,65.99,64.98,vegetation
+W1_2026-11-07_172047,photos/IMG_000023.jpg,coco,32,person,67.25,66.19,vegetation
+W1_2026-11-07_172047,photos/IMG_000023.jpg,coco,33,person,70.79,67.2,traffic sign
+W1_2026-11-07_172047,photos/IMG_000023.jpg,coco,34,person,70.47,69.23,traffic sign
+W1_2026-11-07_172047,photos/IMG_000023.jpg,world,18,streetlight,70.52,57.77,vegetation
+W1_2026-11-07_172047,photos/IMG_000023.jpg,world,19,streetlight,71.32,59.5,vegetation
+W1_2026-11-07_172047,photos/IMG_000023.jpg,world,20,streetlight,67.05,64.35,vegetation
+W1_2026-11-07_172047,photos/IMG_000024.jpg,coco,35,person,64.86,63.12,person
+W1_2026-11-07_172047,photos/IMG_000024.jpg,coco,36,person,63.82,63.25,person
+W1_2026-11-07_172047,photos/IMG_000024.jpg,coco,37,person,68.74,66.66,person
+W1_2026-11-07_172047,photos/IMG_000024.jpg,coco,38,person,65.27,64.17,person
+W1_2026-11-07_172047,photos/IMG_000024.jpg,coco,39,person,61.92,55.87,sidewalk
+W1_2026-11-07_172047,photos/IMG_000024.jpg,coco,40,fire hydrant,6.04,5.42,road
+W1_2026-11-07_172047,photos/IMG_000024.jpg,world,21,streetlight,74.36,67.38,vegetation
+W1_2026-11-07_172047,photos/IMG_000025.jpg,coco,41,person,62.49,60.97,person
+W1_2026-11-07_172047,photos/IMG_000025.jpg,coco,42,person,64.35,61.97,person
+W1_2026-11-07_172047,photos/IMG_000025.jpg,coco,43,person,63.82,62.0,traffic sign
+W1_2026-11-07_172047,photos/IMG_000025.jpg,coco,44,person,70.86,65.79,person
+W1_2026-11-07_172047,photos/IMG_000025.jpg,world,22,streetlight,36.93,34.38,building
+W1_2026-11-07_172047,photos/IMG_000025.jpg,world,23,streetlight,36.9,34.15,building
+W1_2026-11-07_172047,photos/IMG_000025.jpg,world,24,streetlight,57.99,49.22,building
+W1_2026-11-07_172047,photos/IMG_000025.jpg,world,25,streetlight,58.0,48.29,building
+W1_2026-11-07_172047,photos/IMG_000026.jpg,coco,45,person,58.42,57.6,person
+W1_2026-11-07_172047,photos/IMG_000026.jpg,coco,46,person,58.6,57.6,vegetation
+W1_2026-11-07_172047,photos/IMG_000026.jpg,coco,47,person,59.93,58.08,traffic sign
+W1_2026-11-07_172047,photos/IMG_000026.jpg,coco,48,person,63.14,62.05,vegetation
+W1_2026-11-07_172047,photos/IMG_000026.jpg,coco,49,person,62.47,59.79,vegetation
+W1_2026-11-07_172047,photos/IMG_000026.jpg,world,26,streetlight,60.95,56.95,person
+W1_2026-11-07_172047,photos/IMG_000026.jpg,world,27,streetlight,35.13,29.74,vegetation
+W1_2026-11-07_172047,photos/IMG_000027.jpg,coco,50,person,51.54,48.82,person
+W1_2026-11-07_172047,photos/IMG_000027.jpg,coco,51,person,51.79,50.07,person
+W1_2026-11-07_172047,photos/IMG_000027.jpg,coco,52,person,49.25,47.94,person
+W1_2026-11-07_172047,photos/IMG_000027.jpg,coco,53,person,58.58,55.83,person
+W1_2026-11-07_172047,photos/IMG_000027.jpg,world,28,streetlight,70.69,56.2,building
+W1_2026-11-07_172047,photos/IMG_000027.jpg,world,29,streetlight,70.86,56.54,building
+W1_2026-11-07_172047,photos/IMG_000027.jpg,world,30,streetlight,64.15,62.18,vegetation
+W1_2026-11-07_172047,photos/IMG_000028.jpg,coco,54,person,57.68,53.3,person
+W1_2026-11-07_172047,photos/IMG_000028.jpg,coco,55,person,53.61,51.75,traffic sign
+W1_2026-11-07_172047,photos/IMG_000028.jpg,coco,56,person,55.43,53.08,person
+W1_2026-11-07_172047,photos/IMG_000028.jpg,coco,57,person,52.03,50.98,person
+W1_2026-11-07_172047,photos/IMG_000028.jpg,coco,58,person,54.54,53.09,person
+W1_2026-11-07_172047,photos/IMG_000028.jpg,coco,59,person,54.86,52.08,sidewalk
+W1_2026-11-07_172047,photos/IMG_000028.jpg,coco,60,person,59.81,55.1,person
+W1_2026-11-07_172047,photos/IMG_000028.jpg,world,31,streetlight,70.84,53.98,vegetation
+W1_2026-11-07_172047,photos/IMG_000028.jpg,world,32,streetlight,70.99,54.09,vegetation
+W1_2026-11-07_172047,photos/IMG_000028.jpg,world,33,streetlight,63.37,54.71,building
+W1_2026-11-07_172047,photos/IMG_000028.jpg,world,34,streetlight,63.44,53.64,building
+W1_2026-11-07_172047,photos/IMG_000029.jpg,coco,61,person,50.16,47.55,person
+W1_2026-11-07_172047,photos/IMG_000029.jpg,coco,62,person,53.25,46.24,rider
+W1_2026-11-07_172047,photos/IMG_000029.jpg,coco,63,person,50.63,46.36,person
+W1_2026-11-07_172047,photos/IMG_000029.jpg,coco,64,person,50.98,45.93,person
+W1_2026-11-07_172047,photos/IMG_000029.jpg,coco,65,person,51.4,50.26,person
+W1_2026-11-07_172047,photos/IMG_000029.jpg,coco,66,person,70.86,69.96,bicycle
+W1_2026-11-07_172047,photos/IMG_000029.jpg,world,35,streetlight,75.5,70.45,vegetation
+W1_2026-11-07_172047,photos/IMG_000029.jpg,world,36,streetlight,75.46,70.45,vegetation
+W1_2026-11-07_172047,photos/IMG_000029.jpg,world,37,streetlight,55.12,54.56,vegetation
+W1_2026-11-07_172047,photos/IMG_000030.jpg,coco,67,person,50.29,46.02,sidewalk
+W1_2026-11-07_172047,photos/IMG_000030.jpg,coco,68,person,53.37,47.52,person
+W1_2026-11-07_172047,photos/IMG_000030.jpg,coco,69,person,47.9,45.13,person
+W1_2026-11-07_172047,photos/IMG_000030.jpg,coco,70,person,50.49,45.41,person
+W1_2026-11-07_172047,photos/IMG_000030.jpg,coco,71,person,49.06,46.46,person
+W1_2026-11-07_172047,photos/IMG_000030.jpg,coco,72,person,61.27,58.01,terrain
+W1_2026-11-07_172047,photos/IMG_000031.jpg,coco,73,person,44.91,40.36,person
+W1_2026-11-07_172047,photos/IMG_000031.jpg,coco,74,person,48.25,39.18,person
+W1_2026-11-07_172047,photos/IMG_000031.jpg,coco,75,person,45.6,42.52,person
+W1_2026-11-07_172047,photos/IMG_000031.jpg,coco,76,person,45.11,41.46,person
+W1_2026-11-07_172047,photos/IMG_000031.jpg,world,38,streetlight,68.02,65.71,terrain
+W1_2026-11-07_172047,photos/IMG_000031.jpg,world,39,streetlight,67.99,65.23,terrain
+W1_2026-11-07_172047,photos/IMG_000031.jpg,world,40,streetlight,65.36,62.37,pole
+W1_2026-11-07_172047,photos/IMG_000031.jpg,world,41,streetlight,68.19,65.58,terrain
+W1_2026-11-07_172047,photos/IMG_000031.jpg,world,42,streetlight,57.15,27.07,vegetation
+W1_2026-11-07_172047,photos/IMG_000031.jpg,world,43,streetlight,57.74,27.4,pole
+W1_2026-11-07_172047,photos/IMG_000032.jpg,coco,77,person,37.95,33.58,person
+W1_2026-11-07_172047,photos/IMG_000032.jpg,coco,78,person,39.05,35.07,person
+W1_2026-11-07_172047,photos/IMG_000032.jpg,coco,79,person,38.08,34.44,person
+W1_2026-11-07_172047,photos/IMG_000032.jpg,coco,80,person,38.07,35.07,person
+W1_2026-11-07_172047,photos/IMG_000032.jpg,world,44,streetlight,74.14,64.48,person
+W1_2026-11-07_172047,photos/IMG_000033.jpg,coco,81,person,32.88,29.69,person
+W1_2026-11-07_172047,photos/IMG_000033.jpg,coco,82,person,33.32,29.98,person
+W1_2026-11-07_172047,photos/IMG_000033.jpg,coco,83,person,33.63,30.15,person
+W1_2026-11-07_172047,photos/IMG_000033.jpg,coco,84,person,32.53,30.87,person
+W1_2026-11-07_172047,photos/IMG_000033.jpg,world,45,streetlight,57.48,53.21,pole
+W1_2026-11-07_172047,photos/IMG_000034.jpg,coco,85,person,23.42,22.12,person
+W1_2026-11-07_172047,photos/IMG_000034.jpg,coco,86,person,25.16,23.51,person
+W1_2026-11-07_172047,photos/IMG_000034.jpg,coco,87,person,25.22,23.43,person
+W1_2026-11-07_172047,photos/IMG_000034.jpg,coco,88,person,26.26,25.27,person
+W1_2026-11-07_172047,photos/IMG_000034.jpg,coco,89,car,58.41,27.57,person
+W1_2026-11-07_172047,photos/IMG_000034.jpg,world,46,streetlight,52.5,48.01,vegetation
+W1_2026-11-07_172047,photos/IMG_000034.jpg,world,47,streetlight,68.77,67.47,vegetation
+W1_2026-11-07_172047,photos/IMG_000034.jpg,world,48,streetlight,52.88,48.02,vegetation
+W1_2026-11-07_172047,photos/IMG_000034.jpg,world,49,streetlight,49.16,45.09,sky
+W1_2026-11-07_172047,photos/IMG_000035.jpg,coco,90,person,18.46,16.84,person
+W1_2026-11-07_172047,photos/IMG_000035.jpg,coco,91,person,18.34,17.13,person
+W1_2026-11-07_172047,photos/IMG_000035.jpg,coco,92,person,20.1,18.21,person
+W1_2026-11-07_172047,photos/IMG_000035.jpg,coco,93,person,32.35,19.84,person
+W1_2026-11-07_172047,photos/IMG_000035.jpg,world,50,streetlight,66.38,57.94,person
+W1_2026-11-07_172047,photos/IMG_000035.jpg,world,51,streetlight,44.56,41.83,vegetation
+W1_2026-11-07_172047,photos/IMG_000036.jpg,coco,94,person,8.47,7.74,person
+W1_2026-11-07_172047,photos/IMG_000036.jpg,coco,95,person,72.99,72.27,person
+W1_2026-11-07_172047,photos/IMG_000036.jpg,world,52,streetlight,43.79,39.29,pole
+W1_2026-11-07_172047,photos/IMG_000036.jpg,world,53,streetlight,44.04,39.3,pole
+W1_2026-11-07_172047,photos/IMG_000036.jpg,world,54,streetlight,41.99,40.0,sky
+W1_2026-11-07_172047,photos/IMG_000036.jpg,world,55,streetlight,41.49,39.22,sky
+W1_2026-11-07_172047,photos/IMG_000036.jpg,world,56,streetlight,42.69,40.33,sky
+W1_2026-11-07_172047,photos/IMG_000037.jpg,coco,96,person,12.81,12.27,person
+W1_2026-11-07_172047,photos/IMG_000037.jpg,coco,97,person,73.71,73.23,person
+W1_2026-11-07_172047,photos/IMG_000037.jpg,world,57,bollard_light,61.21,60.32,sidewalk
+W1_2026-11-07_172047,photos/IMG_000037.jpg,world,58,streetlight,39.26,38.91,sky
+W1_2026-11-07_172047,photos/IMG_000038.jpg,coco,98,person,65.27,62.67,person
+W1_2026-11-07_172047,photos/IMG_000038.jpg,coco,99,bench,58.14,54.42,car
+W1_2026-11-07_172047,photos/IMG_000038.jpg,coco,100,person,76.62,76.01,sidewalk
+W1_2026-11-07_172047,photos/IMG_000038.jpg,coco,101,person,72.99,57.02,sidewalk
+W1_2026-11-07_172047,photos/IMG_000039.jpg,coco,102,person,67.21,66.3,bicycle
+W1_2026-11-07_172047,photos/IMG_000039.jpg,coco,103,person,67.73,66.37,bicycle
+W1_2026-11-07_172047,photos/IMG_000039.jpg,coco,104,person,68.55,66.83,bicycle
+W1_2026-11-07_172047,photos/IMG_000039.jpg,world,59,streetlight,32.23,28.09,vegetation
+W1_2026-11-07_172047,photos/IMG_000039.jpg,world,60,bollard_light,52.3,51.44,car
+W1_2026-11-07_172047,photos/IMG_000039.jpg,world,61,streetlight,67.94,67.41,vegetation
+W1_2026-11-07_172047,photos/IMG_000039.jpg,world,62,streetlight,36.51,35.81,vegetation
+W1_2026-11-07_172047,photos/IMG_000040.jpg,coco,105,person,60.68,59.71,rider
+W1_2026-11-07_172047,photos/IMG_000040.jpg,coco,106,person,64.13,62.16,rider
+W1_2026-11-07_172047,photos/IMG_000040.jpg,world,63,streetlight,32.58,26.9,vegetation
+W1_2026-11-07_172047,photos/IMG_000040.jpg,world,64,streetlight,74.67,72.67,pole
+W1_2026-11-07_172047,photos/IMG_000040.jpg,world,65,streetlight,75.62,73.35,vegetation
+W1_2026-11-07_172047,photos/IMG_000041.jpg,coco,107,person,59.64,57.72,person
+W1_2026-11-07_172047,photos/IMG_000041.jpg,coco,108,person,66.94,64.88,bicycle
+W1_2026-11-07_172047,photos/IMG_000041.jpg,coco,109,bench,50.38,46.64,car
+W1_2026-11-07_172047,photos/IMG_000041.jpg,world,66,streetlight,70.43,65.95,vegetation
+W1_2026-11-07_172047,photos/IMG_000042.jpg,coco,110,person,58.61,56.89,person
+W1_2026-11-07_172047,photos/IMG_000042.jpg,coco,111,person,73.37,71.56,vegetation
+W1_2026-11-07_172047,photos/IMG_000042.jpg,world,67,streetlight,69.43,65.32,vegetation
+W1_2026-11-07_172047,photos/IMG_000043.jpg,coco,112,person,55.83,53.6,person
+W1_2026-11-07_172047,photos/IMG_000043.jpg,coco,113,person,74.05,72.19,car
+W1_2026-11-07_172047,photos/IMG_000043.jpg,coco,114,person,27.69,27.35,vegetation
+W1_2026-11-07_172047,photos/IMG_000043.jpg,coco,115,bench,47.28,44.85,car
+W1_2026-11-07_172047,photos/IMG_000043.jpg,coco,116,stop sign,54.9,53.0,rider
+W1_2026-11-07_172047,photos/IMG_000043.jpg,world,68,streetlight,76.87,74.54,vegetation
+W1_2026-11-07_172047,photos/IMG_000043.jpg,world,69,streetlight,77.75,75.09,vegetation
+W1_2026-11-07_172047,photos/IMG_000044.jpg,coco,117,person,44.43,41.25,wall
+W1_2026-11-07_172047,photos/IMG_000044.jpg,coco,118,person,58.02,56.55,car
+W1_2026-11-07_172047,photos/IMG_000044.jpg,coco,119,car,65.0,57.87,car
+W1_2026-11-07_172047,photos/IMG_000044.jpg,coco,120,car,76.49,75.44,pole
+W1_2026-11-07_172047,photos/IMG_000044.jpg,world,70,streetlight,66.5,53.13,vegetation
+W1_2026-11-07_172047,photos/IMG_000045.jpg,coco,121,person,46.45,43.9,person
+W1_2026-11-07_172047,photos/IMG_000045.jpg,coco,122,person,63.69,61.57,person
+W1_2026-11-07_172047,photos/IMG_000045.jpg,coco,123,car,65.39,53.97,car
+W1_2026-11-07_172047,photos/IMG_000045.jpg,coco,124,stop sign,67.19,66.33,traffic sign
+W1_2026-11-07_172047,photos/IMG_000045.jpg,coco,125,car,53.51,25.11,vegetation
+W1_2026-11-07_172047,photos/IMG_000045.jpg,coco,126,car,72.31,69.37,car
+W1_2026-11-07_172047,photos/IMG_000045.jpg,coco,127,bench,40.36,38.22,road
+W1_2026-11-07_172047,photos/IMG_000045.jpg,world,71,streetlight,58.22,53.86,vegetation
+W1_2026-11-07_172047,photos/IMG_000045.jpg,world,72,streetlight,58.22,53.86,vegetation
+W1_2026-11-07_172047,photos/IMG_000045.jpg,world,73,streetlight,58.23,53.91,vegetation
+W1_2026-11-07_172047,photos/IMG_000045.jpg,world,74,bollard_light,38.4,37.85,road
+W1_2026-11-07_172047,photos/IMG_000046.jpg,coco,128,person,66.52,63.58,building
+W1_2026-11-07_172047,photos/IMG_000046.jpg,coco,129,car,76.45,74.17,car
+W1_2026-11-07_172047,photos/IMG_000046.jpg,coco,130,stop sign,65.74,64.66,traffic sign
+W1_2026-11-07_172047,photos/IMG_000046.jpg,coco,131,car,78.69,77.91,car
+W1_2026-11-07_172047,photos/IMG_000046.jpg,coco,132,bench,39.75,37.29,road
+W1_2026-11-07_172047,photos/IMG_000047.jpg,coco,133,person,36.58,34.93,person
+W1_2026-11-07_172047,photos/IMG_000047.jpg,coco,134,car,75.02,68.67,car
+W1_2026-11-07_172047,photos/IMG_000047.jpg,coco,135,person,59.51,58.35,person
+W1_2026-11-07_172047,photos/IMG_000047.jpg,coco,136,stop sign,56.85,55.57,traffic sign
+W1_2026-11-07_172047,photos/IMG_000047.jpg,world,75,streetlight,70.19,67.14,vegetation
+W1_2026-11-07_172047,photos/IMG_000047.jpg,world,76,streetlight,72.36,64.58,building
+W1_2026-11-07_172047,photos/IMG_000047.jpg,world,77,streetlight,67.58,66.68,vegetation
+W1_2026-11-07_172047,photos/IMG_000048.jpg,coco,137,person,33.32,31.64,person
+W1_2026-11-07_172047,photos/IMG_000048.jpg,coco,138,person,59.42,57.0,road
+W1_2026-11-07_172047,photos/IMG_000048.jpg,coco,139,car,72.21,65.57,motorcycle
+W1_2026-11-07_172047,photos/IMG_000049.jpg,coco,140,person,29.57,28.0,person
+W1_2026-11-07_172047,photos/IMG_000049.jpg,coco,141,person,55.57,53.18,person
+W1_2026-11-07_172047,photos/IMG_000049.jpg,coco,142,stop sign,60.2,58.26,traffic sign
+W1_2026-11-07_172047,photos/IMG_000049.jpg,coco,143,car,70.09,65.23,car
+W1_2026-11-07_172047,photos/IMG_000049.jpg,coco,144,car,68.76,54.73,car
+W1_2026-11-07_172047,photos/IMG_000049.jpg,coco,145,person,76.37,74.66,traffic sign
+W1_2026-11-07_172047,photos/IMG_000049.jpg,world,78,streetlight,54.13,44.53,pole
+W1_2026-11-07_172047,photos/IMG_000049.jpg,world,79,bollard_light,30.91,30.45,road
+W1_2026-11-07_172047,photos/IMG_000050.jpg,coco,146,person,23.9,22.8,person
+W1_2026-11-07_172047,photos/IMG_000050.jpg,coco,147,person,51.62,49.97,wall
+W1_2026-11-07_172047,photos/IMG_000050.jpg,coco,148,car,69.65,35.71,car
+W1_2026-11-07_172047,photos/IMG_000050.jpg,coco,149,car,72.42,63.13,vegetation
+W1_2026-11-07_172047,photos/IMG_000051.jpg,coco,150,person,50.12,46.85,person
+W1_2026-11-07_172047,photos/IMG_000051.jpg,coco,151,person,75.97,75.22,person
+W1_2026-11-07_172047,photos/IMG_000051.jpg,coco,152,car,70.94,31.07,car
+W1_2026-11-07_172047,photos/IMG_000051.jpg,coco,153,car,49.9,46.41,car
+W1_2026-11-07_172047,photos/IMG_000051.jpg,coco,154,stop sign,39.12,32.72,vegetation
+W1_2026-11-07_172047,photos/IMG_000051.jpg,coco,155,person,74.83,74.09,traffic sign
+W1_2026-11-07_172047,photos/IMG_000051.jpg,world,80,streetlight,70.79,68.62,car
+W1_2026-11-07_172047,photos/IMG_000052.jpg,coco,156,person,45.23,42.15,person
+W1_2026-11-07_172047,photos/IMG_000052.jpg,coco,157,car,69.22,61.91,car
+W1_2026-11-07_172047,photos/IMG_000052.jpg,coco,158,person,78.35,77.17,traffic sign
+W1_2026-11-07_172047,photos/IMG_000052.jpg,coco,159,stop sign,56.29,54.41,traffic sign
+W1_2026-11-07_172047,photos/IMG_000052.jpg,coco,160,car,75.63,62.74,vegetation
+W1_2026-11-07_172047,photos/IMG_000052.jpg,coco,161,person,78.46,77.74,traffic sign
+W1_2026-11-07_172047,photos/IMG_000052.jpg,coco,162,person,76.12,74.27,person
+W1_2026-11-07_172047,photos/IMG_000052.jpg,coco,163,person,75.97,74.65,vegetation
+W1_2026-11-07_172047,photos/IMG_000052.jpg,world,81,streetlight,70.24,59.41,vegetation
+W1_2026-11-07_172047,photos/IMG_000052.jpg,world,82,streetlight,61.92,59.42,vegetation
+W1_2026-11-07_172047,photos/IMG_000052.jpg,world,83,streetlight,46.7,42.67,vegetation
+W1_2026-11-07_172047,photos/IMG_000053.jpg,coco,164,person,44.73,41.18,person
+W1_2026-11-07_172047,photos/IMG_000053.jpg,coco,165,car,59.14,47.66,car
+W1_2026-11-07_172047,photos/IMG_000053.jpg,coco,166,stop sign,66.23,63.84,traffic sign
+W1_2026-11-07_172047,photos/IMG_000053.jpg,coco,167,person,70.87,66.31,person
+W1_2026-11-07_172047,photos/IMG_000053.jpg,coco,168,person,78.01,76.98,traffic sign
+W1_2026-11-07_172047,photos/IMG_000053.jpg,coco,169,person,77.72,76.37,traffic sign
+W1_2026-11-07_172047,photos/IMG_000053.jpg,coco,170,person,75.46,74.85,person
+W1_2026-11-07_172047,photos/IMG_000053.jpg,world,84,streetlight,61.36,53.76,vegetation
+W1_2026-11-07_172047,photos/IMG_000053.jpg,world,85,streetlight,77.38,74.5,vegetation
+W1_2026-11-07_172047,photos/IMG_000054.jpg,coco,171,person,40.29,37.11,person
+W1_2026-11-07_172047,photos/IMG_000054.jpg,coco,172,car,71.86,69.66,car
+W1_2026-11-07_172047,photos/IMG_000054.jpg,coco,173,stop sign,71.91,69.63,traffic sign
+W1_2026-11-07_172047,photos/IMG_000054.jpg,coco,174,person,78.35,77.86,person
+W1_2026-11-07_172047,photos/IMG_000054.jpg,coco,175,person,78.23,77.48,bicycle
+W1_2026-11-07_172047,photos/IMG_000054.jpg,coco,176,person,69.08,56.93,person
+W1_2026-11-07_172047,photos/IMG_000054.jpg,coco,177,person,78.72,78.5,person
+W1_2026-11-07_172047,photos/IMG_000055.jpg,coco,178,person,33.0,31.87,person
+W1_2026-11-07_172047,photos/IMG_000055.jpg,coco,179,person,67.19,61.12,person
+W1_2026-11-07_172047,photos/IMG_000055.jpg,coco,180,car,66.28,63.73,car
+W1_2026-11-07_172047,photos/IMG_000055.jpg,coco,181,person,77.91,77.36,car
+W1_2026-11-07_172047,photos/IMG_000055.jpg,coco,182,person,78.07,77.82,person
+W1_2026-11-07_172047,photos/IMG_000055.jpg,coco,183,person,62.26,52.23,vegetation
+W1_2026-11-07_172047,photos/IMG_000055.jpg,coco,184,person,77.98,77.54,car
+W1_2026-11-07_172047,photos/IMG_000055.jpg,coco,185,person,73.11,68.83,person
+W1_2026-11-07_172047,photos/IMG_000055.jpg,coco,186,person,78.09,77.67,vegetation
+W1_2026-11-07_172047,photos/IMG_000055.jpg,coco,187,person,78.12,77.87,person
+W1_2026-11-07_172047,photos/IMG_000055.jpg,world,86,streetlight,53.85,37.52,vegetation
+W1_2026-11-07_172047,photos/IMG_000055.jpg,world,87,streetlight,72.1,65.94,vegetation
+W1_2026-11-07_172047,photos/IMG_000056.jpg,coco,188,person,29.27,27.71,person
+W1_2026-11-07_172047,photos/IMG_000056.jpg,coco,189,stop sign,48.67,47.19,traffic sign
+W1_2026-11-07_172047,photos/IMG_000056.jpg,world,88,streetlight,32.33,26.24,vegetation
+W1_2026-11-07_172047,photos/IMG_000056.jpg,world,89,streetlight,56.3,49.8,vegetation
+W1_2026-11-07_172047,photos/IMG_000057.jpg,coco,190,person,25.53,24.21,person
+W1_2026-11-07_172047,photos/IMG_000057.jpg,coco,191,person,56.54,54.21,person
+W1_2026-11-07_172047,photos/IMG_000057.jpg,coco,192,stop sign,53.48,50.84,traffic sign
+W1_2026-11-07_172047,photos/IMG_000057.jpg,coco,193,person,67.35,66.74,wall
+W1_2026-11-07_172047,photos/IMG_000057.jpg,coco,194,person,38.53,32.14,vegetation
+W1_2026-11-07_172047,photos/IMG_000057.jpg,coco,195,person,70.3,69.45,wall
+W1_2026-11-07_172047,photos/IMG_000057.jpg,world,90,streetlight,49.41,36.48,vegetation
+W1_2026-11-07_172047,photos/IMG_000057.jpg,world,91,streetlight,49.23,36.33,vegetation
+W1_2026-11-07_172047,photos/IMG_000057.jpg,world,92,streetlight,29.99,22.88,vegetation
+W1_2026-11-07_172047,photos/IMG_000057.jpg,world,93,streetlight,76.19,74.89,vegetation
+W1_2026-11-07_172047,photos/IMG_000057.jpg,world,94,streetlight,67.76,63.96,vegetation
+W1_2026-11-07_172047,photos/IMG_000058.jpg,coco,196,stop sign,45.08,41.9,traffic sign
+W1_2026-11-07_172047,photos/IMG_000058.jpg,coco,197,person,58.35,56.49,bicycle
+W1_2026-11-07_172047,photos/IMG_000058.jpg,coco,198,car,76.73,73.82,car
+W1_2026-11-07_172047,photos/IMG_000058.jpg,coco,199,car,59.48,57.61,car
+W1_2026-11-07_172047,photos/IMG_000058.jpg,world,95,streetlight,32.3,20.91,vegetation
+W1_2026-11-07_172047,photos/IMG_000058.jpg,world,96,streetlight,32.3,20.91,vegetation
+W1_2026-11-07_172047,photos/IMG_000058.jpg,world,97,streetlight,72.4,68.39,vegetation
+W1_2026-11-07_172047,photos/IMG_000058.jpg,world,98,streetlight,77.62,75.61,vegetation
+W1_2026-11-07_172047,photos/IMG_000058.jpg,world,99,streetlight,72.25,68.08,vegetation
+W1_2026-11-07_172047,photos/IMG_000059.jpg,coco,200,stop sign,47.13,45.67,traffic sign
+W1_2026-11-07_172047,photos/IMG_000059.jpg,coco,201,car,78.39,77.77,car
+W1_2026-11-07_172047,photos/IMG_000059.jpg,coco,202,person,74.54,71.98,person
+W1_2026-11-07_172047,photos/IMG_000059.jpg,coco,203,person,63.67,57.58,vegetation
+W1_2026-11-07_172047,photos/IMG_000059.jpg,coco,204,person,69.34,65.3,person
+W1_2026-11-07_172047,photos/IMG_000059.jpg,coco,205,person,62.9,58.87,person
+W1_2026-11-07_172047,photos/IMG_000059.jpg,coco,206,car,77.55,77.32,vegetation
+W1_2026-11-07_172047,photos/IMG_000059.jpg,coco,207,car,76.94,76.64,road
+W1_2026-11-07_172047,photos/IMG_000059.jpg,coco,208,person,62.68,58.97,person
+W1_2026-11-07_172047,photos/IMG_000059.jpg,world,100,streetlight,74.16,71.14,vegetation
+W1_2026-11-07_172047,photos/IMG_000059.jpg,world,101,streetlight,73.37,70.97,vegetation
+W1_2026-11-07_172047,photos/IMG_000059.jpg,world,102,bollard_light,62.76,60.03,sidewalk
+W1_2026-11-07_172047,photos/IMG_000060.jpg,coco,209,stop sign,44.33,43.39,traffic sign
+W1_2026-11-07_172047,photos/IMG_000060.jpg,coco,210,person,69.17,66.29,person
+W1_2026-11-07_172047,photos/IMG_000060.jpg,coco,211,person,68.71,61.53,person
+W1_2026-11-07_172047,photos/IMG_000060.jpg,coco,212,car,78.57,78.08,car
+W1_2026-11-07_172047,photos/IMG_000060.jpg,coco,213,car,56.61,54.47,traffic sign
+W1_2026-11-07_172047,photos/IMG_000060.jpg,coco,214,car,57.23,52.95,vegetation
+W1_2026-11-07_172047,photos/IMG_000060.jpg,coco,215,car,71.86,68.12,vegetation
+W1_2026-11-07_172047,photos/IMG_000060.jpg,world,103,streetlight,73.59,69.81,pole
+W1_2026-11-07_172047,photos/IMG_000060.jpg,world,104,streetlight,74.47,72.37,vegetation
+W1_2026-11-07_172047,photos/IMG_000060.jpg,world,105,streetlight,73.62,69.92,pole
