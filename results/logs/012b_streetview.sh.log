@@ -1,0 +1,31 @@
+Loading weights:   0%|          | 0/287 [00:00<?, ?it/s]Loading weights: 100%|██████████| 287/287 [00:00<00:00, 3598.31it/s]
+W1_2026-11-07_184140: 251 frames total, 5.9 fps
+W1_2026-11-07_184140: 491 frames total, 5.9 fps
+W1_2026-11-07_184140: 731 frames total, 5.9 fps
+W1_2026-11-07_184140: 971 frames total, 5.9 fps
+W1_2026-11-07_184140: 1211 frames total, 6.0 fps
+W1_2026-11-07_184140: 1451 frames total, 6.0 fps
+W1_2026-11-07_184140: 1691 frames total, 6.0 fps
+W1_2026-11-07_184140: 1931 frames total, 6.0 fps
+W1_2026-11-07_184140: 2171 frames total, 6.0 fps
+W1_2026-11-07_184140: 2411 frames total, 6.0 fps
+W2_2026-11-07_184141: 2644 frames total, 5.9 fps
+W2_2026-11-07_184141: 2884 frames total, 6.0 fps
+W2_2026-11-07_184141: 3124 frames total, 6.0 fps
+W2_2026-11-07_184141: 3364 frames total, 6.0 fps
+W2_2026-11-07_184141: 3604 frames total, 6.0 fps
+W2_2026-11-07_184141: 3844 frames total, 6.0 fps
+W3_2026-11-07_184137: 4085 frames total, 6.0 fps
+W3_2026-11-07_184137: 4325 frames total, 6.0 fps
+W3_2026-11-07_184137: 4565 frames total, 6.0 fps
+W3_2026-11-07_184137: 4805 frames total, 6.0 fps
+W3_2026-11-07_184137: 5045 frames total, 6.0 fps
+W3_2026-11-07_184137: 5285 frames total, 6.0 fps
+W3_2026-11-07_201403: 5522 frames total, 6.0 fps
+W3_2026-11-07_202613: 5764 frames total, 6.0 fps
+W3_2026-11-07_202613: 5769 frames total, 6.0 fps
+frames: 5874
+zip MB: 142.1
+total 136M
+drwxr-xr-x 18 root root 4.0K Nov  8 07:21 streetview
+-rw-r--r--  1 root root 136M Nov  8 08:11 streetview.zip
