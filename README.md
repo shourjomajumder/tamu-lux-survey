@@ -4,7 +4,7 @@ TAMU Datathon 2026 · Build-A-Dataset challenge
 
 - **Live site:** https://tamu-lux-map.netlify.app
 - **Survey Control:** https://tamu-lux-map.netlify.app/#control (demo code `4586`, or leave empty)
-- **Demo video:** VIDEO_LINK
+- **Demo video:** on our Devpost submission (`lx_Demo_Video.mp4`)
 
 ## The idea
 
