@@ -261,17 +261,25 @@ phones = cluster_points(place(world, {"emergency_phone"}, 0.25), 6.0, 2, lambda 
 print(f"fixtures {len(fixtures)}  possibly out {len(out_feats)}  trees {len(trees)}  phones(detected) {len(phones)}", flush=True)
 
 # ------------------------------------------------------------------ OSM footpaths + emergency phones
-osm_ways, osm_phones, osm_lamps, osm_trees = [], [], [], []
+osm_ways, osm_phones, osm_lamps, osm_trees, osm_buildings = [], [], [], [], []
 if len(R):
     la, lo = R.lat.astype(float), R.lon.astype(float)
     bbox = f"{la.min() - .002},{lo.min() - .002},{la.max() + .002},{lo.max() + .002}"
-    q = f"""[out:json][timeout:90];(way["highway"~"footway|path|pedestrian|steps|living_street|service|residential|cycleway|track|unclassified|tertiary|secondary"]({bbox});node["emergency"="phone"]({bbox});node["highway"="street_lamp"]({bbox});node["natural"="tree"]({bbox}););out geom;"""
+    q = f"""[out:json][timeout:90];(way["highway"~"footway|path|pedestrian|steps|living_street|service|residential|cycleway|track|unclassified|tertiary|secondary"]({bbox});node["emergency"="phone"]({bbox});node["highway"="street_lamp"]({bbox});node["natural"="tree"]({bbox});way["building"]({bbox}););out geom;"""
     for url in ("https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"):
         try:
             import requests
             js = requests.post(url, data={"data": q}, timeout=120).json()
             for e in js["elements"]:
-                if e["type"] == "way" and "geometry" in e:
+                if e["type"] == "way" and "geometry" in e and "building" in e.get("tags", {}):
+                    tg = e["tags"]
+                    lv = tg.get("building:levels") or ""
+                    h = tg.get("height") or ""
+                    try: hm = float(str(h).split()[0]) if h else (float(lv) * 3.5 if lv else 10.0)
+                    except ValueError: hm = 10.0
+                    osm_buildings.append(feat(0, 0, dict(name=tg.get("name"), height_m=round(hm, 1)),
+                        geom={"type": "Polygon", "coordinates": [[[round(g["lon"], 7), round(g["lat"], 7)] for g in e["geometry"]]]}))
+                elif e["type"] == "way" and "geometry" in e:
                     osm_ways.append((e["id"], e.get("tags", {}).get("highway"), e.get("tags", {}).get("name"),
                                      [(g["lat"], g["lon"]) for g in e["geometry"]]))
                 elif e["type"] == "node":
@@ -282,7 +290,8 @@ if len(R):
             break
         except Exception as ex:
             print("overpass failed:", url, ex, flush=True)
-print("osm ways", len(osm_ways), "phones", len(osm_phones), "street lamps", len(osm_lamps), "trees", len(osm_trees), flush=True)
+dump("buildings.geojson", fc(osm_buildings))
+print("osm buildings", len(osm_buildings), "ways", len(osm_ways), "phones", len(osm_phones), "street lamps", len(osm_lamps), "trees", len(osm_trees), flush=True)
 # trees: OpenStreetMap's mapped campus trees near the surveyed paths + trees detected in photos
 if osm_trees and len(R):
     from scipy.spatial import cKDTree
