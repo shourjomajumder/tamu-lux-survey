@@ -25,3 +25,4 @@
 2026-11-08T07:20:37Z START 011_vlm_describe.sh
 2026-11-08T07:20:38Z END 011_vlm_describe.sh rc=127
 2026-11-08T07:21:09Z START 011_fuse_map_v2.sh
+2026-11-08T07:21:21Z END 011_fuse_map_v2.sh rc=0
