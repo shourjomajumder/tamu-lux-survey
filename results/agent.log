@@ -22,3 +22,4 @@
 2026-11-08T07:20:19Z END 009_light_blobs.sh rc=0
 2026-11-08T07:20:21Z START 010_fuse_map.sh
 2026-11-08T07:20:35Z END 010_fuse_map.sh rc=0
+2026-11-08T07:20:37Z START 011_vlm_describe.sh
