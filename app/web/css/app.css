@@ -1,0 +1,56 @@
+/* Shared design tokens + chrome. View-specific CSS lives in css/<view>.css (scoped under #view-<name>). */
+:root {
+  --bg: #08090b;          /* page */
+  --panel: rgba(12,13,16,.94);
+  --panel-solid: #0c0d10;
+  --line: #1f2228;        /* hairlines, panel borders */
+  --line-2: #2a2d34;      /* button borders */
+  --fg: #e8e9ec;          /* body text */
+  --fg-strong: #f2f2f2;
+  --muted: #8b9099;       /* secondary text (passes 4.5:1 on --bg) */
+  --faint: #6b7079;
+  --light: #ffe2aa;       /* the ONLY accent: lamplight */
+  --light-rgb: 255,226,170;
+  --warn: #c00000;        /* low-light warnings only (logo red, from the presentation) */
+  --radius: 0;
+  --font: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* walker colours (same as the live tracking dashboard) */
+  --w1: #5aa9ff; --w2: #ff9f43; --w3: #7ee0a1; --w4: #d58cff;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font: 13px/1.45 var(--font); -webkit-font-smoothing: antialiased; }
+a { color: #c9ccd2; } a:hover { color: #fff; }
+button { font: inherit; }
+.topbar { position: fixed; z-index: 20; left: 0; right: 0; top: 0; height: 64px; padding: 0 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  background: linear-gradient(var(--bg) 40%, rgba(8,9,11,0)); pointer-events: none; }
+.topbar > * { pointer-events: auto; }
+.brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+.brand .logo { display: block; height: 32px; width: auto; }
+.brand .name { font-weight: 500; letter-spacing: .02em; color: var(--fg-strong); }
+.brand .sub { color: var(--muted); font-size: 12px; }
+.tabs { display: flex; gap: 4px; }
+.tabs a { color: var(--muted); text-decoration: none; padding: 7px 11px; border-radius: 0; }
+.tabs a:hover { color: var(--fg-strong); }
+.tabs a.active { color: var(--fg-strong); background: rgba(255,255,255,.07); }
+main { position: fixed; inset: 0; }
+.view { position: absolute; inset: 0; display: none; overflow: hidden; }
+.view.active { display: block; }
+.view.scroll { overflow-y: auto; }
+/* shared UI pieces any view may use */
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); }
+.btn { color: var(--fg-strong); background: rgba(255,255,255,.07); border: 1px solid var(--line-2); border-radius: 8px; padding: 10px 16px; min-height: 40px; cursor: pointer; }
+.btn:hover { background: rgba(255,255,255,.11); }
+.btn.primary { color: var(--bg); background: var(--fg-strong); border-color: var(--fg-strong); }
+.chip { color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; min-height: 36px; cursor: pointer; font-size: 12px; }
+.chip[aria-pressed="true"] { color: var(--fg-strong); background: rgba(255,255,255,.08); border-color: #3a3e46; }
+.muted { color: var(--muted); }
+.label { color: var(--muted); font-size: 12px; }
+.big { font-size: 44px; font-weight: 300; line-height: 1; }
+.tooltip { position: absolute; z-index: 30; pointer-events: none; background: rgba(12,13,16,.94); border: 1px solid #23262d; border-radius: 8px; padding: 8px 12px; font-size: 12px; white-space: nowrap; }
+.loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--faint); }
+:focus-visible { outline: 2px solid var(--light); outline-offset: 2px; }
+@media (max-width: 760px) { .topbar { height: auto; padding: 10px 14px; flex-wrap: nowrap; flex-direction: column; align-items: flex-start; gap: 6px; } .brand .sub { display: none; } .tabs { max-width: 100%; overflow-x: auto; white-space: nowrap; scrollbar-width: none; } }
+[hidden] { display: none !important; }
+/* sharp UI everywhere: no rounded corners, no soft shadows */
+*, *::before, *::after { border-radius: 0 !important; }
+.tabs a.active { box-shadow: inset 0 -1px 0 var(--fg-strong); background: transparent; }

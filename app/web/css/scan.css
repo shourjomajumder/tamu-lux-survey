@@ -1,0 +1,47 @@
+/* 3D Scan — every rule scoped under #view-scan */
+#view-scan { background: var(--bg); }
+#view-scan [hidden] { display: none !important; }
+#view-scan .sc-gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
+#view-scan .sc-gl.sc-dragging { cursor: grabbing; }
+
+#view-scan .sc-side { position: absolute; z-index: 3; top: 84px; left: 28px; width: 168px; }
+#view-scan .sc-side > .label { margin-bottom: 10px; }
+#view-scan .sc-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+#view-scan .sc-spot { width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; cursor: pointer;
+  background: transparent; border: 0; border-left: 1px solid var(--line-2); color: var(--muted); padding: 8px 0 8px 14px; min-height: 44px; }
+#view-scan .sc-spot:hover { color: var(--fg-strong); }
+#view-scan .sc-spot[aria-pressed="true"] { color: var(--fg-strong); border-left: 2px solid var(--light); padding-left: 13px; }
+#view-scan .sc-spot-name { font-size: 14px; }
+#view-scan .sc-spot-sub { font-size: 12px; color: var(--muted); }
+
+#view-scan .sc-tools { position: absolute; z-index: 3; top: 80px; right: 28px; display: flex; gap: 6px; }
+#view-scan .sc-tools .chip { background: rgba(12,13,16,.6); }
+#view-scan .sc-tools .chip:hover { color: var(--fg-strong); }
+
+#view-scan .sc-progress { position: absolute; z-index: 3; left: 50%; bottom: 40px; transform: translateX(-50%); font-variant-numeric: tabular-nums; }
+#view-scan .sc-scenemsg { position: absolute; z-index: 2; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; padding: 0 240px; text-align: center; }
+#view-scan .sc-msg-title { color: var(--fg); font-size: 15px; max-width: 420px; line-height: 1.5; }
+#view-scan .sc-msg { z-index: 6; background: var(--bg); text-align: center; padding: 0 24px; }
+#view-scan .sc-msg-in { max-width: 440px; }
+
+#view-scan .sc-about { position: absolute; z-index: 3; right: 28px; bottom: 28px; width: 280px; padding: 18px 20px; }
+#view-scan .sc-about-title { color: var(--fg-strong); font-size: 18px; font-weight: 400; margin: 4px 0 12px; }
+#view-scan .sc-about dl { display: flex; gap: 28px; margin: 0 0 12px; }
+#view-scan .sc-about dd { margin: 3px 0 0; color: var(--fg); }
+#view-scan .sc-note { margin: 0 0 14px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+#view-scan .sc-links { display: flex; gap: 16px; flex-wrap: wrap; }
+#view-scan .sc-links a { color: var(--light); text-decoration: none; border-bottom: 1px solid rgba(var(--light-rgb), .35); padding: 4px 0; }
+#view-scan .sc-links a:hover { border-bottom-color: var(--light); }
+#view-scan .sc-count { margin-top: 12px; font-variant-numeric: tabular-nums; }
+#view-scan .sc-count:empty { display: none; }
+#view-scan .sc-hint { position: absolute; z-index: 3; left: 28px; bottom: 28px; }
+#view-scan.sc-empty .sc-side, #view-scan.sc-empty .sc-tools, #view-scan.sc-empty .sc-about, #view-scan.sc-empty .sc-hint { display: none; }
+
+@media (max-width: 760px) {
+  #view-scan .sc-side { top: 100px; left: 14px; width: auto; right: 14px; }
+  #view-scan .sc-list { flex-direction: row; overflow-x: auto; }
+  #view-scan .sc-tools { top: 200px; right: 14px; }
+  #view-scan .sc-about { left: 14px; right: 14px; bottom: 14px; width: auto; }
+  #view-scan .sc-hint { display: none; }
+  #view-scan .sc-scenemsg { padding: 0 24px; }
+}

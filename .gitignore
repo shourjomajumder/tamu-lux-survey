@@ -1,5 +1,19 @@
-*.env
+# secrets
 .env
+*.env
+.env.*
+secrets.txt
+# build / tooling
+node_modules/
+.netlify/
 __pycache__/
+*.pyc
+.DS_Store
+xcuserdata/
+*.xcuserstate
+DerivedData/
+# large model weights
 *.pt
-/data/
+# raw (unblurred) imagery must never be committed
+results/review/*_world_*.jpg
+downloads/

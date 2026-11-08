@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSCameraUsageDescription</key>
+	<string>The front camera measures light levels (lux) and the back camera takes time-lapse photos of the route.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>GPS guides you along your survey route and tags every light reading and photo with its location.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Phone orientation is saved with each photo to help build the 3D map later.</string>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>arm64</string>
+	</array>
+</dict>
+</plist>

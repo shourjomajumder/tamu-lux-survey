@@ -1,0 +1,37 @@
+{
+ "bounds_local_m": {
+  "x0": -633.5,
+  "x1": 568.5,
+  "y0": -545.5,
+  "y1": 303.5
+ },
+ "bounds_latlon": {
+  "north": 30.617726368828748,
+  "south": 30.610095498771255,
+  "west": -96.34661265726899,
+  "east": -96.334056327131
+ },
+ "width": 1202,
+ "height": 849,
+ "resolution_m": 1.0,
+ "encoding": "R=G=B = clip(ln(lux/0.3)/ln(200),0,1)*255 (same as LUX.glow); A=255 inside the simulated area",
+ "model": "E = ambient + sum_k I_k*H/(d^2+H^2)^1.5 * visibility (buildings block, tree crowns x0.55 each); residual-corrected near readings",
+ "ambient_lux": 0.87,
+ "validation_physics_only": {
+  "held_out_stretches": 849,
+  "median_abs_error_lux": 1.99,
+  "median_factor_error": 2.02,
+  "r2_log": -0.36,
+  "within_2x_pct": 49.4
+ },
+ "validation_map": {
+  "held_out_stretches": 849,
+  "median_abs_error_lux": 1.38,
+  "median_factor_error": 1.58,
+  "within_2x_pct": 66.2,
+  "same_or_adjacent_level_pct": 81.6,
+  "below5_agreement_pct": 77.9
+ },
+ "lit_share_ge_5lux": 0.144,
+ "lit_share_ge_1lux": 0.68
+}

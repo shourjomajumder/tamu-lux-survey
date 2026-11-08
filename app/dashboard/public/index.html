@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Night Light Survey — Live</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root { --bg:#0e1116; --panel:#161b22; --line:#2a313c; --text:#e6edf3; --muted:#8b949e; --bad:#f85149; --warn:#d29922; --good:#3fb950; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.4 -apple-system, system-ui, sans-serif; background:var(--bg); color:var(--text); display:grid; grid-template-columns: 1fr 380px; height:100vh; }
+  #map { height:100vh; }
+  aside { border-left:1px solid var(--line); overflow:auto; padding:14px; }
+  h1 { font-size:16px; margin:0 0 4px; }
+  .sub { color:var(--muted); font-size:12px; margin-bottom:12px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin-bottom:10px; cursor:pointer; }
+  .card.stale { border-color: var(--bad); }
+  .row { display:flex; align-items:center; gap:8px; }
+  .dot { width:12px; height:12px; border-radius:50%; flex:none; }
+  .name { font-weight:700; }
+  .status { margin-left:auto; font-size:12px; padding:2px 8px; border-radius:99px; background:#222; }
+  .status.rec { background:rgba(63,185,80,.18); color:var(--good); }
+  .status.pause { background:rgba(210,153,34,.18); color:var(--warn); }
+  .status.off { background:rgba(248,81,73,.18); color:var(--bad); }
+  .grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:6px 10px; margin-top:8px; font-size:12px; }
+  .grid b { display:block; font-size:15px; color:var(--text); }
+  .grid span { color:var(--muted); }
+  .bar { height:6px; background:#222; border-radius:3px; margin-top:8px; overflow:hidden; }
+  .bar > i { display:block; height:100%; }
+  .alert { margin-top:8px; font-size:12px; color:#fff; background:rgba(248,81,73,.25); border-radius:6px; padding:5px 8px; }
+  .feed div { font-size:12px; border-bottom:1px solid var(--line); padding:5px 0; }
+  .feed time { color:var(--muted); margin-right:6px; }
+  h2 { font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin:16px 0 6px; }
+  .legend { font-size:12px; color:var(--muted); margin-top:4px; }
+  .lux-scale { height:8px; border-radius:4px; background:linear-gradient(90deg,#1b1f4a,#6b3fa0,#e4572e,#ffd166,#fffbe6); margin:4px 0; }
+  .wk { width:26px; height:26px; border-radius:50%; color:#fff; font-weight:800; display:flex; align-items:center; justify-content:center; border:2px solid #fff; box-shadow:0 0 6px #000; }
+  .dark-tiles { filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9) saturate(0.4); }
+  .arrow { position:absolute; left:50%; top:50%; width:0; height:0; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<aside>
+  <h1>Night Light Survey — live</h1>
+  <div class="sub" id="sub">Connecting…</div>
+  <div id="cards"></div>
+  <div class="legend">Thick line = where each walker has been (in their colour). Faded = paused / not recording. Thin line = their planned route.</div>
+  <h2>Problems feed</h2>
+  <div class="feed" id="feed"></div>
+</aside>
+<script>
+const map = L.map('map', { zoomControl: true }).setView([30.6145, -96.3396], 15);
+// OpenStreetMap tiles (no key needed), darkened with a CSS filter.
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors', maxZoom: 19, className: 'dark-tiles' }).addTo(map);
+
+const COLORS = {};
+const markers = {}, trails = {}, routeLines = {};
+let routes = [];
+
+function luxColor(l) {
+  if (l == null) return '#555';
+  const t = Math.max(0, Math.min(1, Math.log10(l + 0.1) / Math.log10(60)));
+  const stops = [[27,31,74],[107,63,160],[228,87,46],[255,209,102],[255,251,230]];
+  const x = t * (stops.length - 1), i = Math.min(Math.floor(x), stops.length - 2), f = x - i;
+  const c = stops[i].map((v, k) => Math.round(v + (stops[i + 1][k] - v) * f));
+  return `rgb(${c.join(',')})`;
+}
+
+fetch('routes.json').then(r => r.json()).then(rs => {
+  routes = rs;
+  const all = [];
+  for (const r of rs) {
+    COLORS[r.id] = r.color;
+    const ll = r.pts.map(p => [p[0], p[1]]);
+    all.push(...ll);
+    routeLines[r.id] = L.polyline(ll, { color: r.color, weight: 2, opacity: 0.4 }).addTo(map);
+  }
+  map.fitBounds(L.latLngBounds(all), { padding: [20, 20] });
+});
+
+function ago(s) {
+  if (s < 60) return `${Math.round(s)} s ago`;
+  if (s < 3600) return `${Math.round(s / 60)} min ago`;
+  return `${Math.round(s / 3600)} h ago`;
+}
+const fmt = (v, d = 0, suf = '') => (v == null || Number.isNaN(v)) ? '—' : (Number(v).toFixed(d) + suf);
+
+function markerIcon(w, heading, stale) {
+  const col = COLORS[w] || '#09f';
+  const arrow = heading == null ? '' :
+    `<svg width="60" height="60" style="position:absolute;left:-17px;top:-17px;transform:rotate(${heading}deg)">
+       <path d="M30 2 L40 22 L30 17 L20 22 Z" fill="${col}" stroke="#fff" stroke-width="1.5"/></svg>`;
+  return L.divIcon({ className: '', iconSize: [26, 26], iconAnchor: [13, 13],
+    html: `<div style="position:relative">${arrow}<div class="wk" style="background:${stale ? '#555' : col}">${w}</div></div>` });
+}
+
+function render(data) {
+  const now = data.now;
+  let html = '';
+  let live = 0;
+  for (const w of [1, 2, 3, 4]) {
+    const s = data.walkers[w];
+    const col = COLORS[w] || '#888';
+    if (!s) {
+      html += `<div class="card"><div class="row"><span class="dot" style="background:${col}"></span><span class="name">Walker ${w}</span><span class="status">not started</span></div></div>`;
+      continue;
+    }
+    const age = now - (s.receivedAt || s.t);
+    const stale = age > 20;
+    if (!stale) live++;
+    const cls = stale ? 'off' : (s.collecting ? 'rec' : 'pause');
+    const label = stale ? `no signal ${ago(age)}` : (s.status || '');
+    const bat = s.battery >= 0 ? Math.round(s.battery * 100) : null;
+    const therm = ['ok', 'warm', 'HOT', 'CRITICAL'][s.thermal] || '—';
+    const problems = [];
+    if (stale) problems.push(`Phone hasn't reported for ${ago(age)} (no signal, app closed, or phone off). Data is still saved on the phone.`);
+    (s.alerts || []).forEach(a => problems.push(a.replace(/^[a-z0-9]+: /, '')));
+    if (bat != null && bat <= 20) problems.push(`Battery ${bat}%`);
+    if (s.thermal >= 2) problems.push(`Phone is ${therm.toLowerCase()}`);
+    if (s.cameraRestarts > 0) problems.push(`Camera restarted ${s.cameraRestarts}×`);
+    if (s.acc > 25) problems.push(`Weak GPS ±${Math.round(s.acc)} m`);
+    html += `<div class="card ${stale ? 'stale' : ''}" onclick="focusWalker(${w})">
+      <div class="row"><span class="dot" style="background:${col}"></span><span class="name">Walker ${w}</span>
+        <span class="status ${cls}">${label}</span></div>
+      <div class="bar"><i style="width:${(s.coverage * 100).toFixed(1)}%;background:${col}"></i></div>
+      <div class="grid">
+        <div><span>Route captured</span><b>${fmt(s.coverage * 100, 0, '%')}</b></div>
+        <div><span>Gaps</span><b style="color:${s.gaps ? 'var(--bad)' : 'inherit'}">${s.gaps} · ${fmt(s.gap_m, 0, ' m')}</b></div>
+        <div><span>Light</span><b>${fmt(s.lux, s.lux < 10 ? 1 : 0, ' lx')}</b></div>
+        <div><span>Photos</span><b>${s.photos}</b></div>
+        <div><span>Walking</span><b>${fmt(s.elapsed_s / 60, 0, ' min')}</b></div>
+        <div><span>Battery</span><b style="color:${bat != null && bat <= 20 ? 'var(--bad)' : 'inherit'}">${fmt(bat, 0, '%')}</b></div>
+        <div><span>GPS</span><b>±${fmt(s.acc, 0, ' m')}</b></div>
+        <div><span>Heat / storage</span><b>${therm} · ${fmt(s.freeGB, 1, ' GB')}</b></div>
+      </div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)">Upload every 5 min${s.uploadPending ? ` · ${s.uploadPending} files waiting` : ''} · ${s.uploadDone || 0} files sent${s.uploadError ? ` · <span style="color:var(--warn)">retrying: ${s.uploadError}</span>` : ''}</div>
+      ${problems.map(p => `<div class="alert">${p}</div>`).join('')}
+    </div>`;
+
+    if (typeof s.lat === 'number') {
+      const icon = markerIcon(w, s.heading, stale);
+      if (!markers[w]) markers[w] = L.marker([s.lat, s.lon], { icon, zIndexOffset: 1000 }).addTo(map);
+      else { markers[w].setLatLng([s.lat, s.lon]); markers[w].setIcon(icon); }
+      markers[w].bindTooltip(`Walker ${w}: ${label}`);
+    }
+  }
+  document.getElementById('cards').innerHTML = html;
+  document.getElementById('sub').textContent = `${live} of 4 phones live · updated ${new Date().toLocaleTimeString()}`;
+  document.getElementById('feed').innerHTML = (data.alerts || []).map(a =>
+    `<div><time>${new Date(a.t * 1000).toLocaleTimeString()}</time><b style="color:${COLORS[a.walker]}">W${a.walker}</b> ${a.text.replace(/^[a-z0-9]+: /, '')}</div>`).join('') || '<div>No problems reported.</div>';
+}
+
+function drawTrails(tr) {
+  for (const w of [1, 2, 3, 4]) {
+    const pts = tr[w] || [];
+    if (trails[w]) trails[w].remove();
+    const g = L.layerGroup();
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1], b = pts[i];
+      if (b[0] - a[0] > 60) continue;   // don't join across signal gaps
+      L.polyline([[a[1], a[2]], [b[1], b[2]]], {
+        color: COLORS[w] || '#fff', weight: 6, opacity: b[4] ? 1 : 0.3 }).addTo(g);
+    }
+    trails[w] = g.addTo(map);
+  }
+}
+
+window.focusWalker = (w) => { if (markers[w]) map.setView(markers[w].getLatLng(), 18); };
+
+async function poll(withTrail) {
+  try {
+    const r = await fetch('/api/status' + (withTrail ? '?trail=1' : ''), { cache: 'no-store' });
+    const d = await r.json();
+    render(d);
+    if (withTrail) drawTrails(d.trails);
+  } catch (e) {
+    document.getElementById('sub').textContent = 'Dashboard can\'t reach the server — retrying…';
+  }
+}
+let n = 0;
+poll(true);
+setInterval(() => { n++; poll(n % 5 === 0); }, 1500);
+</script>
+</body>
+</html>

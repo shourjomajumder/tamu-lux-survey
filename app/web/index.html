@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Night-Light Survey — Texas A&amp;M</title>
+<meta name="description" content="How dark is Texas A&M at night? 19,317 light readings, 17,607 privacy-blurred photos and 714 triangulated streetlights from a 4-walker survey.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="img/logo.svg">
+<link rel="stylesheet" href="css/app.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js", "three/addons/": "./vendor/jsm/" } }
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#map" aria-label="LUX — Texas A&amp;M night-light survey, home"><img class="logo" src="img/logo.svg" alt="LUX" width="68" height="32"></a>
+  <nav class="tabs" aria-label="Views">
+    <a href="#map" data-view="map">Light Map</a>
+    <a href="#control" data-view="control" class="tab-control">Survey Control</a>
+  </nav>
+</header>
+<main>
+  <section id="view-map" class="view" data-view="map"></section>
+  <section id="view-street" class="view" data-view="street"></section>
+  <section id="view-replay" class="view" data-view="replay"></section>
+  <section id="view-scan" class="view" data-view="scan"></section>
+  <section id="view-control" class="view" data-view="control"></section>
+  <section id="view-walk" class="view" data-view="walk"></section>
+  <section id="view-data" class="view scroll" data-view="data"></section>
+</main>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
