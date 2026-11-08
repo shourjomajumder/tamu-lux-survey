@@ -51,6 +51,15 @@ def mongo_loop():
     while True:
         try:
             import pymongo
+            ud = sh("curl -fs -m 4 http://169.254.169.254/latest/user-data")
+            m = re.search(r"mongodb(\+srv)?://\S+", ud or "")
+            cur = sh("bash -c 'source /root/lux/.env; printf %s \"$MONGODB_URI\"'")
+            if m and m.group(0) != cur:   # corrected string pasted into Vultr User-Data
+                lines = [l for l in open("/root/lux/.env").read().splitlines() if not l.startswith("MONGODB_URI=")]
+                q = "'" + m.group(0).replace("'", "'\\''") + "'"
+                fd = os.open("/root/lux/.env.tmp", os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+                os.write(fd, ("\n".join(lines + ["MONGODB_URI=" + q]) + "\n").encode()); os.close(fd)
+                os.replace("/root/lux/.env.tmp", "/root/lux/.env")
             uri = sh("bash -c 'source /root/lux/.env; printf %s \"$MONGODB_URI\"'") or os.environ.get("MONGODB_URI", "")
             c = pymongo.MongoClient(uri, serverSelectionTimeoutMS=6000)
             db = c["lux_survey"]
