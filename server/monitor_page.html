@@ -1,0 +1,106 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NIGHTWATCH // lux pipeline</title>
+<style>
+:root{--g:#33ff66;--g2:#1aff8c;--dim:#0f7a35;--dd:#0a3d1c;--bg:#000;--amb:#ffb000;--red:#ff3355;--cy:#00e5ff}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--g);font:13px/1.45 "JetBrains Mono","Fira Code",ui-monospace,Menlo,Consolas,monospace;text-shadow:0 0 4px rgba(51,255,102,.55)}
+#rain{position:fixed;inset:0;z-index:0;opacity:.13}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px);animation:flick 4s infinite}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:49;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.75))}
+@keyframes flick{0%,97%,100%{opacity:1}98%{opacity:.82}99%{opacity:.95}}
+.wrap{position:relative;z-index:1;padding:14px 18px 30px;max-width:1500px;margin:auto}
+pre.banner{margin:0;font-size:10px;line-height:1.05;color:var(--g2);text-shadow:0 0 8px var(--g)}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;border-bottom:1px dashed var(--dim);padding-bottom:10px;margin-bottom:12px}
+.meta{font-size:12px;color:var(--g);text-align:right}.meta span{color:var(--cy)}
+.blink{animation:b 1s steps(1) infinite}@keyframes b{50%{opacity:0}}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+.box{border:1px solid var(--dim);background:rgba(0,12,4,.82);padding:10px 12px;position:relative}
+.box:before{content:attr(data-t);position:absolute;top:-9px;left:10px;background:#000;padding:0 6px;font-size:11px;color:var(--g2);letter-spacing:.12em}
+.box.hot{border-color:var(--amb);box-shadow:0 0 14px rgba(255,176,0,.25)}.box.hot:before{color:var(--amb)}
+.stages{grid-column:1/-1;display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.st{border:1px solid var(--dd);padding:10px;background:rgba(0,20,8,.7)}
+.st .n{color:var(--dim);font-size:11px}.st .t{color:var(--g2);font-weight:700;letter-spacing:.05em}
+.st .v{font-size:22px;margin:4px 0;color:#d6ffe0;text-shadow:0 0 10px var(--g)}.st .s{font-size:11px;color:var(--g);opacity:.8;min-height:30px}
+.st.ok{border-color:var(--g)}.st.run{border-color:var(--amb);animation:pulse 1.6s infinite}.st.run .t,.st.run .ab{color:var(--amb);text-shadow:0 0 6px var(--amb)}
+@keyframes pulse{50%{box-shadow:0 0 18px rgba(255,176,0,.35)}}
+.ab{white-space:pre;font-size:12px;margin-top:6px}
+.c4{grid-column:span 4}.c8{grid-column:span 8}.c12{grid-column:1/-1}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:3px 10px}.kv b{font-weight:400;color:var(--dim)}
+.spark{font-size:18px;letter-spacing:-1px;color:var(--cy);text-shadow:0 0 6px var(--cy);white-space:nowrap;overflow:hidden}
+.log{height:340px;overflow:auto;white-space:pre-wrap;font-size:12px;color:#b6ffc8}
+.log::-webkit-scrollbar{width:6px}.log::-webkit-scrollbar-thumb{background:var(--dim)}
+.jobs div{display:flex;gap:10px;padding:2px 0}.tag{width:64px;flex:none}
+.ok{color:var(--g)}.run{color:var(--amb);text-shadow:0 0 6px var(--amb)}.wait{color:var(--dim)}.fail{color:var(--red);text-shadow:0 0 6px var(--red)}
+table{width:100%;border-collapse:collapse;font-size:12px}td,th{padding:3px 6px;text-align:left}th{color:var(--dim);font-weight:400;border-bottom:1px dashed var(--dim)}
+.thumbs{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
+.tw{position:relative;flex:none}.tw img{height:210px;display:block;filter:grayscale(1) sepia(1) hue-rotate(70deg) saturate(3) brightness(.9) contrast(1.15);border:1px solid var(--dim)}
+.tw:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 1px,transparent 1px 3px)}
+.tw span{position:absolute;left:4px;top:4px;z-index:2;background:rgba(0,0,0,.75);font-size:10px;padding:1px 4px;color:var(--amb)}
+.tw i{position:absolute;inset:8px;border:1px solid rgba(51,255,102,.6);z-index:2;clip-path:polygon(0 0,18% 0,18% 2px,2px 2px,2px 18%,0 18%,0 0,100% 0,100% 18%,calc(100% - 2px) 18%,calc(100% - 2px) 2px,82% 2px,82% 0,100% 0,100% 100%,82% 100%,82% calc(100% - 2px),calc(100% - 2px) calc(100% - 2px),calc(100% - 2px) 82%,100% 82%,100% 100%,0 100%,0 82%,2px 82%,2px calc(100% - 2px),18% calc(100% - 2px),18% 100%,0 100%)}
+.hex{font-size:10px;color:var(--dd);height:56px;overflow:hidden;word-break:break-all;margin-top:8px;text-shadow:none}
+.glitch{position:relative}.glitch:hover{animation:gl .3s 2}@keyframes gl{25%{transform:translate(-2px,1px)}50%{transform:translate(2px,-1px);color:var(--cy)}}
+@media(max-width:1000px){.stages{grid-template-columns:repeat(2,1fr)}.c4,.c8{grid-column:1/-1}pre.banner{font-size:6px}}
+</style></head><body><canvas id="rain"></canvas><div class="wrap">
+<div class="top"><pre class="banner glitch">
+ ███╗   ██╗██╗ ██████╗ ██╗  ██╗████████╗██╗    ██╗ █████╗ ████████╗ ██████╗██╗  ██╗
+ ████╗  ██║██║██╔════╝ ██║  ██║╚══██╔══╝██║    ██║██╔══██╗╚══██╔══╝██╔════╝██║  ██║
+ ██╔██╗ ██║██║██║  ███╗███████║   ██║   ██║ █╗ ██║███████║   ██║   ██║     ███████║
+ ██║╚██╗██║██║██║   ██║██╔══██║   ██║   ██║███╗██║██╔══██║   ██║   ██║     ██╔══██║
+ ██║ ╚████║██║╚██████╔╝██║  ██║   ██║   ╚███╔███╔╝██║  ██║   ██║   ╚██████╗██║  ██║
+ ╚═╝  ╚═══╝╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝    ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝</pre>
+<div class="meta">TEXAS A&amp;M // NIGHT-LIGHT RECON GRID<br>NODE <span>vultr-chi-a16</span> @ <span>64.177.118.45</span><br><span id="agent">…</span> · <span id="clk">--:--:--</span><span class="blink">█</span></div></div>
+<div class="grid">
+ <div class="stages" id="flow"></div>
+ <div class="box c4" data-t="[ HARDWARE ]"><div class="kv" id="sys"></div><div style="margin-top:8px;color:var(--dim);font-size:11px">GPU LOAD // 120s</div><div class="spark" id="spark"></div><div class="hex" id="hex"></div></div>
+ <div class="box c8" data-t="[ TASK QUEUE ]"><div class="jobs" id="jobs"></div></div>
+ <div class="box c8" id="logbox" data-t="[ LIVE FEED ]"><div class="log" id="log"></div></div>
+ <div class="box c4" data-t="[ UPLINK :: MONGODB ATLAS ]"><div class="kv" id="mongo"></div><div style="margin-top:12px;color:var(--dim);font-size:11px">// AGENT EVENTS</div><div class="log" id="alog" style="height:190px;color:var(--g)"></div></div>
+ <div class="box c12" data-t="[ TARGET SESSIONS ]"><table id="sess"></table></div>
+ <div class="box c12" data-t="[ OPTICAL FEED :: PRIVACY-SCRUBBED ]"><div class="thumbs" id="blur"><span class="wait">awaiting GPU stream…</span></div></div>
+ <div class="box c12" data-t="[ DETECTION SHEETS ]"><div class="thumbs" id="rev"><span class="wait">—</span></div></div>
+</div></div>
+<script>
+// matrix rain
+const cv=document.getElementById('rain'),cx=cv.getContext('2d');let cols,drops;
+function rs(){cv.width=innerWidth;cv.height=innerHeight;cols=Math.floor(cv.width/14);drops=Array(cols).fill(0).map(()=>Math.random()*cv.height/14)}
+rs();addEventListener('resize',rs);const ch='ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿ0123456789LUX#$%&@';
+setInterval(()=>{cx.fillStyle='rgba(0,0,0,.08)';cx.fillRect(0,0,cv.width,cv.height);cx.fillStyle='#33ff66';cx.font='14px monospace';
+ drops.forEach((y,i)=>{cx.fillText(ch[Math.random()*ch.length|0],i*14,y*14);drops[i]=y*14>cv.height&&Math.random()>.975?0:y+1})},55);
+
+const K=new URLSearchParams(location.search).get('k'),$=i=>document.getElementById(i),hist=[];let li='',lr='';
+const bar=(f,w=18)=>{f=Math.max(0,Math.min(1,f||0));const n=Math.round(f*w);return '['+'█'.repeat(n)+'░'.repeat(w-n)+'] '+String(Math.round(f*100)).padStart(3)+'%'};
+const blocks='▁▂▃▄▅▆▇█';
+function st(n,t,v,s,f,state){return `<div class="st ${state}"><div class="n">STAGE_0${n}</div><div class="t">${t}</div><div class="v">${v}</div><div class="s">${s}</div><div class="ab">${bar(f,14)}</div></div>`}
+function js(d,p){const j=d.jobs.find(j=>j.name.includes(p));return !j?'':j.status==='running'?'run':j.status==='exit 0'?'ok':''}
+function tag(s){return s==='running'?'<span class="tag run">[ RUN  ]</span>':s==='exit 0'||s==='done'?'<span class="tag ok">[  OK  ]</span>':s==='queued'?'<span class="tag wait">[ WAIT ]</span>':'<span class="tag fail">[ FAIL ]</span>'}
+function hex(){let s='';for(let i=0;i<260;i++)s+='0123456789abcdef'[Math.random()*16|0]+(i%2?' ':'');$('hex').textContent=s}
+async function tick(){
+ try{const d=await(await fetch('/api/status?k='+K,{cache:'no-store'})).json();
+  const S=d.stages,y=d.system,se=S.sessions,ph=se.reduce((a,s)=>a+s.photos,0),bl=se.reduce((a,s)=>a+s.blurred,0),de=se.reduce((a,s)=>a+s.detections,0),mc=d.mongo.counts||{};
+  $('flow').innerHTML=st(1,'FIELD CAPTURE','16 WALKS','W1–W3 synced · W4 pending',.8,'ok')+
+   st(2,'EXFIL // DRIVE→GPU',`${S.zips.length}/${S.zips_expected}`,`${(S.zips_total_mb/1000).toFixed(2)} GB · ↓${y.net_in_mbps} Mb/s`,S.zips.length/S.zips_expected,js(d,'download')||(S.zips.length>=S.zips_expected?'ok':''))+
+   st(3,'DECOMPRESS',`${se.length} SESS`,`${ph.toLocaleString()} frames extracted`,S.zips.length?se.length/S.zips.length:0,js(d,'unzip')||(se.length?'ok':''))+
+   st(4,'NEURAL SCAN + SCRUB',bl.toLocaleString(),`/${ph.toLocaleString()} frames · ${de.toLocaleString()} targets`,ph?bl/ph:0,js(d,'detect'))+
+   st(5,'UPLINK → ATLAS',(mc.readings||0).toLocaleString(),`readings · ${(mc.detections||0).toLocaleString()} detections`,mc.walks?1:0,js(d,'mongo')||(mc.readings?'ok':''))+
+   st(6,'DEPLOY // WEB','STANDBY','lit-route planner',0,'');
+  const g=y.gpu||{};hist.push(g.util||0);if(hist.length>60)hist.shift();
+  $('spark').textContent=hist.map(v=>blocks[Math.min(7,Math.floor(v/12.5))]).join('');
+  $('sys').innerHTML=`<b>GPU</b><span>${g.name||'?'}</span><b>CORE LOAD</b><span>${bar((g.util||0)/100,12)}</span>
+   <b>VRAM</b><span>${bar((g.mem||0)/(g.mem_total||1),12)} ${((g.mem||0)/1024).toFixed(1)}G</span><b>THERMAL</b><span>${g.temp??'?'}°C · ${g.power??'?'}W</span>
+   <b>CPU</b><span>${bar(y.cpu/100,12)}</span><b>RAM</b><span>${y.ram_used_gb}/${y.ram_total_gb} GB</span>
+   <b>DISK</b><span>${y.disk_used_gb}/${y.disk_total_gb} GB</span><b>NET</b><span>↓${y.net_in_mbps} ↑${y.net_out_mbps} Mb/s</span><b>UPTIME</b><span>${y.uptime}</span>`;
+  $('agent').innerHTML=y.agent==='active'?'<span class="ok">● AGENT ONLINE</span>':'<span class="fail">● AGENT DOWN</span>';
+  $('jobs').innerHTML=d.jobs.map(j=>`<div>${tag(j.status)}<span style="color:#d6ffe0;width:210px;flex:none">${j.name}</span><span style="opacity:.75">${j.desc}</span></div>`).join('');
+  $('logbox').dataset.t=d.running?`[ LIVE FEED :: ${d.running} ]`:'[ LIVE FEED :: IDLE ]';$('logbox').classList.toggle('hot',!!d.running);
+  const L=$('log'),bot=L.scrollTop+L.clientHeight>=L.scrollHeight-20;L.textContent=(d.log||'').split('\n').map(l=>l?'> '+l:l).join('\n')||'> waiting for next task_';if(bot)L.scrollTop=L.scrollHeight;
+  $('alog').textContent=d.agent_log.map(l=>'$ '+l).join('\n');
+  const m=d.mongo;$('mongo').innerHTML=`<b>LINK</b><span class="${m.ok?'ok':m.ok===false?'fail':'wait'}">${m.ok?'■ ESTABLISHED':m.ok===false?'✖ REJECTED':'… HANDSHAKE'}</span>`+
+   (m.ok?Object.entries(mc).map(([k,v])=>`<b>${k.toUpperCase()}</b><span>${v.toLocaleString()}</span>`).join(''):`<b>REASON</b><span style="font-size:11px" class="fail">${(m.err||'').slice(0,110)}</span>`);
+  $('sess').innerHTML='<tr><th>SESSION_ID</th><th>FRAMES</th><th>SCRUBBED</th><th>TARGETS</th><th>PROGRESS</th></tr>'+(se.length?se.map(s=>`<tr><td>${s.name}</td><td>${s.photos}</td><td>${s.blurred}</td><td>${s.detections}</td><td class="${s.photos&&s.blurred>=s.photos?'ok':s.blurred?'run':'wait'}" style="white-space:pre">${bar(s.photos?s.blurred/s.photos:0,24)}</td></tr>`).join(''):'<tr><td colspan=5 class="wait">no sessions decompressed</td></tr>');
+  const bi=d.newest_blurred.join('|');if(bi&&bi!==li){li=bi;$('blur').innerHTML=d.newest_blurred.map(p=>`<div class="tw"><img src="/img/blur/${p}?k=${K}"><i></i><span>${p.split('/')[0]} :: ${p.split('/').pop().replace('.jpg','')}</span></div>`).join('')}
+  const ri=d.reviews.join('|');if(ri&&ri!==lr){lr=ri;$('rev').innerHTML=d.reviews.map(p=>`<a class="tw" href="/img/review/${p}?k=${K}" target=_blank><img src="/img/review/${p}?k=${K}"><span>${p}</span></a>`).join('')}
+ }catch(e){$('agent').innerHTML='<span class="fail">● SIGNAL LOST — RECONNECTING</span>'}
+}
+setInterval(()=>{$('clk').textContent=new Date().toLocaleTimeString('en-GB')},1000);
+setInterval(hex,400);tick();setInterval(tick,2000);
+</script></body></html>

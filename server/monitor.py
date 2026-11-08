@@ -125,6 +125,19 @@ def system():
         "agent": sh("systemctl is-active lux-agent"), "uptime": sh("uptime -p"),
     }
 
+# The page HTML is read straight from GitHub's main branch (git fetch, no working-tree changes),
+# so UI updates go live within ~20 s even while a long job is running.
+_page = {"t": 0, "html": None}
+def page():
+    if time.time() - _page["t"] > 20:
+        _page["t"] = time.time()
+        sh(f"git -C {REPO} fetch -q origin main", t=15)
+        html = sh(f"git -C {REPO} show origin/main:server/monitor_page.html", t=5)
+        if html.startswith("<!doctype"): _page["html"] = html
+    if _page["html"]: return _page["html"]
+    f = REPO / "server/monitor_page.html"
+    return f.read_text() if f.exists() else PAGE
+
 def status():
     js = jobs(); running = [j for j in js if j["status"] == "running"]
     log = ""
@@ -155,6 +168,8 @@ class H(BaseHTTPRequestHandler):
             return self.send(403, b"forbidden - add ?k=YOUR_KEY", "text/plain")
         try:
             if u.path == "/":
+                return self.send(200, page().encode(), "text/html; charset=utf-8")
+            if u.path == "/classic":
                 return self.send(200, PAGE.encode(), "text/html; charset=utf-8")
             if u.path == "/api/status":
                 return self.send(200, json.dumps(status()).encode(), "application/json")
