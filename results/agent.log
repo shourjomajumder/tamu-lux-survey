@@ -67,3 +67,4 @@
 2026-11-08T12:04:19Z END 026_new_routes.sh rc=0
 2026-11-08T12:05:21Z START 026b_osm_cache_copy.sh
 2026-11-08T12:05:22Z END 026b_osm_cache_copy.sh rc=0
+2026-11-08T12:09:57Z START 026c_new_routes_v2.sh
