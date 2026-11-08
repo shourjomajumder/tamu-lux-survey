@@ -56,6 +56,13 @@ Full details: [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md)
 
 Details: [`infra/README.md`](infra/README.md)
 
+| | |
+|---|---|
+| ![Privacy blur and object detection](docs/slides/vultr/slide-1.png) | ![Lights, trees and emergency phones](docs/slides/vultr/slide-2.png) |
+| ![Depth and scene](docs/slides/vultr/slide-3.png) | ![Lamp mapping](docs/slides/vultr/slide-4.png) |
+
+All Vultr slides: [`docs/slides/`](docs/slides#vultr-gpu-processing)
+
 ## How we used MongoDB (database + live API)
 
 - **Service:** MongoDB Atlas, database `lux_survey`
@@ -75,6 +82,13 @@ Details: [`infra/README.md`](infra/README.md)
   - coverage — which route pieces are still unwalked
   - suggestions — next routes to send walkers on
   - live walker tracking and route assignments to phones
+
+| | |
+|---|---|
+| ![Atlas cluster](docs/slides/mongodb/slide-1.png) | ![readings](docs/slides/mongodb/slide-2.png) |
+| ![routes and bins](docs/slides/mongodb/slide-4.png) | ![Location queries](docs/slides/mongodb/slide-7.png) |
+
+All MongoDB slides: [`docs/slides/`](docs/slides#mongodb-atlas)
 
 ## Dataset
 
@@ -111,6 +125,7 @@ More: [`docs/SUPPLEMENTARY_DATA.md`](docs/SUPPLEMENTARY_DATA.md)
 | [`jobs/`](jobs) | Every job the server ran, in order |
 | [`results/`](results) | Server outputs |
 | [`data/`](data), [`docs/`](docs) | Published dataset + docs |
+| [`docs/slides/`](docs/slides) | Vultr and MongoDB slide decks (.pptx) + slide images |
 | [`infra/`](infra) | How Vultr, MongoDB and the API fit together |
 
 ## Setup and run
