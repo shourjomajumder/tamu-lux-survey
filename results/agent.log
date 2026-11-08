@@ -45,3 +45,4 @@
 2026-11-08T08:59:01Z END 014b_pointcloud_preview.sh rc=0
 2026-11-08T09:01:04Z START 016_splats_retry2.sh
 2026-11-08T09:01:31Z END 016_splats_retry2.sh rc=0
+2026-11-08T09:05:36Z START 017_splats_retry3.sh
