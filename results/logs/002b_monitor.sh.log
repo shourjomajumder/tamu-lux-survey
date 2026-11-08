@@ -1,0 +1,5 @@
+Rule added
+Rule added (v6)
+Created symlink /etc/systemd/system/multi-user.target.wants/lux-monitor.service → /etc/systemd/system/lux-monitor.service.
+active
+local http 403
