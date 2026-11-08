@@ -1,0 +1,104 @@
++ export PATH=/usr/local/cuda-12.4/bin:/root/lux/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin CUDA_HOME=/usr/local/cuda-12.4 TORCH_CUDA_ARCH_LIST=8.6
++ PATH=/usr/local/cuda-12.4/bin:/root/lux/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
++ CUDA_HOME=/usr/local/cuda-12.4
++ TORCH_CUDA_ARCH_LIST=8.6
++ /root/splatenv/bin/pip install -q ninja
++ grep -viE 'fused|^git|^#' /root/gsplat/examples/requirements.txt
++ /root/splatenv/bin/pip install -q -r /tmp/req.txt matplotlib scikit-image splines
++ tail -2
++ mkdir -p /data/web/splats
++ for d in /data/splat/spot1 /data/splat/spot2
++ '[' -d /data/splat/spot1 ']'
+++ basename /data/splat/spot1
++ n=spot1
++ echo '=== spot1'
+=== spot1
++ '[' '!' -d /data/splat/spot1/sparse/0 ']'
++ '[' -d /data/splat/spot1/sparse/0 ']'
++ colmap model_analyzer --path /data/splat/spot1/sparse/0
++ grep -iE 'registered images|points'
+Registered images: 20
+Points: 1145
++ grep -vE 'it/s|^\s*$'
++ tail -25
+  File "/root/gsplat/examples/simple_trainer.py", line 461, in rasterize_splats
+    render_colors, render_alphas, info = rasterization(
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/rendering.py", line 297, in rasterization
+    proj_results = fully_fused_projection(
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/cuda/_wrapper.py", line 306, in fully_fused_projection
+    return _FullyFusedProjection.apply(
+  File "/root/splatenv/lib/python3.10/site-packages/torch/autograd/function.py", line 574, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/cuda/_wrapper.py", line 778, in forward
+    camera_model_type = _make_lazy_cuda_obj(
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/cuda/_wrapper.py", line 21, in _make_lazy_cuda_obj
+    from ._backend import _C
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/cuda/_backend.py", line 130, in <module>
+    _C = load_extension(
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/cuda/_backend.py", line 42, in load_extension
+    return load(
+  File "/root/splatenv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1312, in load
+    return _jit_compile(
+  File "/root/splatenv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1722, in _jit_compile
+    _write_ninja_file_and_build_library(
+  File "/root/splatenv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1804, in _write_ninja_file_and_build_library
+    verify_ninja_availability()
+  File "/root/splatenv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1853, in verify_ninja_availability
+    raise RuntimeError("Ninja is required to load C++ extensions")
+RuntimeError: Ninja is required to load C++ extensions
+++ ls -t '/data/splat/spot1/out/ckpts/*.pt'
+++ head -1
++ ck=
++ '[' -n '' ']'
++ for d in /data/splat/spot1 /data/splat/spot2
++ '[' -d /data/splat/spot2 ']'
+++ basename /data/splat/spot2
++ n=spot2
++ echo '=== spot2'
+=== spot2
++ '[' '!' -d /data/splat/spot2/sparse/0 ']'
++ '[' -d /data/splat/spot2/sparse/0 ']'
++ colmap model_analyzer --path /data/splat/spot2/sparse/0
++ grep -iE 'registered images|points'
+Registered images: 36
+Points: 1556
++ grep -vE 'it/s|^\s*$'
++ tail -25
+  File "/root/gsplat/examples/simple_trainer.py", line 461, in rasterize_splats
+    render_colors, render_alphas, info = rasterization(
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/rendering.py", line 297, in rasterization
+    proj_results = fully_fused_projection(
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/cuda/_wrapper.py", line 306, in fully_fused_projection
+    return _FullyFusedProjection.apply(
+  File "/root/splatenv/lib/python3.10/site-packages/torch/autograd/function.py", line 574, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/cuda/_wrapper.py", line 778, in forward
+    camera_model_type = _make_lazy_cuda_obj(
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/cuda/_wrapper.py", line 21, in _make_lazy_cuda_obj
+    from ._backend import _C
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/cuda/_backend.py", line 130, in <module>
+    _C = load_extension(
+  File "/root/splatenv/lib/python3.10/site-packages/gsplat/cuda/_backend.py", line 42, in load_extension
+    return load(
+  File "/root/splatenv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1312, in load
+    return _jit_compile(
+  File "/root/splatenv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1722, in _jit_compile
+    _write_ninja_file_and_build_library(
+  File "/root/splatenv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1804, in _write_ninja_file_and_build_library
+    verify_ninja_availability()
+  File "/root/splatenv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1853, in verify_ninja_availability
+    raise RuntimeError("Ninja is required to load C++ extensions")
+RuntimeError: Ninja is required to load C++ extensions
+++ ls -t '/data/splat/spot2/out/ckpts/*.pt'
+++ head -1
++ ck=
++ '[' -n '' ']'
++ cp /data/splat/spots.json /data/web/splats/
++ cd /data/web
++ zip -qr splats.zip splats
++ ls -lh /data/web/splats /data/web/splats.zip
+-rw-r--r-- 1 root root  485 Nov  8 09:22 /data/web/splats.zip
+
+/data/web/splats:
+total 4.0K
+-rw-r--r-- 1 root root 335 Nov  8 09:22 spots.json
