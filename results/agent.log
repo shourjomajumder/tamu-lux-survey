@@ -62,3 +62,4 @@
 2026-11-08T11:05:06Z START 024_drop_test_runs.sh
 2026-11-08T11:05:33Z END 024_drop_test_runs.sh rc=0
 2026-11-08T11:32:24Z START 025_mongo_v2.sh
+2026-11-08T11:32:46Z END 025_mongo_v2.sh rc=0

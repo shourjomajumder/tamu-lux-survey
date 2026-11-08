@@ -1,0 +1,8 @@
+MongoDB login OK (attempt 1)
+server version 8.0.37
+deleting test runs: {'walks': 3, 'readings': 352, 'photos': 318, 'detections': 803}
+old readings kept as readings_raw: 18965
+readings: 17715, on a stretch: 17715, stretches whose reading count differs from path_lighting.geojson: 24
+{'walks': 13, 'readings': 17715, 'readings_raw': 18965, 'photos': 17289, 'detections': 9334, 'segments': 3622, 'routes': 8, 'bins': 5794, 'walkers': 0, 'positions': 0}
+bins covered by the survey: 4903 of 5794
+test-run docs left: 0
