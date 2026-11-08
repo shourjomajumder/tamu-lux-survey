@@ -30,3 +30,4 @@
 023_share_splats.sh
 024_drop_test_runs.sh
 025_mongo_v2.sh
+026_new_routes.sh

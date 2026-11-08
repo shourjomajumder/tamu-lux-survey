@@ -1,0 +1,106 @@
+-rw-r--r-- 1 root root 801240 Nov  8 07:34 /data/osm_cache.json
+readings 17715, area 1713 x 1359 m
+osm ways (walkable classes): 1158
+graph: 9949 nodes, 10645 pieces, 83.3 km
+largest connected piece: 99.7% of pieces
+collected 27.9 km, uncollected 55.2 km, targetable 39.0 km (walkways 25.8 km)
+uncollected length per area (m): [5839, 5421, 3738, 3673, 4530, 5096, 7312, 3342]
+201  Dunlap Drill Field & Early Texas A&M Campus Housing  start: Early Texas A&M Campus Housing  4.21 km  80.7% new
+202  College Station Railroad Depots & HEEP Center  start: College Station Railroad Depots  3.12 km  75.7% new
+203  East Quad & Teague Building  start: Vending Machine Booth  3.12 km  70.2% new
+204  College Main Street & Second Street  start: Hobby Residence Hall  3.60 km  81.1% new
+area 4: best route only 56% new (3177 m), skipped
+205  Rudder Plaza & 12th Man Statue  start: Rudder Plaza  3.02 km  61.5% new
+206  Interdisciplinary Life Sciences Building & Clements Residence Hall  start: Interdisciplinary Life Sciences Building  3.10 km  64.9% new
+207  Haney Drill Field & Duncan Dining Hall  start: Band Hall  3.05 km  62.0% new
+library: 11 routes -> results/final/route_library.json (+ light)
+[
+ {
+  "id": 201,
+  "name": "Dunlap Drill Field & Early Texas A&M Campus Housing",
+  "start": "Early Texas A&M Campus Housing",
+  "end": "Aggie Band Statue",
+  "km": 4.21,
+  "new_pct": 80.7,
+  "new_pct_10m_rule": 81.1,
+  "minutes": 56,
+  "area_uncollected_m": 7312
+ },
+ {
+  "id": 202,
+  "name": "College Station Railroad Depots & HEEP Center",
+  "start": "College Station Railroad Depots",
+  "end": "Kleberg Center",
+  "km": 3.12,
+  "new_pct": 75.7,
+  "new_pct_10m_rule": 78.4,
+  "minutes": 42,
+  "area_uncollected_m": 5839
+ },
+ {
+  "id": 203,
+  "name": "East Quad & Teague Building",
+  "start": "Vending Machine Booth",
+  "end": "Teague Building",
+  "km": 3.12,
+  "new_pct": 70.2,
+  "new_pct_10m_rule": 73.0,
+  "minutes": 42,
+  "area_uncollected_m": 5421
+ },
+ {
+  "id": 204,
+  "name": "College Main Street & Second Street",
+  "start": "Hobby Residence Hall",
+  "end": "Second Street",
+  "km": 3.6,
+  "new_pct": 81.1,
+  "new_pct_10m_rule": 81.1,
+  "minutes": 48,
+  "area_uncollected_m": 5096
+ },
+ {
+  "id": 205,
+  "name": "Rudder Plaza & 12th Man Statue",
+  "start": "Rudder Plaza",
+  "end": "Texas A&M Hotel and Conference Center",
+  "km": 3.02,
+  "new_pct": 61.5,
+  "new_pct_10m_rule": 66.4,
+  "minutes": 40,
+  "area_uncollected_m": 3738
+ },
+ {
+  "id": 206,
+  "name": "Interdisciplinary Life Sciences Building & Clements Residence Hall",
+  "start": "Interdisciplinary Life Sciences Building",
+  "end": "Chimy's Cervecer\u00eda Sports Bar",
+  "km": 3.1,
+  "new_pct": 64.9,
+  "new_pct_10m_rule": 71.9,
+  "minutes": 41,
+  "area_uncollected_m": 3673
+ },
+ {
+  "id": 207,
+  "name": "Haney Drill Field & Duncan Dining Hall",
+  "start": "Band Hall",
+  "end": "Eppright Residence Hall",
+  "km": 3.05,
+  "new_pct": 62.0,
+  "new_pct_10m_rule": 64.1,
+  "minutes": 41,
+  "area_uncollected_m": 3342
+ }
+]
+-rw-r--r-- 1 root root   1959 Nov  8 12:04 results/final/new_routes_report.json
+-rw-r--r-- 1 root root 251059 Nov  8 12:04 results/final/route_library.json
+-rw-r--r-- 1 root root 100363 Nov  8 12:04 results/final/route_library_light.json
+MongoDB login OK (attempt 1)
+routes-only: readings/segments untouched; survey coverage from results/final/readings_1hz.csv (17715 readings)
+bins: 5808; survey 2739, live kept 0, replayed from positions 0
+walker assignments cleared (route no longer in the library): 0 | still assigned: 0
+routes: [(1, 'Corps Quad & Southside', 8672), (2, 'Academic Core', 8735), (3, 'Northside', 8704), (4, 'Kyle Field & West Campus', 8720), (201, 'Dunlap Drill Field & Early Texas A&M Campus Housing', 4201), (202, 'College Station Railroad Depots & HEEP Center', 3117), (203, 'East Quad & Teague Building', 3115), (204, 'College Main Street & Second Street', 3592), (205, 'Rudder Plaza & 12th Man Statue', 3013), (206, 'Interdisciplinary Life Sciences Building & Clements Residence Hall', 3095), (207, 'Haney Drill Field & Duncan Dining Hall', 3043)]
+{'walks': 13, 'readings': 17715, 'readings_raw': 18965, 'photos': 17289, 'detections': 9334, 'segments': 3622, 'routes': 11, 'bins': 5808, 'walkers': 1, 'positions': 0}
+bins covered (survey + live): 2739 of 5808 | by the survey: 2739
+test-run docs left: 0

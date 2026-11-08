@@ -1,0 +1,84 @@
+{
+ "collected_km": 27.89,
+ "uncollected_km": 55.21,
+ "targetable_km": 38.96,
+ "routes": [
+  {
+   "id": 201,
+   "name": "Dunlap Drill Field & Early Texas A&M Campus Housing",
+   "start": "Early Texas A&M Campus Housing",
+   "end": "Aggie Band Statue",
+   "km": 4.21,
+   "new_pct": 80.7,
+   "new_pct_10m_rule": 81.1,
+   "minutes": 56,
+   "area_uncollected_m": 7312
+  },
+  {
+   "id": 202,
+   "name": "College Station Railroad Depots & HEEP Center",
+   "start": "College Station Railroad Depots",
+   "end": "Kleberg Center",
+   "km": 3.12,
+   "new_pct": 75.7,
+   "new_pct_10m_rule": 78.4,
+   "minutes": 42,
+   "area_uncollected_m": 5839
+  },
+  {
+   "id": 203,
+   "name": "East Quad & Teague Building",
+   "start": "Vending Machine Booth",
+   "end": "Teague Building",
+   "km": 3.12,
+   "new_pct": 70.2,
+   "new_pct_10m_rule": 73.0,
+   "minutes": 42,
+   "area_uncollected_m": 5421
+  },
+  {
+   "id": 204,
+   "name": "College Main Street & Second Street",
+   "start": "Hobby Residence Hall",
+   "end": "Second Street",
+   "km": 3.6,
+   "new_pct": 81.1,
+   "new_pct_10m_rule": 81.1,
+   "minutes": 48,
+   "area_uncollected_m": 5096
+  },
+  {
+   "id": 205,
+   "name": "Rudder Plaza & 12th Man Statue",
+   "start": "Rudder Plaza",
+   "end": "Texas A&M Hotel and Conference Center",
+   "km": 3.02,
+   "new_pct": 61.5,
+   "new_pct_10m_rule": 66.4,
+   "minutes": 40,
+   "area_uncollected_m": 3738
+  },
+  {
+   "id": 206,
+   "name": "Interdisciplinary Life Sciences Building & Clements Residence Hall",
+   "start": "Interdisciplinary Life Sciences Building",
+   "end": "Chimy's Cervecer\u00eda Sports Bar",
+   "km": 3.1,
+   "new_pct": 64.9,
+   "new_pct_10m_rule": 71.9,
+   "minutes": 41,
+   "area_uncollected_m": 3673
+  },
+  {
+   "id": 207,
+   "name": "Haney Drill Field & Duncan Dining Hall",
+   "start": "Band Hall",
+   "end": "Eppright Residence Hall",
+   "km": 3.05,
+   "new_pct": 62.0,
+   "new_pct_10m_rule": 64.1,
+   "minutes": 41,
+   "area_uncollected_m": 3342
+  }
+ ]
+}
