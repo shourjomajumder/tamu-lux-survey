@@ -1,4 +1,5 @@
 # Unpack every phone zip copied to /data/zips into /data/sessions/<session>/ (skips ones already done).
+# Unzip every walk zip into /data/sessions/<session>/
 set -e
 cd /data/zips
 for z in *.zip; do
