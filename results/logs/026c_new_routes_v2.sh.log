@@ -1,0 +1,132 @@
+-rw-r--r-- 1 root root 801240 Nov  8 07:34 /data/osm_cache.json
+readings 17715, area 1713 x 1359 m
+osm ways (walkable classes): 1168
+graph: 10019 nodes, 10727 pieces, 83.9 km
+largest connected piece: 99.7% of pieces
+collected 27.9 km, uncollected 55.8 km, targetable 51.9 km (walkways 25.8 km)
+k=6 seed=7: 6 routes, 4 >= 3 km & >= 70% new, 15.0 km new; 3.0km/70%, 3.8km/72%, 2.2km/72%, 4.0km/82%, 3.2km/73%, 4.2km/70%
+k=6 seed=8: 6 routes, 4 >= 3 km & >= 70% new, 15.0 km new; 3.0km/70%, 3.8km/72%, 2.2km/72%, 4.0km/82%, 3.2km/73%, 4.2km/70%
+k=6 seed=9: 6 routes, 4 >= 3 km & >= 70% new, 15.0 km new; 3.0km/70%, 3.8km/72%, 2.2km/72%, 4.0km/82%, 3.2km/73%, 4.2km/70%
+k=7 seed=7: 7 routes, 5 >= 3 km & >= 70% new, 18.7 km new; 4.2km/81%, 2.2km/72%, 4.2km/75%, 3.6km/72%, 4.0km/70%, 3.1km/72%, 4.1km/70%
+k=7 seed=8: 7 routes, 5 >= 3 km & >= 70% new, 18.7 km new; 4.2km/81%, 2.2km/72%, 4.2km/75%, 3.6km/72%, 4.0km/70%, 3.1km/72%, 4.1km/70%
+k=7 seed=9: 7 routes, 5 >= 3 km & >= 70% new, 18.7 km new; 4.2km/81%, 2.2km/72%, 4.2km/75%, 3.6km/72%, 4.0km/70%, 3.1km/72%, 4.1km/70%
+k=8 seed=7: 8 routes, 5 >= 3 km & >= 70% new, 19.9 km new; 2.2km/72%, 4.1km/81%, 3.4km/73%, 4.2km/75%, 4.0km/62%, 3.1km/72%, 2.7km/67%, 4.1km/70%
+k=8 seed=8: 8 routes, 5 >= 3 km & >= 70% new, 19.9 km new; 2.2km/72%, 4.1km/81%, 3.4km/73%, 4.2km/75%, 4.0km/62%, 3.1km/72%, 2.7km/67%, 4.1km/70%
+k=8 seed=9: 8 routes, 5 >= 3 km & >= 70% new, 19.9 km new; 2.2km/72%, 4.1km/81%, 3.4km/73%, 4.2km/75%, 4.0km/62%, 3.1km/72%, 2.7km/67%, 4.1km/70%
+  k=9 seed=7 area 2: only 60% new (2235 m), skipped
+k=9 seed=7: 8 routes, 6 >= 3 km & >= 70% new, 21.4 km new; 4.1km/81%, 3.7km/72%, 4.2km/78%, 4.0km/72%, 3.3km/70%, 2.7km/67%, 4.2km/75%, 3.0km/70%
+  k=9 seed=8 area 5: only 55% new (2789 m), skipped
+k=9 seed=8: 8 routes, 5 >= 3 km & >= 70% new, 19.4 km new; 2.2km/72%, 4.1km/81%, 4.2km/78%, 3.1km/72%, 2.7km/67%, 3.0km/63%, 4.2km/72%, 3.1km/70%
+k=9 seed=9: 9 routes, 7 >= 3 km & >= 70% new, 23.2 km new; 4.1km/81%, 3.6km/72%, 4.2km/75%, 4.1km/72%, 3.4km/70%, 2.2km/66%, 2.7km/67%, 3.3km/72%, 4.2km/73%
+dropping the weakest: ['2.2km/66%']
+chosen: k=9 seed=9, 8 routes
+201  Rosenthal Meat Science & Technology Center – Kleberg Center  start: Aplin Center  4.13 km  80.7% new
+202  College Main Street & Second Street  start: A. P. Beutel Health Center  4.20 km  74.8% new
+203  Reveille Graves & Core Values Monument  start: Reveille Graves  4.21 km  72.9% new
+204  Williams Ring Lawn & Dunlap Drill Field  start: Bugle Stand  4.12 km  72.3% new
+205  East Quad & Butler Hall  start: Butler Hall  3.64 km  72.1% new
+206  Chemistry Plaza & Military Sciences Building  start: Psychology Building  3.41 km  70.3% new
+207  Haney Drill Field & Band Hall  start: Band Hall  3.29 km  72.2% new
+208  Coke Building & Clements Residence Hall  start: Coke Building  2.71 km  66.6% new
+library: 12 routes -> results/final/route_library.json (+ light)
+[
+ {
+  "id": 201,
+  "name": "Rosenthal Meat Science & Technology Center \u2013 Kleberg Center",
+  "start": "Aplin Center",
+  "end": "Kleberg Center",
+  "km": 4.13,
+  "new_pct": 80.7,
+  "new_pct_10m_rule": 84.5,
+  "minutes": 55,
+  "area_uncollected_m": 7631
+ },
+ {
+  "id": 202,
+  "name": "College Main Street & Second Street",
+  "start": "A. P. Beutel Health Center",
+  "end": "College Main Street",
+  "km": 4.2,
+  "new_pct": 74.8,
+  "new_pct_10m_rule": 75.8,
+  "minutes": 56,
+  "area_uncollected_m": 6983
+ },
+ {
+  "id": 203,
+  "name": "Reveille Graves & Core Values Monument",
+  "start": "Reveille Graves",
+  "end": "Reveille Graves",
+  "km": 4.21,
+  "new_pct": 72.9,
+  "new_pct_10m_rule": 74.5,
+  "minutes": 56,
+  "area_uncollected_m": 4365
+ },
+ {
+  "id": 204,
+  "name": "Williams Ring Lawn & Dunlap Drill Field",
+  "start": "Bugle Stand",
+  "end": "John D. White 70 - Robert L. Walker 58 Music Activity Center",
+  "km": 4.12,
+  "new_pct": 72.3,
+  "new_pct_10m_rule": 79.0,
+  "minutes": 55,
+  "area_uncollected_m": 5958
+ },
+ {
+  "id": 205,
+  "name": "East Quad & Butler Hall",
+  "start": "Butler Hall",
+  "end": "Liberal Arts and Arts & Humanities Building",
+  "km": 3.64,
+  "new_pct": 72.1,
+  "new_pct_10m_rule": 77.0,
+  "minutes": 48,
+  "area_uncollected_m": 7119
+ },
+ {
+  "id": 206,
+  "name": "Chemistry Plaza & Military Sciences Building",
+  "start": "Psychology Building",
+  "end": "Doherty Building",
+  "km": 3.41,
+  "new_pct": 70.3,
+  "new_pct_10m_rule": 71.9,
+  "minutes": 46,
+  "area_uncollected_m": 5464
+ },
+ {
+  "id": 207,
+  "name": "Haney Drill Field & Band Hall",
+  "start": "Band Hall",
+  "end": "Band Hall",
+  "km": 3.29,
+  "new_pct": 72.2,
+  "new_pct_10m_rule": 75.9,
+  "minutes": 44,
+  "area_uncollected_m": 4440
+ },
+ {
+  "id": 208,
+  "name": "Coke Building & Clements Residence Hall",
+  "start": "Coke Building",
+  "end": "David-Gary Residence Hall",
+  "km": 2.71,
+  "new_pct": 66.6,
+  "new_pct_10m_rule": 76.2,
+  "minutes": 36,
+  "area_uncollected_m": 4798
+ }
+]
+-rw-r--r-- 1 root root   2181 Nov  8 12:10 results/final/new_routes_report.json
+-rw-r--r-- 1 root root 291662 Nov  8 12:10 results/final/route_library.json
+-rw-r--r-- 1 root root 119544 Nov  8 12:10 results/final/route_library_light.json
+MongoDB login OK (attempt 1)
+routes-only: readings/segments untouched; survey coverage from results/final/readings_1hz.csv (17715 readings)
+bins: 6457; survey 2758, live kept 0, replayed from positions 0
+walker assignments cleared (route no longer in the library): 0 | still assigned: 0
+routes: [(1, 'Corps Quad & Southside', 8672), (2, 'Academic Core', 8735), (3, 'Northside', 8704), (4, 'Kyle Field & West Campus', 8720), (201, 'Rosenthal Meat Science & Technology Center – Kleberg Center', 4124), (202, 'College Main Street & Second Street', 4200), (203, 'Reveille Graves & Core Values Monument', 4200), (204, 'Williams Ring Lawn & Dunlap Drill Field', 4116), (205, 'East Quad & Butler Hall', 3631), (206, 'Chemistry Plaza & Military Sciences Building', 3408), (207, 'Haney Drill Field & Band Hall', 3287), (208, 'Coke Building & Clements Residence Hall', 2706)]
+{'walks': 13, 'readings': 17715, 'readings_raw': 18965, 'photos': 17289, 'detections': 9334, 'segments': 3622, 'routes': 12, 'bins': 6457, 'walkers': 1, 'positions': 0}
+bins covered (survey + live): 2758 of 6457 | by the survey: 2758
+test-run docs left: 0
