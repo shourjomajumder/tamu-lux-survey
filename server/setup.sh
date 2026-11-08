@@ -28,10 +28,10 @@ if [ ! -f /root/lux/.env ]; then
   # Or from the Vultr "User-Data" tab (read via the metadata service).
   if [ -z "${GH_TOKEN:-}" ] || [ -z "${MONGODB_URI:-}" ]; then
     UD=$(curl -fs -m 5 http://169.254.169.254/latest/user-data || true)
-    [ -z "${GH_TOKEN:-}" ] && GH_TOKEN=$(printf '%s\n' "$UD" | grep -oE '(github_pat_|ghp_)[A-Za-z0-9_]+' | head -1)
-    [ -z "${MONGODB_URI:-}" ] && MONGODB_URI=$(printf '%s\n' "$UD" | grep -oE 'mongodb(\+srv)?://[^[:space:]]+' | head -1)
-    [ -n "$GH_TOKEN" ] && echo "Got GitHub token from Vultr User-Data"
-    [ -n "$MONGODB_URI" ] && echo "Got MongoDB string from Vultr User-Data"
+    [ -z "${GH_TOKEN:-}" ] && GH_TOKEN=$(printf '%s\n' "$UD" | grep -oE '(github_pat_|ghp_)[A-Za-z0-9_]+' | head -1 || true)
+    [ -z "${MONGODB_URI:-}" ] && MONGODB_URI=$(printf '%s\n' "$UD" | grep -oE 'mongodb(\+srv)?://[^[:space:]]+' | head -1 || true)
+    [ -n "${GH_TOKEN:-}" ] && echo "Got GitHub token from Vultr User-Data"
+    [ -n "${MONGODB_URI:-}" ] && echo "Got MongoDB string from Vultr User-Data"
   fi
   if [ -z "${GH_TOKEN:-}" ]; then
     echo; echo "Paste your GitHub fine-grained token (input hidden), then press Return:"
