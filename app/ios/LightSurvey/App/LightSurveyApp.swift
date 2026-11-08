@@ -4,6 +4,13 @@ import SwiftUI
 struct LightSurveyApp: App {
     @State private var controller = SurveyController()
 
+    init() {
+        // Every launch opens on the mode chooser (Explore / Survey). The last pick is only kept as "lx.lastMode".
+        let d = UserDefaults.standard
+        if let last = d.string(forKey: "lx.mode"), !last.isEmpty { d.set(last, forKey: "lx.lastMode") }
+        d.set("", forKey: "lx.mode")
+    }
+
     var body: some Scene {
         WindowGroup {
             AppModeRoot()
@@ -14,7 +21,7 @@ struct LightSurveyApp: App {
     }
 }
 
-/// First open: pick Explore or Survey. The choice is remembered; each mode has a button to come back here.
+/// Every launch: pick Explore or Survey (the app always opens here). Each mode has a button to come back here.
 struct AppModeRoot: View {
     @AppStorage("lx.mode") private var modeRaw: String = ""
 
@@ -53,7 +60,8 @@ struct RootView: View {
         // everything to disk; coming back resumes automatically.
         .onChange(of: scenePhase) { _, phase in
             c.setAppActive(phase == .active)
-            if phase == .active { c.hello() }
+            // only once a walker was picked on the home screen (tapping an assignment) this launch
+            if phase == .active, let w = c.chosenWalker { c.hello(w) }
         }
     }
 }

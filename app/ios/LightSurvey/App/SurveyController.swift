@@ -15,6 +15,30 @@ struct SurveyAlert: Identifiable, Equatable {
     static func == (a: SurveyAlert, b: SurveyAlert) -> Bool { a.id == b.id && a.text == b.text }
 }
 
+/// One assignment from Survey Control: GET /api/assigned -> {assignments:[{walker, name, route_id, route_name, length_m}]}.
+struct SurveyAssignment: Decodable, Identifiable, Equatable {
+    let walker: Int
+    let name: String
+    let route_id: Int
+    let route_name: String
+    let length_m: Double?
+    var id: Int { walker }
+
+    enum CodingKeys: String, CodingKey { case walker, name, route_id, route_name, length_m }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        walker = try c.decode(Int.self, forKey: .walker)
+        route_id = try c.decode(Int.self, forKey: .route_id)
+        let n: String? = try? c.decodeIfPresent(String.self, forKey: .name)
+        name = n ?? "Walker \(walker)"
+        let rn: String? = try? c.decodeIfPresent(String.self, forKey: .route_name)
+        route_name = rn ?? "Route \(route_id)"
+        let len: Double? = try? c.decodeIfPresent(Double.self, forKey: .length_m)
+        length_m = len
+    }
+}
+
 /// A stretch of the route drawn in one colour on the map.
 struct CoverageRun: Identifiable {
     enum State { case done, missed, todo }
@@ -29,6 +53,13 @@ final class SurveyController {
     var routes: [SurveyRoute] = RouteStore.current()
     /// Shown on the home screen when Survey Control has assigned routes.
     var assignmentNote = ""
+    /// Every current assignment from Survey Control (the Survey home lists only these).
+    var assignments: [SurveyAssignment] = []
+    var assignmentsLoaded = false
+    /// Empty when the last fetch worked; otherwise a short reason shown under the empty state.
+    var assignmentsStatus = ""
+    /// The walker picked on the home screen this launch (nil until an assignment is tapped).
+    var chosenWalker: Int?
     /// Walker names set in Survey Control (e.g. 2 → "jamal"), from the startup hello. Cached for offline use.
     var walkerNames: [Int: String] = (UserDefaults.standard.dictionary(forKey: "walkerNames") as? [String: String] ?? [:])
         .reduce(into: [Int: String]()) { d, kv in if let k = Int(kv.key) { d[k] = kv.value } }
@@ -179,27 +210,98 @@ final class SurveyController {
 
     // MARK: - Routes assigned from Survey Control (website)
 
-    /// Asks the dashboard which route each walker should walk. Never changes a route mid-walk.
+    /// Fetches every current assignment from Survey Control (GET /api/assigned, x-live-key) for the home list.
+    /// Read-only: it never changes a route or starts anything. Call on the main thread.
     func checkAssignments() {
-        guard !isRunning, !isStarting, let base = live.baseURLString else { return }
-        let defaults = RouteStore.load()
-        for w in defaults.map(\.id) {
-            guard let url = URL(string: "\(base)/api/assigned?walker=\(w)") else { continue }
-            var req = URLRequest(url: url, timeoutInterval: 10)
-            req.setValue(LiveUploader.key, forHTTPHeaderField: "x-live-key")
-            URLSession.shared.dataTask(with: req) { [weak self] data, resp, _ in
-                guard let self, let data, (resp as? HTTPURLResponse)?.statusCode == 200 else { return }
-                struct Reply: Decodable { let route: SurveyRoute? }
-                guard let reply = try? JSONDecoder().decode(Reply.self, from: data) else { return }
-                DispatchQueue.main.async { self.applyAssigned(reply.route, to: w) }
-            }.resume()
+        guard let base = live.baseURLString, let url = URL(string: "\(base)/api/assigned") else {
+            assignmentsStatus = "Dashboard not set — Settings"
+            return
         }
+        var req = URLRequest(url: url, timeoutInterval: 10)
+        req.cachePolicy = .reloadIgnoringLocalCacheData
+        req.setValue(LiveUploader.key, forHTTPHeaderField: "x-live-key")
+        URLSession.shared.dataTask(with: req) { [weak self] data, resp, _ in
+            let code = (resp as? HTTPURLResponse)?.statusCode ?? 0
+            struct Reply: Decodable { let ok: Bool?; let assignments: [SurveyAssignment]? }
+            let list: [SurveyAssignment]? = (code == 200 ? data : nil)
+                .flatMap { try? JSONDecoder().decode(Reply.self, from: $0) }
+                .map { $0.assignments ?? [] }
+            DispatchQueue.main.async {
+                guard let self else { return }
+                guard let list else {
+                    self.assignmentsStatus = "Can't reach Survey Control — pull to retry"
+                    return
+                }
+                self.assignmentsStatus = ""
+                self.assignmentsLoaded = true
+                let sorted = list.sorted { $0.walker < $1.walker }
+                for a in sorted {
+                    let n = a.name.trimmingCharacters(in: .whitespacesAndNewlines)
+                    self.setWalkerName(n == "Walker \(a.walker)" ? nil : n, for: a.walker)
+                }
+                if !self.sameAssignments(self.assignments, sorted) { self.assignments = sorted }
+                self.refreshWalkerStats()
+            }
+        }.resume()
+    }
+
+    private func sameAssignments(_ a: [SurveyAssignment], _ b: [SurveyAssignment]) -> Bool {
+        guard a.count == b.count else { return false }
+        for i in a.indices where a[i].walker != b[i].walker || a[i].route_id != b[i].route_id || a[i].name != b[i].name
+            || a[i].route_name != b[i].route_name { return false }
+        return true
+    }
+
+    /// The walker tapped an assignment card: become that walker and load its route (hello + /api/assigned?walker=N).
+    /// Nothing starts here — the pre-walk screen's Start button does that.
+    func chooseAssignment(_ a: SurveyAssignment) {
+        guard !isRunning, !isStarting else { return }
+        errorMessage = nil
+        chosenWalker = a.walker
+        select(a.walker)          // saves the walker and sends hello(), which loads the assigned route
+        loadAssigned(a.walker)    // second path for the same route (GET /api/assigned?walker=N)
+    }
+
+    /// True when walker `a.walker`'s route on this phone is the route Survey Control assigned.
+    func isReady(_ a: SurveyAssignment) -> Bool {
+        routes.first(where: { $0.id == a.walker })?.variant == a.route_id
+    }
+
+    /// Captured fraction of this assignment's route on this phone (0 unless the loaded route is that route).
+    func fraction(for a: SurveyAssignment) -> Double {
+        if isReady(a) { return walkerFractions[a.walker] ?? 0 }
+        guard let data = UserDefaults.standard.data(forKey: "assigned-\(a.walker)"),
+              let r = try? JSONDecoder().decode(SurveyRoute.self, from: data), r.variant == a.route_id else { return 0 }
+        return CoverageStore(route: r).fraction
+    }
+
+    /// GET /api/assigned?walker=N — the assigned route for one walker, in the app's route format.
+    private func loadAssigned(_ w: Int) {
+        guard let base = live.baseURLString, let url = URL(string: "\(base)/api/assigned?walker=\(w)") else { return }
+        var req = URLRequest(url: url, timeoutInterval: 10)
+        req.setValue(LiveUploader.key, forHTTPHeaderField: "x-live-key")
+        URLSession.shared.dataTask(with: req) { [weak self] data, resp, _ in
+            guard let self, let data, (resp as? HTTPURLResponse)?.statusCode == 200 else { return }
+            struct Reply: Decodable { let route: SurveyRoute? }
+            guard let reply = try? JSONDecoder().decode(Reply.self, from: data), let route = reply.route else { return }
+            DispatchQueue.main.async { self.applyAssigned(route, to: w) }
+        }.resume()
     }
 
     /// Swaps walker `w`'s route for the one assigned in Survey Control (nil = back to the bundled loop).
     /// Shared by checkAssignments() and hello(). Never changes a route mid-walk. Call on the main thread.
     private func applyAssigned(_ lib: SurveyRoute?, to w: Int) {
-        guard !isRunning, !isStarting, let i = routes.firstIndex(where: { $0.id == w }) else { return }
+        guard !isRunning, !isStarting else { return }
+        if routes.firstIndex(where: { $0.id == w }) == nil {
+            // a walker number with no bundled loop (Survey Control can add walkers 5, 6, …)
+            guard let lib, lib.pts.count >= 2, lib.pts.count == lib.cum.count, lib.pts.allSatisfy({ $0.count >= 2 }) else { return }
+            let r = RouteStore.assigned(lib, to: w)
+            routes.append(r)
+            if let enc = try? JSONEncoder().encode(r) { UserDefaults.standard.set(enc, forKey: "assigned-\(w)") }
+            refreshWalkerStats()
+            return
+        }
+        guard let i = routes.firstIndex(where: { $0.id == w }) else { return }
         if let lib {
             guard lib.pts.count >= 2, lib.pts.count == lib.cum.count, lib.pts.allSatisfy({ $0.count >= 2 }) else { return }
             let r = RouteStore.assigned(lib, to: w)

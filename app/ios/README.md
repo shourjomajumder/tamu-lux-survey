@@ -1,6 +1,6 @@
 # LightSurvey (Lux)
 
-iPhone app for the TAMU Datathon night-lighting project. Two modes:
+iPhone app for the TAMU Datathon night-lighting project. Every launch opens on the mode chooser. Two modes:
 
 ## Explore
 - Finds the best-lit walking route between two campus places, scored from the survey's measured light.
@@ -12,7 +12,8 @@ iPhone app for the TAMU Datathon night-lighting project. Two modes:
 - A photo every second (back camera, GPS + exposure in EXIF).
 - Coverage tracked in 10 m bins along the route.
 - Uploads new data to the dashboard every 5 minutes and at End.
-- Survey Control: walker names and route assignments come from the dashboard.
+- The Survey home lists only the assignments sent from Survey Control (website), refreshed every 15 s and on pull-to-refresh; with none it shows an empty state.
+- Tapping an assignment selects that walker, loads its route and opens the pre-walk checks; the walk starts only from Start there. Resume appears only for an interrupted walk on a currently assigned route.
 - Each walk is saved under Files → On My iPhone → LightSurvey → Sessions.
 
 ## Build

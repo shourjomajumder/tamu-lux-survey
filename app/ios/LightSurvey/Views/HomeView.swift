@@ -1,11 +1,11 @@
 import SwiftUI
 
-/// Pick a walker and go. Everything else lives in Settings.
+/// Survey home: only the assignments sent from Survey Control (website). Tap one to get ready; nothing starts before that.
 struct HomeView: View {
     @Environment(SurveyController.self) private var c
-    @State private var freeGB: Double = -1
-    @AppStorage("liveURL") private var liveURL = ""
     @AppStorage("lx.mode") private var modeRaw: String = AppMode.survey.rawValue
+    @State private var picked: SurveyAssignment?
+    @State private var showPreWalk = false
 
     var body: some View {
         NavigationStack {
@@ -14,57 +14,65 @@ struct HomeView: View {
                 SvHairline()
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
-                        VStack(alignment: .leading, spacing: 8) {
-                            SvSectionTitle("Who's walking")
-                            LazyVGrid(columns: [GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)], spacing: 8) {
-                                ForEach(c.routes) { r in walkerTile(r) }
+                        if c.assignments.isEmpty {
+                            emptyState
+                        } else {
+                            VStack(alignment: .leading, spacing: 8) {
+                                SvSectionTitle("Your assignments")
+                                ForEach(c.assignments) { (a: SurveyAssignment) in assignmentCard(a) }
                             }
                         }
-
-                        if !c.assignmentNote.isEmpty {
-                            note(c.assignmentNote, icon: "map", color: Lx.light)
-                        }
-                        if c.recoveredSessions > 0 {
-                            note("\(c.recoveredSessions) walk(s) stopped early. Data is saved — tap Resume.",
-                                 icon: "arrow.clockwise", color: Lx.orange)
-                        }
-
-                        SvSection("Before you go") {
-                            check(true, "Paper over the front camera")
-                            check(!liveURL.trimmingCharacters(in: .whitespaces).isEmpty,
-                                  liveURL.isEmpty ? "Dashboard not set (Settings)" : "Dashboard set")
-                            check(powerOK, powerText)
-                        }
-
                         if c.uploadPending > 0 {
                             note("Uploading \(c.uploadPending) files — keep the app open.\(c.uploadError.isEmpty ? "" : " Retrying: " + c.uploadError)",
                                  icon: "arrow.up", color: Lx.muted)
                         }
-                        if let e = c.errorMessage {
-                            note(e, icon: "exclamationmark.triangle", color: Lx.red)
-                        }
                     }
                     .padding(16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .refreshable { @MainActor in
                     c.checkAssignments()
-                    c.hello()
                 }
-                SvHairline()
-                startButton
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
             }
             .background(Lx.bg.ignoresSafeArea())
             .toolbar(.hidden, for: .navigationBar)
+            .navigationDestination(isPresented: $showPreWalk) {
+                if let a = picked {
+                    PreWalkView(assignment: a)
+                }
+            }
             .onAppear {
                 UIDevice.current.isBatteryMonitoringEnabled = true
-                freeGB = StorageInfo.freeGB()
-                c.refreshWalkerStats()
                 c.checkAssignments()
-                c.hello()
+            }
+            .task {
+                // keep the list current while the Survey home is on screen
+                while !Task.isCancelled {
+                    try? await Task.sleep(nanoseconds: 15_000_000_000)
+                    if Task.isCancelled { break }
+                    await MainActor.run { c.checkAssignments() }
+                }
             }
         }
+    }
+
+    // MARK: Empty state
+
+    private var emptyState: some View {
+        VStack(spacing: 6) {
+            Text("No assignments yet — waiting for Survey Control")
+                .font(Lx.font(13))
+                .foregroundStyle(Lx.muted)
+                .multilineTextAlignment(.center)
+            if !c.assignmentsStatus.isEmpty {
+                Text(c.assignmentsStatus)
+                    .font(Lx.font(11))
+                    .foregroundStyle(Lx.muted)
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, 80)
     }
 
     // MARK: Top bar
@@ -105,13 +113,171 @@ struct HomeView: View {
         .background(Lx.bg)
     }
 
-    // MARK: Start
+    // MARK: Assignment card
+
+    private func assignmentCard(_ a: SurveyAssignment) -> some View {
+        let f: Double = c.fraction(for: a)
+        let resume: Bool = f > 0 && f < 0.995
+        let len: String = a.length_m.map { "\(Fmt.km($0)) · ~\(Fmt.duration($0 / 1.34))" } ?? ""
+        return Button {
+            guard !c.isRunning && !c.isStarting else { return }
+            picked = a
+            c.chooseAssignment(a)
+            showPreWalk = true
+        } label: {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(c.walkerTitle(a.walker))
+                    .font(Lx.font(16, .semibold))
+                    .foregroundStyle(Lx.fgStrong)
+                    .lineLimit(1)
+                Text(a.route_name)
+                    .font(Lx.font(14))
+                    .foregroundStyle(Lx.light)
+                    .lineLimit(2)
+                if !len.isEmpty {
+                    Text(len)
+                        .font(Lx.font(12))
+                        .foregroundStyle(Lx.muted)
+                }
+                if f > 0 {
+                    SvBar(fraction: f, fill: f >= 0.995 ? Lx.light : Lx.red)
+                }
+                HStack(spacing: 6) {
+                    Text(resume ? "Tap to resume · \(Int((f * 100).rounded()))% captured" : (f >= 0.995 ? "Done · tap to walk again" : "Tap to start"))
+                        .font(Lx.font(12, .medium))
+                        .foregroundStyle(Lx.fgStrong)
+                    Spacer(minLength: 0)
+                    Image(systemName: "arrow.right")
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundStyle(Lx.muted)
+                }
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Rectangle().fill(Lx.panel))
+            .overlay(Rectangle().strokeBorder(Lx.line2, lineWidth: Lx.hairline))
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .disabled(c.isRunning || c.isStarting)
+    }
+
+    private func note(_ text: String, icon: String, color: Color) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
+            Image(systemName: icon).font(.system(size: 12, weight: .semibold))
+            Text(text).font(Lx.font(13)).fixedSize(horizontal: false, vertical: true)
+        }
+        .foregroundStyle(color)
+    }
+}
+
+/// After tapping an assignment: the route is loaded for that walker, the usual checks are shown, and the walk
+/// starts only from the Start button here (same start flow as before: camera access, walk to the start pin…).
+struct PreWalkView: View {
+    @Environment(SurveyController.self) private var c
+    let assignment: SurveyAssignment
+    @State private var freeGB: Double = -1
+    @AppStorage("liveURL") private var liveURL = ""
+
+    /// Still assigned in Survey Control (same walker, same route)?
+    private var stillAssigned: Bool {
+        c.assignments.contains { $0.walker == assignment.walker && $0.route_id == assignment.route_id }
+    }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(c.walkerTitle(assignment.walker))
+                            .font(Lx.font(22, .semibold))
+                            .foregroundStyle(Lx.fgStrong)
+                        Text(assignment.route_name)
+                            .font(Lx.font(15))
+                            .foregroundStyle(Lx.light)
+                        if let m = assignment.length_m {
+                            Text("\(Fmt.km(m)) · ~\(Fmt.duration(m / 1.34))")
+                                .font(Lx.font(12))
+                                .foregroundStyle(Lx.muted)
+                        }
+                    }
+
+                    if !stillAssigned {
+                        note("This assignment was changed or cleared in Survey Control. Go back to see your assignments.",
+                             icon: "exclamationmark.triangle", color: Lx.orange)
+                    } else if !c.isReady(assignment) {
+                        HStack(spacing: 8) {
+                            ProgressView().tint(Lx.muted)
+                            Text("Loading the route from Survey Control…")
+                                .font(Lx.font(13))
+                                .foregroundStyle(Lx.muted)
+                        }
+                    } else if c.recoveredSessions > 0 && fraction > 0 && fraction < 0.995 {
+                        note("A walk on this route stopped early. Data is saved — tap Resume.",
+                             icon: "arrow.clockwise", color: Lx.orange)
+                    }
+
+                    SvSection("Before you go") {
+                        check(true, "Paper over the front camera")
+                        check(!liveURL.trimmingCharacters(in: .whitespaces).isEmpty,
+                              liveURL.isEmpty ? "Dashboard not set (Settings)" : "Dashboard set")
+                        check(powerOK, powerText)
+                    }
+
+                    if c.uploadPending > 0 {
+                        note("Uploading \(c.uploadPending) files — keep the app open.\(c.uploadError.isEmpty ? "" : " Retrying: " + c.uploadError)",
+                             icon: "arrow.up", color: Lx.muted)
+                    }
+                    if let e = c.errorMessage {
+                        note(e, icon: "exclamationmark.triangle", color: Lx.red)
+                    }
+                }
+                .padding(16)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .refreshable { @MainActor in
+                c.chooseAssignment(assignment)
+                c.checkAssignments()
+            }
+            SvHairline()
+            startButton
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+        }
+        .svNavChrome("Get ready")
+        .onAppear {
+            UIDevice.current.isBatteryMonitoringEnabled = true
+            freeGB = StorageInfo.freeGB()
+            if c.selectedRouteID != assignment.walker || !c.isReady(assignment) { c.chooseAssignment(assignment) }
+            c.refreshWalkerStats()
+        }
+        .task {
+            // retry loading the route until it's here, and notice if the assignment is cleared
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 15_000_000_000)
+                if Task.isCancelled { break }
+                await MainActor.run {
+                    c.checkAssignments()
+                    if !c.isRunning && !c.isStarting && !c.isReady(assignment) { c.chooseAssignment(assignment) }
+                }
+            }
+        }
+    }
+
+    private var fraction: Double { c.isReady(assignment) ? (c.walkerFractions[assignment.walker] ?? 0) : 0 }
+
+    private var canStart: Bool {
+        stillAssigned && c.isReady(assignment) && c.selectedRouteID == assignment.walker && !c.isStarting && !c.isRunning
+    }
 
     private var startButton: some View {
-        let f: Double = c.walkerFractions[c.selectedRouteID] ?? 0
+        let f: Double = fraction
         let title: String = c.isStarting ? "Starting cameras…"
-            : (f > 0 ? "Resume walker \(c.selectedRouteID)" : "Start walker \(c.selectedRouteID)")
-        return Button { c.start() } label: {
+            : (f > 0 && f < 0.995 ? "Resume walker \(assignment.walker)" : "Start walker \(assignment.walker)")
+        return Button {
+            guard canStart else { return }
+            c.start()
+        } label: {
             HStack(spacing: 10) {
                 if c.isStarting { ProgressView().tint(Lx.bg) }
                 Text(title).font(Lx.font(17, .semibold))
@@ -120,51 +286,8 @@ struct HomeView: View {
             .padding(.vertical, 6)
         }
         .buttonStyle(LxButtonStyle(primary: true))
-        .disabled(c.isStarting || c.routes.isEmpty)
+        .disabled(!canStart)
     }
-
-    // MARK: Walker tile
-
-    private func walkerTile(_ r: SurveyRoute) -> some View {
-        let f: Double = c.walkerFractions[r.id] ?? 0
-        let selected: Bool = c.selectedRouteID == r.id
-        return Button { c.select(r.id) } label: {
-            VStack(alignment: .leading, spacing: 8) {
-                HStack(spacing: 8) {
-                    Rectangle().fill(r.swiftColor).frame(width: 8, height: 8)
-                    Text(c.walkerTitle(r.id))
-                        .font(Lx.font(15, .semibold))
-                        .foregroundStyle(Lx.fgStrong)
-                        .lineLimit(1)
-                    Spacer(minLength: 0)
-                    if selected {
-                        Image(systemName: "checkmark").font(.system(size: 12, weight: .bold)).foregroundStyle(Lx.light)
-                    }
-                }
-                SvBar(fraction: f, fill: f >= 0.995 ? Lx.light : Lx.red)
-                Text(f >= 0.995 ? "Done" : (f > 0 ? "\(Int((f * 100).rounded()))% captured" : "Not started"))
-                    .font(Lx.font(12))
-                    .foregroundStyle(f >= 0.995 ? Lx.light : Lx.muted)
-                Text("\(Fmt.km(r.total)) · ~\(Fmt.duration(r.total / 1.34))")
-                    .font(Lx.font(11))
-                    .foregroundStyle(Lx.muted)
-                if r.variant != nil {
-                    Text(r.name)
-                        .font(Lx.font(11))
-                        .foregroundStyle(Lx.light)
-                        .lineLimit(2)
-                }
-            }
-            .padding(12)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Rectangle().fill(selected ? Color.white.opacity(0.06) : Lx.panel))
-            .overlay(Rectangle().strokeBorder(selected ? Lx.fgStrong : Lx.line, lineWidth: Lx.hairline))
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-    }
-
-    // MARK: Helpers
 
     private var powerOK: Bool {
         let bat = UIDevice.current.batteryLevel
