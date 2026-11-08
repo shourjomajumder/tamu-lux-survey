@@ -112,7 +112,7 @@ T = np.array([xy(f["geometry"]["coordinates"][1], f["geometry"]["coordinates"][0
 from sklearn.cluster import KMeans
 K = 4
 lab = KMeans(K, n_init=10, random_state=1).fit_predict(T)
-colors = ["#e86a4f", "#d9a441", "#58a6c9", "#a77bd6"]
+colors = ["#f2f2f2", "#ff8a6b", "#cbb58f", "#9aa3b2"]   # neutral, never a walker colour
 area_names = []
 lm = json.load(open(F / "landmarks.geojson"))["features"] if (F / "landmarks.geojson").exists() else []
 lmp = [(xy(f["geometry"]["coordinates"][1], f["geometry"]["coordinates"][0]), f["properties"]["name"]) for f in lm
