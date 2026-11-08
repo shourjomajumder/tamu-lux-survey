@@ -1,0 +1,77 @@
++ export PATH=/usr/local/cuda-12.4/bin:/root/lux/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin CUDA_HOME=/usr/local/cuda-12.4 TORCH_CUDA_ARCH_LIST=8.6
++ PATH=/usr/local/cuda-12.4/bin:/root/lux/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
++ CUDA_HOME=/usr/local/cuda-12.4
++ TORCH_CUDA_ARCH_LIST=8.6
++ /root/splatenv/bin/pip install -q matplotlib scikit-image
++ tail -1
++ mkdir -p /data/web/splats
++ for d in /data/splat/spot1 /data/splat/spot2
++ '[' -d /data/splat/spot1 ']'
+++ basename /data/splat/spot1
++ n=spot1
++ echo '=== spot1'
+=== spot1
++ '[' '!' -d /data/splat/spot1/sparse/0 ']'
++ rm -rf /data/splat/spot1/sparse /data/splat/spot1/db.db
++ mkdir -p /data/splat/spot1/sparse
++ colmap feature_extractor --database_path /data/splat/spot1/db.db --image_path /data/splat/spot1/images --ImageReader.single_camera 1 --ImageReader.camera_model OPENCV --SiftExtraction.use_gpu 0 --SiftExtraction.max_image_size 1600
++ colmap exhaustive_matcher --database_path /data/splat/spot1/db.db --SiftMatching.use_gpu 0
++ colmap mapper --database_path /data/splat/spot1/db.db --image_path /data/splat/spot1/images --output_path /data/splat/spot1/sparse
++ '[' -d /data/splat/spot1/sparse/0 ']'
++ colmap model_analyzer --path /data/splat/spot1/sparse/0
++ grep -iE 'registered images|points'
+Registered images: 20
+Points: 1145
++ grep -vE 'it/s|^\s*$'
++ tail -25
++ cd /root/gsplat/examples
++ /root/splatenv/bin/python simple_trainer.py default --data_dir /data/splat/spot1 --data_factor 2 --result_dir /data/splat/spot1/out --max_steps 15000 --disable_viewer --save_ply --ply_steps 15000
+Traceback (most recent call last):
+  File "/root/gsplat/examples/simple_trainer.py", line 10, in <module>
+    import nerfview
+  File "/root/splatenv/lib/python3.10/site-packages/nerfview/__init__.py", line 1, in <module>
+    from .render_panel import (
+  File "/root/splatenv/lib/python3.10/site-packages/nerfview/render_panel.py", line 29, in <module>
+    import splines
+ModuleNotFoundError: No module named 'splines'
+++ ls -t '/data/splat/spot1/out/ply/*.ply'
+++ head -1
++ ply=
++ '[' -n '' ']'
++ for d in /data/splat/spot1 /data/splat/spot2
++ '[' -d /data/splat/spot2 ']'
+++ basename /data/splat/spot2
++ n=spot2
++ echo '=== spot2'
+=== spot2
++ '[' '!' -d /data/splat/spot2/sparse/0 ']'
++ '[' -d /data/splat/spot2/sparse/0 ']'
++ colmap model_analyzer --path /data/splat/spot2/sparse/0
++ grep -iE 'registered images|points'
+Registered images: 36
+Points: 1556
++ grep -vE 'it/s|^\s*$'
++ tail -25
++ cd /root/gsplat/examples
++ /root/splatenv/bin/python simple_trainer.py default --data_dir /data/splat/spot2 --data_factor 2 --result_dir /data/splat/spot2/out --max_steps 15000 --disable_viewer --save_ply --ply_steps 15000
+Traceback (most recent call last):
+  File "/root/gsplat/examples/simple_trainer.py", line 10, in <module>
+    import nerfview
+  File "/root/splatenv/lib/python3.10/site-packages/nerfview/__init__.py", line 1, in <module>
+    from .render_panel import (
+  File "/root/splatenv/lib/python3.10/site-packages/nerfview/render_panel.py", line 29, in <module>
+    import splines
+ModuleNotFoundError: No module named 'splines'
+++ ls -t '/data/splat/spot2/out/ply/*.ply'
+++ head -1
++ ply=
++ '[' -n '' ']'
++ cp /data/splat/spots.json /data/web/splats/
++ cd /data/web
++ zip -qr splats.zip splats
++ ls -lh /data/web/splats /data/web/splats.zip
+-rw-r--r-- 1 root root  485 Nov  8 08:58 /data/web/splats.zip
+
+/data/web/splats:
+total 4.0K
+-rw-r--r-- 1 root root 335 Nov  8 08:58 spots.json

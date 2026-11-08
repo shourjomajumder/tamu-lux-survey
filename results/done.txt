@@ -18,3 +18,4 @@
 012b_streetview.sh
 013_splats.sh
 014_pointcloud.sh
+015_splats_retry.sh
