@@ -1,0 +1,49 @@
+updated MongoDB string from User-Data
+Traceback (most recent call last):
+  File "/root/lux/repo/pipeline/load_mongo.py", line 31, in <module>
+    db[col].create_index([("loc", GEOSPHERE)])
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/collection.py", line 2369, in create_index
+    return (self._create_indexes([index], session, **cmd_options))[0]
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/_csot.py", line 126, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/collection.py", line 2251, in _create_indexes
+    return self.database.client._retryable_write(False, inner, session, _Op.CREATE_INDEXES)
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/mongo_client.py", line 2099, in _retryable_write
+    return self._retry_with_session(retryable, func, s, bulk, operation, operation_id)
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/mongo_client.py", line 1969, in _retry_with_session
+    return self._retry_internal(
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/_csot.py", line 126, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/mongo_client.py", line 2022, in _retry_internal
+    ).run()
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/mongo_client.py", line 2890, in run
+    res = self._read() if self._is_read else self._write()
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/mongo_client.py", line 3088, in _write
+    with self._client._checkout(self._server, self._session) as conn:
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/mongo_client.py", line 2699, in __enter__
+    conn = pool_checkout.__enter__()
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/pool.py", line 1196, in __enter__
+    conn = pool._get_conn(time.monotonic(), handler=self._handler)
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/pool.py", line 1025, in _get_conn
+    conn = self.connect(handler=handler)
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/pool.py", line 904, in connect
+    conn.authenticate()
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/pool.py", line 473, in authenticate
+    auth.authenticate(creds, self, reauthenticate=reauthenticate)
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/auth.py", line 447, in authenticate
+    auth_func(credentials, conn)
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/auth.py", line 354, in _authenticate_default
+    return _authenticate_scram(credentials, conn, "SCRAM-SHA-1")
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/auth.py", line 135, in _authenticate_scram
+    res = conn.command(source, cmd)
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/helpers.py", line 51, in inner
+    return func(*args, **kwargs)
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/pool.py", line 396, in command
+    return run_command(
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/command_runner.py", line 440, in run_command
+    docs, _, _ = _run_command(
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/synchronous/command_runner.py", line 214, in _run_command
+    helpers_shared._check_command_response(
+  File "/root/lux/venv/lib/python3.10/site-packages/pymongo/helpers_shared.py", line 327, in _check_command_response
+    raise OperationFailure(errmsg, code, response, max_wire_version)
+pymongo.errors.OperationFailure: bad auth : authentication failed, full error: {'ok': 0, 'errmsg': 'bad auth : authentication failed', 'code': 8000, 'codeName': 'AtlasError'}
