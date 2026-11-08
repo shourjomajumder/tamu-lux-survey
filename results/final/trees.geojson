@@ -1,1 +1,1 @@
-{"type":"FeatureCollection","features":[]}
+{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[-96.3413475,30.6158806]},"properties":{"source":"OpenStreetMap","crown_radius_m":4.0,"height_m":9.0}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-96.3367691,30.61549]},"properties":{"source":"OpenStreetMap","crown_radius_m":4.0,"height_m":9.0}}]}

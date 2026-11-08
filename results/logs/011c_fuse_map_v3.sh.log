@@ -1,0 +1,56 @@
+/root/lux/repo/pipeline/fuse_map.py:45: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  return pd.concat([pd.read_csv(f) for f in fs], ignore_index=True) if fs else pd.DataFrame()
+/root/lux/repo/pipeline/fuse_map.py:45: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  return pd.concat([pd.read_csv(f) for f in fs], ignore_index=True) if fs else pd.DataFrame()
+/root/lux/repo/pipeline/fuse_map.py:45: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  return pd.concat([pd.read_csv(f) for f in fs], ignore_index=True) if fs else pd.DataFrame()
+/root/lux/repo/pipeline/fuse_map.py:68: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  objdepth = pd.concat(odfs, ignore_index=True) if odfs else pd.DataFrame()
+detections 10137  world 26414  scene 17607  blobs 30510  objdepth 36551
+readings {'raw': 289325, 'vehicle': 18175, 'spike': 8162, 'kept': 262988} -> 1 Hz rows 18066
+emitter ray intersections: 117806
+lamps kept: 714
+fixtures 722  possibly out 255  trees 0  phones(detected) 0
+bbox 30.60850406,-96.34814211899999,30.619321835,-96.33252874
+osm buildings 180 ways 1182 phones 0 street lamps 17 trees 2
+{
+ "generated": "2026-11-08T07:34:46Z",
+ "sessions": 16,
+ "readings_filter": {
+  "raw": 289325,
+  "vehicle": 18175,
+  "spike": 8162,
+  "kept": 262988
+ },
+ "readings_1hz": 18066,
+ "lamps": 714,
+ "lamps_possibly_out": 255,
+ "trees": 0,
+ "emergency_phones": 0,
+ "path_segments": 3627,
+ "warnings": 510,
+ "warnings_high": 119,
+ "activity_points": 1879,
+ "lamp_accuracy_vs_osm": null,
+ "osm_street_lamps": 17,
+ "level_share": {
+  "Dark": 0.169,
+  "Very dim": 0.302,
+  "Dim": 0.173,
+  "Adequate": 0.164,
+  "Well lit": 0.156,
+  "Bright": 0.036
+ }
+}
+total 5.5M
+-rw-r--r-- 1 root root 304K Nov  8 07:34 activity.geojson
+-rw-r--r-- 1 root root  76K Nov  8 07:34 buildings.geojson
+-rw-r--r-- 1 root root   42 Nov  8 07:34 emergency_phones.geojson
+-rw-r--r-- 1 root root 232K Nov  8 07:33 lamps.geojson
+-rw-r--r-- 1 root root  50K Nov  8 07:33 lamps_possibly_out.geojson
+-rw-r--r-- 1 root root 1.1M Nov  8 07:34 path_lighting.geojson
+-rw-r--r-- 1 root root 1.7M Nov  8 07:34 photos_index.csv
+-rw-r--r-- 1 root root 1.9M Nov  8 07:33 readings_1hz.csv
+-rw-r--r-- 1 root root  541 Nov  8 07:34 summary.json
+-rw-r--r-- 1 root root  363 Nov  8 07:34 trees.geojson
+-rw-r--r-- 1 root root 134K Nov  8 07:34 warnings.geojson

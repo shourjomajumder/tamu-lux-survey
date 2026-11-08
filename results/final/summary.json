@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-08T07:21:21Z",
+ "generated": "2026-11-08T07:34:46Z",
  "sessions": 16,
  "readings_filter": {
   "raw": 289325,
@@ -12,18 +12,18 @@
  "lamps_possibly_out": 255,
  "trees": 0,
  "emergency_phones": 0,
- "path_segments": 4351,
- "warnings": 2527,
- "warnings_high": 0,
+ "path_segments": 3627,
+ "warnings": 510,
+ "warnings_high": 119,
  "activity_points": 1879,
  "lamp_accuracy_vs_osm": null,
- "osm_street_lamps": 0,
+ "osm_street_lamps": 17,
  "level_share": {
-  "Dark": 0.18,
+  "Dark": 0.169,
   "Very dim": 0.302,
-  "Dim": 0.165,
-  "Adequate": 0.162,
-  "Well lit": 0.154,
-  "Bright": 0.038
+  "Dim": 0.173,
+  "Adequate": 0.164,
+  "Well lit": 0.156,
+  "Bright": 0.036
  }
 }
