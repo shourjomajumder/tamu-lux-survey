@@ -446,3 +446,7 @@ summary = dict(generated=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), ses
                             for lv in ("Dark", "Very dim", "Dim", "Adequate", "Well lit", "Bright")})
 json.dump(summary, open(OUT / "summary.json", "w"), indent=1)
 print(json.dumps(summary, indent=1))
+
+# canopy-derived trees (see canopy_trees.py)
+import subprocess
+subprocess.run([sys.executable, str(Path(__file__).parent / "canopy_trees.py"), str(OUT)], check=False)
