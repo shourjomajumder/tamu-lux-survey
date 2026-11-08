@@ -166,4 +166,7 @@ python pipeline/mongo_v2.py
 
 ## Team
 
-TEAM_MEMBERS
+- Shourjo Majumder
+- Jonathan Kolagani
+- Rhett Rangel
+- Raman Jamal
