@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# (Already run. Drive file IDs of the raw, unblurred walk zips are redacted for publication.)
 # Download the 16 unique walk zips (duplicates " 2"/" 3" skipped) from Google Drive into /data/zips.
 source /root/lux/venv/bin/activate
 pip install -q gdown
