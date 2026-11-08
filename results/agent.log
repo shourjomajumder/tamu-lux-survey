@@ -35,3 +35,4 @@
 2026-11-08T07:54:52Z END 011d_reblur.sh rc=0
 2026-11-08T07:54:54Z START 012b_streetview.sh
 2026-11-08T08:11:31Z END 012b_streetview.sh rc=0
+2026-11-08T08:11:33Z START 013_splats.sh
