@@ -1,0 +1,104 @@
+/root/lux/repo/pipeline/fuse_map.py:45: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  return pd.concat([pd.read_csv(f) for f in fs], ignore_index=True) if fs else pd.DataFrame()
+/root/lux/repo/pipeline/fuse_map.py:45: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  return pd.concat([pd.read_csv(f) for f in fs], ignore_index=True) if fs else pd.DataFrame()
+/root/lux/repo/pipeline/fuse_map.py:45: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  return pd.concat([pd.read_csv(f) for f in fs], ignore_index=True) if fs else pd.DataFrame()
+/root/lux/repo/pipeline/fuse_map.py:74: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  objdepth = pd.concat(odfs, ignore_index=True) if odfs else pd.DataFrame()
+detections 9334  world 25725  scene 17289  blobs 29729  objdepth 35059
+readings {'raw': 284086, 'vehicle': 18175, 'spike': 8146, 'kept': 257765} -> 1 Hz rows 17715
+emitter ray intersections: 116638
+lamps kept: 721
+fixtures 730  possibly out 255  trees 0  phones(detected) 0
+bbox 30.6084997388,-96.34814294319999,30.6193221288,-96.3325260412
+osm buildings 180 ways 1182 phones 0 street lamps 17 trees 2
+trees: 2 kept + 1646 from canopy
+{
+ "generated": "2026-11-08T11:05:18Z",
+ "sessions": 13,
+ "readings_filter": {
+  "raw": 284086,
+  "vehicle": 18175,
+  "spike": 8146,
+  "kept": 257765
+ },
+ "readings_1hz": 17715,
+ "lamps": 721,
+ "lamps_possibly_out": 255,
+ "trees": 0,
+ "emergency_phones": 0,
+ "path_segments": 3622,
+ "warnings": 507,
+ "warnings_high": 121,
+ "activity_points": 1769,
+ "lamp_accuracy_vs_osm": null,
+ "osm_street_lamps": 17,
+ "level_share": {
+  "Dark": 0.171,
+  "Very dim": 0.306,
+  "Dim": 0.173,
+  "Adequate": 0.164,
+  "Well lit": 0.154,
+  "Bright": 0.033
+ }
+}
+night readings used: 17715
+grid 1202x849 @ 1.0 m
+lamp influence built: 2,966,862 cell-lamp pairs  (2s)
+fit: ambient 0.87 lux, median I 184 cd, lamps with data 687/721
+validation (physics only, held-out): {'held_out_stretches': 849, 'median_abs_error_lux': 1.99, 'median_factor_error': 2.02, 'r2_log': -0.36, 'within_2x_pct': 49.4}
+validation (final map at unmeasured stretches): {'held_out_stretches': 849, 'median_abs_error_lux': 1.38, 'median_factor_error': 1.58, 'within_2x_pct': 66.2, 'same_or_adjacent_level_pct': 81.6, 'below5_agreement_pct': 77.9}
+{
+ "bounds_local_m": {
+  "x0": -633.5,
+  "x1": 568.5,
+  "y0": -545.5,
+  "y1": 303.5
+ },
+ "bounds_latlon": {
+  "north": 30.617726368828748,
+  "south": 30.610095498771255,
+  "west": -96.34661265726899,
+  "east": -96.334056327131
+ },
+ "width": 1202,
+ "height": 849,
+ "resolution_m": 1.0,
+ "encoding": "R=G=B = clip(ln(lux/0.3)/ln(200),0,1)*255 (same as LUX.glow); A=255 inside the simulated area",
+ "model": "E = ambient + sum_k I_k*H/(d^2+H^2)^1.5 * visibility (buildings block, tree crowns x0.55 each); residual-corrected near readings",
+ "ambient_lux": 0.87,
+ "validation_physics_only": {
+  "held_out_stretches": 849,
+  "median_abs_error_lux": 1.99,
+  "median_factor_error": 2.02,
+  "r2_log": -0.36,
+  "within_2x_pct": 49.4
+ },
+ "validation_map": {
+  "held_out_stretches": 849,
+  "median_abs_error_lux": 1.38,
+  "median_factor_error": 1.58,
+  "within_2x_pct": 66.2,
+  "same_or_adjacent_level_pct": 81.6,
+  "below5_agreement_pct": 77.9
+ },
+ "lit_share_ge_5lux": 0.144,
+ "lit_share_ge_1lux": 0.68
+}
+done in 13s
+total 6.1M
+-rw-r--r-- 1 root root 286K Nov  8 11:05 activity.geojson
+-rw-r--r-- 1 root root  76K Nov  8 11:05 buildings.geojson
+-rw-r--r-- 1 root root   42 Nov  8 11:05 emergency_phones.geojson
+-rw-r--r-- 1 root root 280K Nov  8 11:05 lamps.geojson
+-rw-r--r-- 1 root root  50K Nov  8 11:05 lamps_possibly_out.geojson
+-rw-r--r-- 1 root root  37K Nov  8 09:31 landmarks.geojson
+-rw-r--r-- 1 root root  996 Nov  8 11:05 light_map.json
+-rw-r--r-- 1 root root 357K Nov  8 11:05 light_map.png
+-rw-r--r-- 1 root root 1.1M Nov  8 11:05 path_lighting.geojson
+-rw-r--r-- 1 root root 1.7M Nov  8 11:05 photos_index.csv
+-rw-r--r-- 1 root root 1.9M Nov  8 11:05 readings_1hz.csv
+-rw-r--r-- 1 root root 1.1K Nov  8 11:05 summary.json
+-rw-r--r-- 1 root root 292K Nov  8 11:05 trees.geojson
+-rw-r--r-- 1 root root 133K Nov  8 11:05 warnings.geojson

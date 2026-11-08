@@ -60,3 +60,4 @@
 2026-11-08T10:38:11Z START 023_share_splats.sh
 2026-11-08T10:38:12Z END 023_share_splats.sh rc=0
 2026-11-08T11:05:06Z START 024_drop_test_runs.sh
+2026-11-08T11:05:33Z END 024_drop_test_runs.sh rc=0
