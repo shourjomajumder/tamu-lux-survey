@@ -17,7 +17,7 @@ final class LiveUploader {
         return URLSession(configuration: c)
     }()
 
-    var baseURL: String { UserDefaults.standard.string(forKey: "liveURL") ?? "" }
+    var baseURL: String { let s = UserDefaults.standard.string(forKey: "liveURL") ?? ""; return s.trimmingCharacters(in: .whitespaces).isEmpty ? "tamu-lux-survey.netlify.app" : s }
 
     /// "tamu-lux-survey.netlify.app" → "https://tamu-lux-survey.netlify.app"
     private func base() -> String? {
