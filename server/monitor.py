@@ -97,7 +97,7 @@ def stages():
     for s in sorted(SESS.iterdir()) if SESS.exists() else []:
         if not s.is_dir(): continue
         total = len(list((s / "photos").glob("*.jpg"))) if (s / "photos").exists() else 0
-        blurred = len(list((BLUR / s.name).glob("*.jpg"))) if (BLUR / s.name).exists() else 0
+        blurred = len(list((BLUR / s.name).rglob("*.jpg"))) if (BLUR / s.name).exists() else 0
         det = REPO / f"results/detections/{s.name}.csv"
         ndet = max(0, sum(1 for _ in open(det)) - 1) if det.exists() else 0
         sess.append({"name": s.name, "photos": total, "blurred": blurred, "detections": ndet})
